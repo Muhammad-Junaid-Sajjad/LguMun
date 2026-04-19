@@ -2,7 +2,6 @@ from sqlalchemy import (
     Column, Integer, String, Boolean, Text,
     ForeignKey, DateTime, func
 )
-from sqlalchemy.dialects.postgresql import INET
 from sqlalchemy.orm import relationship
 from app.database import Base
 
@@ -35,6 +34,6 @@ class Delegate(Base):
     institution = Column(String(200), nullable=False)
     committee_id = Column(Integer, ForeignKey("committees.id"), nullable=False, index=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
-    ip_address = Column(INET, nullable=True)
+    ip_address = Column(String(45), nullable=True)  # IPv4 or IPv6 as string
 
     committee = relationship("Committee", back_populates="delegates")
