@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Committees - LGU MUN 2026</title>
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="/"><img src="assets/logo/lgumun-logo.png" alt="LGU MUN Logo" class="navbar-logo"></a>
+      <ul class="navbar-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/committees.html">Committees</a></li>
+        <li><a href="/register.html">Register</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Committees Section -->
+  <section class="container" style="margin: 3rem auto;">
+    <h1 class="text-center mb-4">All Committees</h1>
+
+    <!-- Loading Skeleton -->
+    <div id="loading-skeleton">
+      <div class="grid">
+        <div class="card"><p>Loading...</p></div>
+        <div class="card"><p>Loading...</p></div>
+        <div class="card"><p>Loading...</p></div>
+      </div>
+    </div>
+
+    <!-- Committees Grid -->
+    <div id="committees-grid" class="grid"></div>
+
+    <!-- Error State -->
+    <div id="error-state" class="hidden text-center">
+      <div class="card">
+        <h2 style="color: var(--color-error);">Failed to Load Committees</h2>
+        <p>Please try again later.</p>
+        <button onclick="location.reload()" class="btn btn-primary">Retry</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 LGU MUN Society. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/committees.js"></script>
+</body>
+</html>

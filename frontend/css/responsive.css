@@ -1,0 +1,47 @@
+/* Mobile first — base styles */
+
+/* Tablets and up */
+@media (min-width: 768px) {
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hero-buttons {
+    gap: 2rem;
+  }
+
+  .navbar {
+    padding: 1rem 3rem;
+  }
+
+  .container {
+    padding: 0 2rem;
+  }
+}
+
+/* Desktop and up */
+@media (min-width: 1280px) {
+  .gallery {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .form-container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .hero {
+    padding: 6rem 2rem;
+  }
+
+  h1 { font-size: 4rem; }
+  h2 { font-size: 3rem; }
+}

@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Crimson+Text:ital@0;1&display=swap');
+
+:root {
+  --color-bg: #0D0D0D;
+  --color-surface: #1A1208;
+  --color-text: #F0E6C8;
+  --color-gold: #C9A227;
+  --color-border: #7B5C1E;
+  --color-error-light: #FFB3B3;
+  --color-error: #FF6B6B;
+  --color-success: #51CF66;
+
+  --font-heading: 'UnifrakturMaguntia', cursive;
+  --font-body: 'Crimson Text', serif;
+}
