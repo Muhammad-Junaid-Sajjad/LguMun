@@ -65,3 +65,31 @@ INFO:     127.0.0.1:41130 - "GET /css/globals.css HTTP/1.1" 200 OK
 INFO:     127.0.0.1:41132 - "GET / HTTP/1.1" 200 OK
 INFO:     127.0.0.1:57262 - "GET / HTTP/1.1" 200 OK
 INFO:     127.0.0.1:41050 - "GET /api/v1/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39960 - "GET /assets/logo/lgumun-logo.png HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:39976 - "GET /assets/photos/event1.jpg HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:39976 - "GET /assets/photos/event2.jpg HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:39960 - "GET /assets/photos/event3.jpg HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:39960 - "GET /assets/logo/lgumun-logo.png HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:39960 - "GET /api/v1/delegates/count HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56676 - "GET /committees.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56676 - "GET /css/globals.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56678 - "GET /css/theme.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56682 - "GET /css/main.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56710 - "GET /js/api.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56686 - "GET /css/responsive.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56696 - "GET /assets/logo/lgumun-logo.png HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56696 - "GET /assets/logo/lgumun-logo.png HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56696 - "GET /api/v1/committees HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47970 - "GET /assets/logo/lgumun-logo.png HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:47982 - "GET /assets/photos/event1.jpg HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:47970 - "GET /assets/photos/event3.jpg HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:47982 - "GET /assets/photos/event2.jpg HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:47982 - "GET /assets/logo/lgumun-logo.png HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:47982 - "GET /api/v1/delegates/count HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:48688 - "GET /assets/photos/event3.jpg HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:48688 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [11912]
+INFO:     Stopping reloader process [11901]
