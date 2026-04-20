@@ -405,5 +405,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // Mobile menu toggle
+  const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+  const mainNav = document.getElementById('main-nav');
+
+  if (mobileMenuToggle && mainNav) {
+    mobileMenuToggle.addEventListener('click', () => {
+      mainNav.classList.toggle('active');
+
+      // Update ARIA attribute
+      const isExpanded = mainNav.classList.contains('active');
+      mobileMenuToggle.setAttribute('aria-expanded', isExpanded);
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!mobileMenuToggle.contains(e.target) && !mainNav.contains(e.target)) {
+        mainNav.classList.remove('active');
+        mobileMenuToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Close menu when link is clicked
+    mainNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mainNav.classList.remove('active');
+        mobileMenuToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
   console.log('Industrial JS initialized');
 });
