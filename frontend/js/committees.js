@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const totalSeats = committees.reduce((sum, c) => sum + c.total_seats, 0);
     const filledSeats = committees.reduce((sum, c) => sum + c.filled_seats, 0);
     document.getElementById('committees-count').textContent =
-      `${committees.length} committees · ${totalSeats} total seats`;
+      `${committees.length} committees • ${totalSeats} seats`;
 
     // Render committees
     committees.forEach(committee => {
@@ -39,30 +39,38 @@ function createCommitteeCard(committee) {
   const capacityPercentage = Math.round((committee.filled_seats / committee.total_seats) * 100);
 
   // Determine progress bar color
-  let fillColor = '#C9A227'; // gold
+  let fillColor = '#2563eb'; // primary blue
   if (isFull) {
-    fillColor = '#C0392B'; // red
+    fillColor = '#ef4444'; // red
   } else if (capacityPercentage > 70) {
-    fillColor = '#D4900A'; // amber
+    fillColor = '#f59e0b'; // amber
   }
 
   // Build badge HTML
   let badgeHtml = '';
   if (isFull) {
-    badgeHtml = '<div class="committee-badge full">FULL</div>';
+    badgeHtml = '<span class="badge badge-full">Full</span>';
   } else if (isPNA) {
-    badgeHtml = '<div class="committee-badge pna">National</div>';
+    badgeHtml = '<span class="badge badge-pna">National</span>';
   }
 
   card.innerHTML = `
-    ${badgeHtml}
-    <div class="committee-code">${committee.short_name}</div>
-    <div class="committee-name">${committee.full_name}</div>
-    <div class="committee-lang">${committee.language}</div>
-    <div class="committee-progress-bg">
-      <div class="committee-progress-fill" style="width:${capacityPercentage}%;background:${fillColor}"></div>
+    <div class="committee-header">
+      <span class="committee-code">${committee.short_name}</span>
+      ${badgeHtml}
     </div>
-    <div class="committee-seats">${committee.filled_seats}/${committee.total_seats} seats filled</div>
+    <h3 class="committee-name">${committee.full_name}</h3>
+    <p class="committee-lang">${committee.language}</p>
+    <div class="committee-progress">
+      <div class="progress-labels">
+        <span>Capacity</span>
+        <span>${committee.filled_seats}/${committee.total_seats}</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width:${capacityPercentage}%;background:${fillColor}"></div>
+      </div>
+    </div>
+    <div class="committee-seats">${capacityPercentage}% filled</div>
   `;
 
   return card;

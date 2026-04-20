@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Check for missing params
   if (!rollNumber || !name || !committee || !email) {
     document.getElementById('success-content').classList.add('hidden');
-    document.getElementById('error-message').classList.remove('hidden');
+    document.getElementById('error-content').classList.remove('hidden');
     return;
   }
 

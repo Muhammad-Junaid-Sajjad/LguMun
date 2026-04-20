@@ -42,15 +42,15 @@ async function handleSubmit(e) {
     return;
   }
 
-  // Update step indicator to step 2 (processing)
-  document.getElementById('fs1').className = 'form-step done';
-  document.getElementById('fs2').className = 'form-step active';
-  document.getElementById('fs3').className = 'form-step';
+  // Update step indicator
+  document.getElementById('step1').className = 'form-step completed';
+  document.getElementById('step2').className = 'form-step active';
+  document.getElementById('step3').className = 'form-step';
 
   // Disable button and show spinner
   submitButton.disabled = true;
   submitButton.innerHTML = '<span class="spinner"></span> Processing...';
-  errorBanner.classList.remove('show');
+  errorBanner.style.display = 'none';
 
   // Get form data
   const formData = {
@@ -65,9 +65,9 @@ async function handleSubmit(e) {
   try {
     const data = await apiPost('/delegates', formData);
 
-    // Update step indicator to step 3 (complete)
-    document.getElementById('fs2').className = 'form-step done';
-    document.getElementById('fs3').className = 'form-step done';
+    // Update step indicator to complete
+    document.getElementById('step2').className = 'form-step completed';
+    document.getElementById('step3').className = 'form-step active';
 
     // Small delay for visual feedback
     setTimeout(() => {
@@ -83,9 +83,9 @@ async function handleSubmit(e) {
 
   } catch (error) {
     // Reset step indicator
-    document.getElementById('fs1').className = 'form-step done';
-    document.getElementById('fs2').className = 'form-step';
-    document.getElementById('fs3').className = 'form-step';
+    document.getElementById('step1').className = 'form-step completed';
+    document.getElementById('step2').className = 'form-step';
+    document.getElementById('step3').className = 'form-step';
 
     // Show error
     if (error.code === 'RATE_LIMITED') {
@@ -98,7 +98,7 @@ async function handleSubmit(e) {
 
     // Re-enable button
     submitButton.disabled = false;
-    submitButton.textContent = 'Register as Delegate';
+    submitButton.innerHTML = 'Register as Delegate';
   }
 }
 
@@ -134,7 +134,7 @@ function validate() {
   } else {
     const digitsOnly = phone.replace(/[\s\-\(\)]/g, '');
     if (!/^(\+92|92|0)3[0-9]{9}$/.test(digitsOnly)) {
-      errors.phone = 'Enter a valid Pakistani phone number (e.g. 03001234567)';
+      errors.phone = 'Enter a valid Pakistani phone number';
     }
   }
 
@@ -157,8 +157,11 @@ function validate() {
 
 function showErrors(errors) {
   // Clear previous errors
-  document.querySelectorAll('.error-text').forEach(el => el.classList.remove('show'));
-  document.querySelectorAll('.form-field').forEach(el => el.classList.remove('error'));
+  document.querySelectorAll('.form-error').forEach(el => el.classList.remove('show'));
+  document.querySelectorAll('.form-input').forEach(el => {
+    el.classList.remove('error');
+    el.classList.remove('success');
+  });
 
   // Show new errors
   Object.entries(errors).forEach(([field, message]) => {
@@ -172,7 +175,6 @@ function showErrors(errors) {
 
     if (fieldEl) {
       fieldEl.classList.add('error');
-      fieldEl.parentElement.classList.add('error');
     }
   });
 }
@@ -188,7 +190,6 @@ function showFieldError(field, message) {
 
   if (fieldEl) {
     fieldEl.classList.add('error');
-    fieldEl.parentElement.classList.add('error');
   }
 }
 
@@ -196,5 +197,5 @@ function showGlobalError(message) {
   const errorBanner = document.getElementById('error-banner');
   const errorText = document.getElementById('error-message');
   errorText.textContent = message;
-  errorBanner.classList.add('show');
+  errorBanner.style.display = 'flex';
 }
