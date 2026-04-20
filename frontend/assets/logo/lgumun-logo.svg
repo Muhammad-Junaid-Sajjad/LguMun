@@ -1,0 +1,17 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Professional LGU MUN Logo -->
+  <circle cx="60" cy="60" r="58" fill="#2563eb" stroke="#1e40af" stroke-width="2"/>
+  <circle cx="60" cy="60" r="50" fill="white" opacity="0.1"/>
+
+  <!-- Globe representation -->
+  <circle cx="60" cy="60" r="35" stroke="white" stroke-width="2" fill="none"/>
+  <ellipse cx="60" cy="60" rx="35" ry="15" stroke="white" stroke-width="1.5" fill="none"/>
+  <ellipse cx="60" cy="60" rx="15" ry="35" stroke="white" stroke-width="1.5" fill="none"/>
+  <line x1="60" y1="25" x2="60" y2="95" stroke="white" stroke-width="1.5"/>
+  <line x1="25" y1="60" x2="95" y2="60" stroke="white" stroke-width="1.5"/>
+
+  <!-- LGU text -->
+  <text x="60" y="50" font-family="Poppins, sans-serif" font-size="16" font-weight="700" fill="white" text-anchor="middle">LGU</text>
+  <text x="60" y="70" font-family="Poppins, sans-serif" font-size="12" font-weight="600" fill="white" text-anchor="middle">MUN</text>
+  <text x="60" y="85" font-family="Inter, sans-serif" font-size="8" font-weight="500" fill="white" text-anchor="middle">2026</text>
+</svg>

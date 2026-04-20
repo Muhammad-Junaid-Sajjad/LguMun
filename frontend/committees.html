@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Committees - LGU MUN 2026</title>
-  <meta name="description" content="Explore all committees for LGU MUN 2026">
+  <title>Committees - LGU Inter-University MUN 2026</title>
+  <meta name="description" content="Explore all committees for LGU Inter-University MUN 2026 - June">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="/css/globals.css">
   <link rel="stylesheet" href="/css/theme.css">
   <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/design-enhancements.css">
   <link rel="stylesheet" href="/css/responsive.css">
   <script>
     tailwind.config = {
@@ -94,7 +95,7 @@
   <header class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
     <div class="container mx-auto px-4 h-16 flex items-center justify-between">
       <a href="/" class="flex items-center gap-2 font-display font-bold text-xl">
-        <img src="assets/logo/lgumun-logo.png" alt="LGU MUN" class="w-8 h-8">
+        <img src="assets/logo/lgumun-logo.svg" alt="LGU MUN" class="w-10 h-10">
         <span class="hidden sm:inline">LGU MUN 2026</span>
       </a>
       <nav class="flex items-center gap-4">
@@ -106,15 +107,18 @@
   </header>
 
   <!-- Page Header -->
-  <section class="border-b bg-muted/30 py-12">
+  <section class="border-b bg-gradient-subtle py-16">
     <div class="container mx-auto px-4">
-      <div class="flex items-center justify-between">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div>
-          <h1 class="text-4xl font-display font-bold mb-2">All Committees</h1>
-          <p class="text-muted-foreground" id="committees-count">9 committees • 255 total seats</p>
+          <h1 class="text-display-2 mb-3">All Committees</h1>
+          <p class="text-body" id="committees-count">9 committees • 255 total seats</p>
         </div>
-        <a href="/register.html" class="inline-flex h-10 items-center justify-center rounded-md bg-primary px-6 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90">
-          Register Now
+        <a href="/register.html" class="btn-enhanced-primary">
+          <span>Register Now</span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+          </svg>
         </a>
       </div>
     </div>
@@ -166,14 +170,21 @@
   </section>
 
   <!-- CTA Section -->
-  <section class="py-20 bg-muted/30">
+  <section class="py-20 bg-gradient-subtle">
     <div class="container mx-auto px-4">
-      <div class="rounded-2xl bg-primary text-primary-foreground p-12 text-center shadow-xl">
-        <h2 class="text-3xl md:text-4xl font-display font-bold mb-6">Ready to Register?</h2>
-        <p class="text-lg opacity-90 mb-8 max-w-2xl mx-auto">Choose your committee and secure your spot at LGU MUN 2026</p>
-        <a href="/register.html" class="inline-flex h-12 items-center justify-center rounded-md bg-white text-primary px-8 font-semibold shadow transition-colors hover:bg-accent">
-          Register as Delegate
-        </a>
+      <div class="relative rounded-3xl overflow-hidden p-16 text-center shadow-elevated">
+        <div class="absolute inset-0 bg-gradient-brand"></div>
+        <div class="absolute inset-0 bg-pattern-dots opacity-10"></div>
+        <div class="relative z-10 text-white">
+          <h2 class="text-display-2 mb-6">Ready to Register?</h2>
+          <p class="text-xl opacity-95 mb-10 max-w-2xl mx-auto font-medium">Choose your committee and secure your spot at LGU MUN 2026</p>
+          <a href="/register.html" class="inline-flex items-center gap-2 h-14 px-10 rounded-xl bg-white text-primary-600 font-display font-bold text-lg shadow-xl transition-all hover:shadow-2xl hover:scale-105 hover:bg-gray-50">
+            <span>Register as Delegate</span>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+            </svg>
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -184,10 +195,10 @@
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
         <div class="space-y-4">
           <div class="flex items-center gap-2 font-display font-bold text-xl">
-            <img src="assets/logo/lgumun-logo.png" alt="LGU MUN" class="w-8 h-8">
+            <img src="assets/logo/lgumun-logo.svg" alt="LGU MUN" class="w-10 h-10">
             <span>LGU MUN 2026</span>
           </div>
-          <p class="text-sm text-muted-foreground">Lahore Garrison University Model United Nations</p>
+          <p class="text-sm text-muted-foreground">Lahore Garrison University Inter-University Model United Nations</p>
         </div>
         <div>
           <h4 class="font-medium mb-4">Quick Links</h4>

@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register - LGU MUN 2026</title>
-  <meta name="description" content="Register as a delegate for LGU MUN 2026">
+  <title>Register - LGU Inter-University MUN 2026</title>
+  <meta name="description" content="Register as a delegate for LGU Inter-University MUN 2026 - June">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="/css/globals.css">
   <link rel="stylesheet" href="/css/theme.css">
   <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/design-enhancements.css">
   <link rel="stylesheet" href="/css/responsive.css">
   <script>
     tailwind.config = {
@@ -94,7 +95,7 @@
   <header class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
     <div class="container mx-auto px-4 h-16 flex items-center justify-between">
       <a href="/" class="flex items-center gap-2 font-display font-bold text-xl">
-        <img src="assets/logo/lgumun-logo.png" alt="LGU MUN" class="w-8 h-8">
+        <img src="assets/logo/lgumun-logo.svg" alt="LGU MUN" class="w-10 h-10">
         <span class="hidden sm:inline">LGU MUN 2026</span>
       </a>
       <nav class="flex items-center gap-4">
@@ -106,29 +107,29 @@
   </header>
 
   <!-- Registration Form -->
-  <section class="py-12 md:py-20">
+  <section class="py-12 md:py-20 bg-gradient-subtle">
     <div class="container mx-auto px-4 max-w-2xl">
-      <div class="rounded-2xl border bg-card shadow-lg p-8 md:p-12">
+      <div class="card-enhanced p-8 md:p-12">
         <!-- Form Header -->
-        <div class="mb-8">
-          <h1 class="text-3xl md:text-4xl font-display font-bold mb-2">Delegate Registration</h1>
-          <p class="text-muted-foreground">Complete all fields to secure your place at LGU MUN 2026</p>
+        <div class="mb-8 text-center">
+          <h1 class="text-display-2 mb-3">Delegate Registration</h1>
+          <p class="text-body">Complete all fields to secure your place at LGU MUN 2026</p>
         </div>
 
         <!-- Progress Steps -->
-        <div class="flex gap-2 mb-8">
-          <div class="h-1 flex-1 rounded-full bg-primary" id="step1"></div>
-          <div class="h-1 flex-1 rounded-full bg-muted" id="step2"></div>
-          <div class="h-1 flex-1 rounded-full bg-muted" id="step3"></div>
+        <div class="flex gap-3 mb-10 justify-center">
+          <div class="h-1.5 w-20 rounded-full bg-gradient-brand shadow-glow-primary" id="step1"></div>
+          <div class="h-1.5 w-20 rounded-full bg-gray-200" id="step2"></div>
+          <div class="h-1.5 w-20 rounded-full bg-gray-200" id="step3"></div>
         </div>
 
         <!-- Error Banner -->
-        <div id="error-banner" class="hidden mb-6 rounded-lg border border-destructive bg-destructive/10 p-4">
+        <div id="error-banner" class="hidden mb-6 rounded-xl border-2 border-error bg-error-light p-5">
           <div class="flex gap-3">
-            <div class="text-destructive text-lg">⚠️</div>
+            <div class="text-error text-2xl flex-shrink-0">⚠️</div>
             <div>
-              <h4 class="font-medium text-destructive mb-1">Error</h4>
-              <p class="text-sm text-destructive/80" id="error-message"></p>
+              <h4 class="font-semibold text-error mb-1 text-lg">Error</h4>
+              <p class="text-sm text-error-dark" id="error-message"></p>
             </div>
           </div>
         </div>
@@ -137,109 +138,112 @@
         <form id="registration-form" class="space-y-6">
           <!-- Full Name -->
           <div>
-            <label for="full_name" class="block text-sm font-medium mb-2">
-              Full Name <span class="text-destructive">*</span>
+            <label for="full_name" class="block text-sm font-semibold mb-2 text-gray-700">
+              Full Name <span class="text-error">*</span>
             </label>
             <input
               type="text"
               id="full_name"
               name="full_name"
               placeholder="Enter your full name as on ID"
-              class="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              class="input-enhanced"
             >
-            <p class="text-sm text-destructive mt-1 hidden" id="full_name-error"></p>
+            <p class="text-sm text-error mt-2 hidden font-medium" id="full_name-error"></p>
           </div>
 
           <!-- Student ID / CNIC -->
           <div>
-            <label for="student_id_cnic" class="block text-sm font-medium mb-2">
-              Student ID / CNIC <span class="text-destructive">*</span>
+            <label for="student_id_cnic" class="block text-sm font-semibold mb-2 text-gray-700">
+              Student ID / CNIC <span class="text-error">*</span>
             </label>
             <input
               type="text"
               id="student_id_cnic"
               name="student_id_cnic"
               placeholder="e.g. 12345-1234567-1"
-              class="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              class="input-enhanced"
             >
-            <p class="text-sm text-destructive mt-1 hidden" id="student_id_cnic-error"></p>
+            <p class="text-sm text-error mt-2 hidden font-medium" id="student_id_cnic-error"></p>
           </div>
 
           <!-- Email -->
           <div>
-            <label for="email" class="block text-sm font-medium mb-2">
-              Email Address <span class="text-destructive">*</span>
+            <label for="email" class="block text-sm font-semibold mb-2 text-gray-700">
+              Email Address <span class="text-error">*</span>
             </label>
             <input
               type="email"
               id="email"
               name="email"
               placeholder="your@email.com"
-              class="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              class="input-enhanced"
             >
-            <p class="text-sm text-destructive mt-1 hidden" id="email-error"></p>
+            <p class="text-sm text-error mt-2 hidden font-medium" id="email-error"></p>
           </div>
 
           <!-- Phone -->
           <div>
-            <label for="phone" class="block text-sm font-medium mb-2">
-              Phone Number <span class="text-destructive">*</span>
+            <label for="phone" class="block text-sm font-semibold mb-2 text-gray-700">
+              Phone Number <span class="text-error">*</span>
             </label>
             <input
               type="tel"
               id="phone"
               name="phone"
               placeholder="03001234567"
-              class="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              class="input-enhanced"
             >
-            <p class="text-xs text-muted-foreground mt-1">Format: 03001234567 or +923001234567</p>
-            <p class="text-sm text-destructive mt-1 hidden" id="phone-error"></p>
+            <p class="text-xs text-gray-500 mt-2">Format: 03001234567 or +923001234567</p>
+            <p class="text-sm text-error mt-2 hidden font-medium" id="phone-error"></p>
           </div>
 
           <!-- Institution -->
           <div>
-            <label for="institution" class="block text-sm font-medium mb-2">
-              Institution <span class="text-destructive">*</span>
+            <label for="institution" class="block text-sm font-semibold mb-2 text-gray-700">
+              Institution <span class="text-error">*</span>
             </label>
             <input
               type="text"
               id="institution"
               name="institution"
               placeholder="Lahore Garrison University"
-              class="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              class="input-enhanced"
             >
-            <p class="text-sm text-destructive mt-1 hidden" id="institution-error"></p>
+            <p class="text-sm text-error mt-2 hidden font-medium" id="institution-error"></p>
           </div>
 
           <!-- Committee -->
           <div>
-            <label for="committee_id" class="block text-sm font-medium mb-2">
-              Select Committee <span class="text-destructive">*</span>
+            <label for="committee_id" class="block text-sm font-semibold mb-2 text-gray-700">
+              Select Committee <span class="text-error">*</span>
             </label>
             <select
               id="committee_id"
               name="committee_id"
-              class="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              class="select-enhanced"
             >
               <option value="">-- Select a Committee --</option>
             </select>
-            <p class="text-sm text-destructive mt-1 hidden" id="committee_id-error"></p>
+            <p class="text-sm text-error mt-2 hidden font-medium" id="committee_id-error"></p>
           </div>
 
           <!-- Submit Button -->
           <button
             type="submit"
             id="submit-btn"
-            class="w-full h-11 rounded-md bg-primary text-primary-foreground font-semibold shadow transition-colors hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            class="btn-enhanced-primary w-full h-14 text-lg mt-4"
           >
-            Register as Delegate
+            <span>Register as Delegate</span>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+            </svg>
           </button>
         </form>
 
         <!-- Form Note -->
-        <p class="text-center text-sm text-muted-foreground mt-6">
+        <p class="text-center text-sm text-gray-500 mt-8">
           By registering you agree to the event code of conduct.
-          <a href="/committees.html" class="text-primary hover:underline">View all committees →</a>
+          <a href="/committees.html" class="text-primary-600 hover:text-primary-700 font-semibold hover:underline">View all committees →</a>
         </p>
       </div>
     </div>
@@ -251,10 +255,10 @@
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
         <div class="space-y-4">
           <div class="flex items-center gap-2 font-display font-bold text-xl">
-            <img src="assets/logo/lgumun-logo.png" alt="LGU MUN" class="w-8 h-8">
+            <img src="assets/logo/lgumun-logo.svg" alt="LGU MUN" class="w-10 h-10">
             <span>LGU MUN 2026</span>
           </div>
-          <p class="text-sm text-muted-foreground">Lahore Garrison University Model United Nations</p>
+          <p class="text-sm text-muted-foreground">Lahore Garrison University Inter-University Model United Nations</p>
         </div>
         <div>
           <h4 class="font-medium mb-4">Quick Links</h4>
