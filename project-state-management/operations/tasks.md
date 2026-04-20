@@ -8,13 +8,13 @@
 
 | ID | Task | Priority | Assigned | Status |
 |---|---|---|---|---|
-| T-DEP-001 | Install Playwright browsers | P1 | Developer | Pending |
-| T-DEP-002 | Run full automated test suite | P1 | Developer | Pending |
-| T-DEP-003 | Choose production hosting provider | P1 | Human | Pending |
-| T-DEP-004 | Deploy to production | P1 | Developer | Pending |
-| T-DEP-005 | Run smoke tests on live URL | P1 | Developer | Pending |
-| T-DEP-006 | Set up error tracking (Sentry) | P2 | Developer | Pending |
-| T-DEP-007 | Configure CDN for static assets | P3 | Developer | Pending |
+| T-UI-001 | Gather actual LGU MUN data (logo from WhatsApp) | P1 | Human | Pending |
+| T-UI-002 | Gather event details (date, venue, contact info) | P1 | Human | Pending |
+| T-UI-003 | Improve frontend UI with real branding | P1 | Developer | Pending |
+| T-UI-004 | Add event details, timeline, contact info | P2 | Developer | Pending |
+| T-UI-005 | Enhance design (colors, typography, animations) | P2 | Developer | Pending |
+| T-DEP-001 | Deploy to production (awaiting client hosting) | P1 | Developer | Blocked |
+| T-DEP-002 | Set up Sentry error monitoring (optional) | P3 | Developer | Deferred |
 
 ---
 
@@ -22,8 +22,20 @@
 
 | ID | Task | Priority | Assigned | Status |
 |---|---|---|---|---|
-| T-AUTO-001 | Project state management auto-mode activation | P1 | Claude | In Progress |
-| T-AUTO-002 | Real-time state tracking | P1 | Claude | In Progress |
+| T-AUTO-001 | Project state management auto-mode activation | P1 | Claude | Completed |
+| T-AUTO-002 | Real-time state tracking | P1 | Claude | Active |
+
+---
+
+### COMPLETED TASKS (SESSION 2026-04-20)
+
+| ID | Task | Priority | Assigned | Status | Date |
+|---|---|---|---|---|---|
+| T-VER-001 | Verify frontend is working | P1 | Developer | Completed | 2026-04-20T08:09:23Z |
+| T-VER-002 | Verify backend is running | P1 | Developer | Completed | 2026-04-20T08:09:23Z |
+| T-VER-003 | Verify Playwright is installed | P1 | Developer | Completed | 2026-04-20T08:09:23Z |
+| T-VER-004 | Check server accessibility | P1 | Developer | Completed | 2026-04-20T08:09:23Z |
+| T-VER-005 | Test API endpoints | P1 | Developer | Completed | 2026-04-20T08:09:23Z |
 
 ---
 
