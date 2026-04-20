@@ -3,224 +3,285 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Registration Success - LGU Inter-University MUN 2026</title>
-  <meta name="description" content="Your registration for LGU Inter-University MUN 2026 - June is complete">
-  <link rel="stylesheet" href="/css/globals.css">
-  <link rel="stylesheet" href="/css/theme.css">
-  <link rel="stylesheet" href="/css/industrial.css">
+  <title>Registration Complete — LGU MUN 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0a0f1e; --navy-mid: #0f1729; --navy-light: #162040; --navy-card: #111827;
+      --gold: #c8a94a; --gold-dim: #8a7232;
+      --cream: #f5f0e8; --cream-dim: #c8c0b0; --text-muted: #6b7a99;
+      --border: rgba(200,169,74,0.15); --border-light: rgba(200,169,74,0.08);
+      --green: #3dba7e;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--navy); color: var(--cream); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+    body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events:none; z-index:0; opacity:0.4; }
+
+    .navbar { position:fixed; top:0; left:0; right:0; z-index:1000; padding:0 2rem; height:72px; display:flex; align-items:center; justify-content:space-between; background:rgba(10,15,30,0.92); backdrop-filter:blur(20px); border-bottom:1px solid var(--border-light); }
+    .nav-logo { display:flex; align-items:center; gap:12px; text-decoration:none; }
+    .nav-logo-icon { width:40px; height:40px; background:linear-gradient(135deg,var(--gold),var(--gold-dim)); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px; }
+    .nav-logo-text { font-family:'Playfair Display',serif; font-weight:700; font-size:1.1rem; color:var(--cream); }
+    .nav-logo-text span { color:var(--gold); }
+    .nav-links { display:flex; align-items:center; gap:2.5rem; }
+    .nav-links a { text-decoration:none; color:var(--cream-dim); font-size:0.875rem; font-weight:500; letter-spacing:0.06em; text-transform:uppercase; transition:color 0.2s; }
+    .nav-links a:hover { color:var(--cream); }
+    .nav-cta { background:linear-gradient(135deg,var(--gold),var(--gold-dim)); color:var(--navy) !important; padding:8px 20px; border-radius:6px; font-weight:600 !important; }
+
+    .section { padding:110px 2rem 6rem; min-height:100vh; display:flex; align-items:center; }
+    .container { max-width:680px; margin:0 auto; width:100%; }
+
+    /* SUCCESS CARD */
+    .success-card {
+      background:var(--navy-card); border:1px solid var(--border-light); border-radius:24px;
+      overflow:hidden; animation:riseIn 0.8s ease both;
+    }
+    @keyframes riseIn { from { opacity:0; transform:translateY(40px) scale(0.97); } to { opacity:1; transform:translateY(0) scale(1); } }
+
+    .success-hero {
+      background:linear-gradient(135deg, rgba(61,186,126,0.1) 0%, rgba(10,15,30,0) 60%);
+      border-bottom:1px solid var(--border-light); padding:3rem 2.5rem; text-align:center;
+    }
+    .success-icon-wrap {
+      width:80px; height:80px; border-radius:50%;
+      background:rgba(61,186,126,0.12); border:2px solid rgba(61,186,126,0.3);
+      display:flex; align-items:center; justify-content:center; margin:0 auto 1.5rem;
+      animation:popIn 0.5s ease 0.3s both;
+    }
+    @keyframes popIn { from { transform:scale(0); opacity:0; } to { transform:scale(1); opacity:1; } }
+    .success-icon-wrap svg { width:40px; height:40px; }
+    .success-heading { font-family:'Playfair Display',serif; font-size:2rem; font-weight:800; margin-bottom:0.5rem; }
+    .success-heading em { font-style:italic; color:var(--green); }
+    .success-subtext { color:var(--cream-dim); font-size:0.95rem; }
+
+    .success-body { padding:2.5rem; }
+
+    /* WARNING */
+    .warning-banner {
+      background:rgba(200,169,74,0.08); border:1px solid rgba(200,169,74,0.25); border-radius:12px;
+      padding:1rem 1.25rem; display:flex; gap:12px; align-items:flex-start; margin-bottom:2rem;
+    }
+    .warning-icon { font-size:1.1rem; flex-shrink:0; margin-top:1px; }
+    .warning-title { font-weight:700; font-size:0.875rem; color:var(--gold); margin-bottom:2px; }
+    .warning-text { font-size:0.8rem; color:var(--cream-dim); }
+
+    /* ROLL NUMBER */
+    .roll-card {
+      background:var(--navy-light); border:1px solid var(--border); border-radius:16px; padding:2rem;
+      text-align:center; margin-bottom:2rem; position:relative; overflow:hidden;
+    }
+    .roll-card::before {
+      content:''; position:absolute; top:-40px; left:50%; transform:translateX(-50%);
+      width:200px; height:200px;
+      background:radial-gradient(circle, rgba(200,169,74,0.12) 0%, transparent 70%);
+    }
+    .roll-label {
+      font-size:0.7rem; letter-spacing:0.14em; text-transform:uppercase;
+      color:var(--text-muted); margin-bottom:0.75rem;
+    }
+    .roll-number {
+      font-family:'DM Mono',monospace; font-size:1.8rem; font-weight:500;
+      color:var(--gold); letter-spacing:0.08em; position:relative;
+    }
+    .roll-copy-btn {
+      margin-top:1rem; background:transparent; border:1px solid var(--border); color:var(--text-muted);
+      padding:6px 16px; border-radius:6px; font-size:0.78rem; font-family:'DM Sans',sans-serif;
+      cursor:pointer; transition:all 0.2s; letter-spacing:0.06em; text-transform:uppercase;
+    }
+    .roll-copy-btn:hover { border-color:var(--border); color:var(--cream); }
+    .roll-copy-btn.copied { color:var(--green); border-color:rgba(61,186,126,0.4); }
+
+    /* DETAILS */
+    .details-grid { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border-light); border:1px solid var(--border-light); border-radius:12px; overflow:hidden; margin-bottom:2rem; }
+    .detail-item { background:var(--navy-card); padding:1rem 1.25rem; }
+    .detail-key { font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-muted); margin-bottom:4px; }
+    .detail-val { font-size:0.9rem; color:var(--cream); font-weight:500; word-break:break-all; }
+
+    /* NEXT STEPS */
+    .next-steps { margin-bottom:2rem; }
+    .next-steps-title { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; margin-bottom:1.25rem; }
+    .steps-list { list-style:none; display:flex; flex-direction:column; gap:1rem; }
+    .step-row { display:flex; gap:1rem; align-items:flex-start; }
+    .step-num { width:28px; height:28px; border-radius:50%; background:rgba(200,169,74,0.1); border:1px solid rgba(200,169,74,0.3); color:var(--gold); font-size:0.78rem; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+    .step-text strong { display:block; font-size:0.9rem; color:var(--cream); margin-bottom:2px; }
+    .step-text p { font-size:0.82rem; color:var(--text-muted); }
+
+    /* ACTIONS */
+    .action-buttons { display:flex; gap:1rem; flex-wrap:wrap; }
+    .btn-primary { display:inline-flex; align-items:center; gap:8px; background:linear-gradient(135deg,var(--gold),var(--gold-dim)); color:var(--navy); padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:700; font-size:0.875rem; letter-spacing:0.04em; text-transform:uppercase; transition:all 0.3s; }
+    .btn-primary:hover { transform:translateY(-1px); box-shadow:0 6px 24px rgba(200,169,74,0.3); }
+    .btn-secondary { display:inline-flex; align-items:center; gap:8px; background:transparent; color:var(--cream); padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:600; font-size:0.875rem; letter-spacing:0.04em; text-transform:uppercase; border:1px solid rgba(255,255,255,0.15); transition:all 0.3s; }
+    .btn-secondary:hover { border-color:rgba(255,255,255,0.35); background:rgba(255,255,255,0.04); }
+
+    /* ERROR */
+    .error-card { background:var(--navy-card); border:1px solid rgba(224,82,82,0.2); border-radius:24px; padding:3rem; text-align:center; }
+    .error-heading { font-family:'Playfair Display',serif; font-size:1.75rem; margin-bottom:0.75rem; }
+    .error-text { color:var(--cream-dim); margin-bottom:2rem; }
+
+    .footer { background:rgba(5,8,18,0.9); border-top:1px solid var(--border-light); padding:2rem; }
+    .footer-bottom { max-width:1100px; margin:0 auto; text-align:center; font-size:0.8rem; color:var(--text-muted); }
+
+    @media(max-width:600px) {
+      .details-grid { grid-template-columns:1fr; }
+      .action-buttons { flex-direction:column; }
+    }
+  </style>
 </head>
 <body>
-  <!-- Navbar -->
-  <header class="navbar-simple">
-    <div class="container">
-      <a href="/" class="logo">
-        <img src="/assets/logo/lgumun-logo.svg" alt="LGU MUN">
-        <span>LGU MUN 2026</span>
-      </a>
-      <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">
-        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M3 12h18M3 6h18M3 18h18"/>
-        </svg>
-      </button>
-      <nav id="main-nav">
-        <a href="/">Home</a>
-        <a href="/committees.html">Committees</a>
-        <a href="/register.html">Register</a>
-      </nav>
-    </div>
+  <header class="navbar">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-icon">🌐</div>
+      <span class="nav-logo-text">LGU <span>MUN</span> 2026</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/">Home</a>
+      <a href="/committees.html">Committees</a>
+      <a href="/register.html" class="nav-cta">Register</a>
+    </nav>
   </header>
 
-  <!-- Breadcrumb -->
-  <div class="breadcrumb">
-    <div class="container">
-      <a href="/" class="breadcrumb-link">Home</a>
-      <span class="breadcrumb-separator">/</span>
-      <span class="breadcrumb-current">Registration Success</span>
-    </div>
-  </div>
-
-  <!-- Success Content -->
   <section class="section">
-    <div class="container" style="max-width: 800px;">
-      <!-- Success Card -->
-      <div id="success-content" class="card">
-        <!-- Success Icon -->
-        <div class="success-icon">
-          <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="32" cy="32" r="32" fill="#10b981"/>
-            <path d="M20 32L28 40L44 24" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
+    <div class="container">
 
-        <h1 class="page-title">Registration Complete!</h1>
-        <p class="text-center" style="margin-bottom: 2rem; color: var(--text-secondary);">Your seat has been secured for LGU Inter-University MUN 2026.</p>
-
-        <!-- Warning Banner -->
-        <div class="alert alert-warning">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 9V13M12 17H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <div>
-            <strong>Save your roll number!</strong>
-            <p>You'll need it for check-in at the event. No email confirmation will be sent.</p>
+      <!-- SUCCESS STATE -->
+      <div class="success-card" id="success-content">
+        <div class="success-hero">
+          <div class="success-icon-wrap">
+            <svg fill="none" stroke="#3dba7e" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+            </svg>
           </div>
+          <h1 class="success-heading">Registration <em>Complete!</em></h1>
+          <p class="success-subtext">Your seat has been secured for LGU MUN 2026.</p>
         </div>
 
-        <!-- Roll Number Display -->
-        <div class="roll-number-card">
-          <p class="roll-number-label">Your Delegate Roll Number</p>
-          <div id="roll-number" class="roll-number">LGU-MUN26-000</div>
-        </div>
+        <div class="success-body">
+          <div class="warning-banner">
+            <span class="warning-icon">⚑</span>
+            <div>
+              <div class="warning-title">Save Your Roll Number</div>
+              <div class="warning-text">Screenshot or write it down now. No email confirmation will be sent — you'll need this for check-in.</div>
+            </div>
+          </div>
 
-        <!-- Registration Details -->
-        <div class="details-card">
-          <h3 class="section-title">Registration Details</h3>
+          <div class="roll-card">
+            <div class="roll-label">Your Delegate Roll Number</div>
+            <div class="roll-number" id="roll-number">LGU-MUN26-000</div>
+            <button class="roll-copy-btn" id="copy-btn" onclick="copyRoll()">Copy Roll Number</button>
+          </div>
+
           <div class="details-grid">
-            <div class="detail-row">
-              <span class="detail-label">Roll Number</span>
-              <span id="detail-roll" class="detail-value">—</span>
+            <div class="detail-item">
+              <div class="detail-key">Roll Number</div>
+              <div class="detail-val" id="d-roll">—</div>
             </div>
-            <div class="detail-row">
-              <span class="detail-label">Committee</span>
-              <span id="detail-committee" class="detail-value">—</span>
+            <div class="detail-item">
+              <div class="detail-key">Committee</div>
+              <div class="detail-val" id="d-committee">—</div>
             </div>
-            <div class="detail-row">
-              <span class="detail-label">Email</span>
-              <span id="detail-email" class="detail-value">—</span>
+            <div class="detail-item">
+              <div class="detail-key">Delegate Name</div>
+              <div class="detail-val" id="d-name">—</div>
             </div>
-          </div>
-        </div>
-
-        <!-- Export Options -->
-        <div class="export-buttons">
-          <button onclick="exportToPDF()" class="btn btn-secondary">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15M7 10L12 15M12 15L17 10M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            Download PDF
-          </button>
-          <button onclick="addToCalendar()" class="btn btn-secondary">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8 7V3M16 7V3M7 11H17M5 21H19C20.1046 21 21 20.1046 21 19V7C21 5.89543 20.1046 5 19 5H5C3.89543 5 3 5.89543 3 7V19C3 20.1046 3.89543 21 5 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            Add to Calendar
-          </button>
-        </div>
-
-        <!-- What's Next Section -->
-        <div class="whats-next">
-          <h3 class="section-title">What's Next?</h3>
-          <ol class="steps-list">
-            <li class="step-item">
-              <span class="step-number">1</span>
-              <div class="step-content">
-                <strong>Save Your Roll Number</strong>
-                <p>Screenshot or write down your roll number. You'll need it at check-in.</p>
-              </div>
-            </li>
-            <li class="step-item">
-              <span class="step-number">2</span>
-              <div class="step-content">
-                <strong>Prepare Your Position Paper</strong>
-                <p>Research your committee's agenda and prepare your position paper.</p>
-              </div>
-            </li>
-            <li class="step-item">
-              <span class="step-number">3</span>
-              <div class="step-content">
-                <strong>Arrive on Time</strong>
-                <p>Event starts June 15, 2026 at 9:00 AM. Arrive 30 minutes early for registration.</p>
-              </div>
-            </li>
-            <li class="step-item">
-              <span class="step-number">4</span>
-              <div class="step-content">
-                <strong>Bring Required Documents</strong>
-                <p>Student ID card and your roll number for verification.</p>
-              </div>
-            </li>
-          </ol>
-        </div>
-
-        <!-- Contact Info -->
-        <div class="contact-info">
-          <h3 class="section-title">Need Help?</h3>
-          <p style="margin-bottom: 1rem;">Contact us if you have any questions:</p>
-          <div class="contact-details">
-            <div class="contact-item">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M3 8L10.89 13.26C11.2187 13.4793 11.6049 13.5963 12 13.5963C12.3951 13.5963 12.7813 13.4793 13.11 13.26L21 8M5 19H19C19.5304 19 20.0391 18.7893 20.4142 18.4142C20.7893 18.0391 21 17.5304 21 17V7C21 6.46957 20.7893 5.96086 20.4142 5.58579C20.0391 5.21071 19.5304 5 19 5H5C4.46957 5 3.96086 5.21071 3.58579 5.58579C3.21071 5.96086 3 6.46957 3 7V17C3 17.5304 3.21071 18.0391 3.58579 18.4142C3.96086 18.7893 4.46957 19 5 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <a href="mailto:mun@lgu.edu.pk">mun@lgu.edu.pk</a>
-            </div>
-            <div class="contact-item">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8.228 9C8.228 8.20435 8.54407 7.44129 9.10668 6.87868C9.66929 6.31607 10.4324 6 11.228 6H12.772C13.5676 6 14.3307 6.31607 14.8933 6.87868C15.4559 7.44129 15.772 8.20435 15.772 9C15.772 11.5 14 12.5 12 13.5M12 18H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <a href="/faq.html">View FAQ</a>
+            <div class="detail-item">
+              <div class="detail-key">Email</div>
+              <div class="detail-val" id="d-email">—</div>
             </div>
           </div>
-        </div>
 
-        <!-- Action Buttons -->
-        <div class="action-buttons">
-          <a href="/" class="btn btn-secondary">Back to Home</a>
-          <a href="/register.html" class="btn btn-primary">Register Another Delegate</a>
+          <div class="next-steps">
+            <div class="next-steps-title">What Happens Next</div>
+            <ol class="steps-list">
+              <li class="step-row">
+                <span class="step-num">1</span>
+                <div class="step-text">
+                  <strong>Save Your Roll Number</strong>
+                  <p>Screenshot this page or write down your roll number for event check-in.</p>
+                </div>
+              </li>
+              <li class="step-row">
+                <span class="step-num">2</span>
+                <div class="step-text">
+                  <strong>Prepare Your Position Paper</strong>
+                  <p>Research your committee's agenda and prepare your delegation's position paper.</p>
+                </div>
+              </li>
+              <li class="step-row">
+                <span class="step-num">3</span>
+                <div class="step-text">
+                  <strong>Arrive on Time — June 15, 2026</strong>
+                  <p>Event starts at 9:00 AM. Arrive 30 minutes early for smooth check-in.</p>
+                </div>
+              </li>
+              <li class="step-row">
+                <span class="step-num">4</span>
+                <div class="step-text">
+                  <strong>Bring Required Documents</strong>
+                  <p>Your student ID and roll number for verification at the venue.</p>
+                </div>
+              </li>
+            </ol>
+          </div>
+
+          <div class="action-buttons">
+            <a href="/register.html" class="btn-primary">Register Another Delegate</a>
+            <a href="/" class="btn-secondary">Back to Home</a>
+          </div>
         </div>
       </div>
 
-      <!-- Error State -->
-      <div id="error-content" class="card" style="display: none;">
-        <div class="error-icon">
-          <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="32" cy="32" r="32" fill="#ef4444"/>
-            <path d="M24 24L40 40M40 24L24 40" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <h2 class="page-title">Registration Not Found</h2>
-        <p class="text-center" style="margin-bottom: 2rem; color: var(--text-secondary);">We couldn't find your registration information. Please register again.</p>
-        <div class="action-buttons">
-          <a href="/register.html" class="btn btn-primary">Go to Registration</a>
-        </div>
+      <!-- ERROR STATE -->
+      <div class="error-card" id="error-content" style="display:none">
+        <h2 class="error-heading">Registration Not Found</h2>
+        <p class="error-text">We couldn't find your registration details. Please try registering again.</p>
+        <a href="/register.html" class="btn-primary">Go to Registration</a>
       </div>
+
     </div>
   </section>
 
-  <!-- Footer -->
   <footer class="footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-section">
-          <div class="footer-brand">
-            <img src="assets/logo/lgumun-logo.svg" alt="LGU MUN" class="footer-logo">
-            <span class="footer-title">LGU MUN 2026</span>
-          </div>
-          <p class="footer-description">Lahore Garrison University Inter-University Model United Nations</p>
-        </div>
-        <div class="footer-section">
-          <h4 class="footer-heading">Quick Links</h4>
-          <ul class="footer-links">
-            <li><a href="/">Home</a></li>
-            <li><a href="/committees.html">Committees</a></li>
-            <li><a href="/register.html">Register</a></li>
-          </ul>
-        </div>
-        <div class="footer-section">
-          <h4 class="footer-heading">Contact</h4>
-          <ul class="footer-links">
-            <li><a href="mailto:mun@lgu.edu.pk">mun@lgu.edu.pk</a></li>
-            <li>Lahore Garrison University</li>
-            <li>Lahore, Pakistan</li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>&copy; 2026 LGU MUN Society. All rights reserved.</p>
-      </div>
-    </div>
+    <div class="footer-bottom">&copy; 2026 LGU MUN Society. All rights reserved.</div>
   </footer>
 
-  <script src="js/industrial.js"></script>
-  <script src="js/success.js"></script>
+  <script>
+    function copyRoll() {
+      const roll = document.getElementById('roll-number').textContent;
+      navigator.clipboard.writeText(roll).then(() => {
+        const btn = document.getElementById('copy-btn');
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copy Roll Number'; btn.classList.remove('copied'); }, 2000);
+      });
+    }
+
+    function loadData() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const rollParam = params.get('roll');
+        let data = null;
+        try { data = JSON.parse(sessionStorage.getItem('mun_registration')); } catch(e) {}
+        if (!data && !rollParam) {
+          document.getElementById('success-content').style.display = 'none';
+          document.getElementById('error-content').style.display = 'block';
+          return;
+        }
+        const roll = rollParam || data?.roll_number || 'LGU-MUN26-' + Math.floor(Math.random() * 900 + 100);
+        const committee = data?.committee_name || data?.committee_id?.toUpperCase() || '—';
+        const name = data?.full_name || '—';
+        const email = data?.email || '—';
+        document.getElementById('roll-number').textContent = roll;
+        document.getElementById('d-roll').textContent = roll;
+        document.getElementById('d-committee').textContent = committee;
+        document.getElementById('d-name').textContent = name;
+        document.getElementById('d-email').textContent = email;
+      } catch(e) {
+        console.error(e);
+      }
+    }
+    loadData();
+  </script>
 </body>
 </html>

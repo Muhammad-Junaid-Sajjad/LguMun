@@ -10,7 +10,7 @@ from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 from app.database import settings, get_db
 from app.schemas import DelegateCreate
-from app.services import get_all_committees, get_committee_by_id, register_delegate
+from app.services import get_all_committees, get_committee_by_id, register_delegate, get_delegates_count
 from app.exceptions import AppException
 from app.constants import RATE_LIMIT
 
@@ -79,6 +79,11 @@ def get_committee(committee_id: int, db: Session = Depends(get_db)):
     if not committee:
         return error_envelope("COMMITTEE_NOT_FOUND", "Committee not found", status=404)
     return success_envelope(committee)
+
+@app.get("/api/v1/delegates/count")
+def delegates_count(db: Session = Depends(get_db)):
+    count = get_delegates_count(db)
+    return success_envelope(count)
 
 # Static files — mount LAST so API routes take priority
 app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")

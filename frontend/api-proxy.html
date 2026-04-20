@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Proxy - LGU MUN 2026</title>
+</head>
+<body>
+  <script>
+    // Simple proxy to handle API requests
+    if (window.location.pathname.startsWith('/api/')) {
+      const apiPath = window.location.pathname + window.location.search;
+      const apiUrl = 'http://localhost:8000' + apiPath;
+
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          document.body.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+        })
+        .catch(error => {
+          document.body.innerHTML = '<pre>Error: ' + error.message + '</pre>';
+        });
+    }
+  </script>
+</body>
+</html>

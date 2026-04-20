@@ -97,3 +97,7 @@ def register_delegate(db: Session, data: DelegateCreate, ip: str) -> dict:
         db.rollback()
         logger.error(f"register_delegate failed: {e}", exc_info=True)
         raise AppException("SERVER_ERROR", "Registration failed. Please try again.", status_code=500)
+
+def get_delegates_count(db: Session) -> dict:
+    count = db.query(func.count(Delegate.id)).scalar()
+    return {"count": count}
