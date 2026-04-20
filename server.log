@@ -1,0 +1,11 @@
+INFO:     Will watch for changes in these directories: ['/home/nauman_sajjad/Desktop/LGU/Lgu-Mun']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [15781] using WatchFiles
+INFO:     Started server process [15787]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:52566 - "GET /api/v1/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57756 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60484 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60488 - "GET /committees.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56120 - "GET /api/v1/committees HTTP/1.1" 200 OK
