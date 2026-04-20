@@ -11,47 +11,58 @@
 <body>
   <!-- Navbar -->
   <nav class="navbar">
-    <div class="container">
-      <a href="/"><img src="assets/logo/lgumun-logo.png" alt="LGU MUN Logo" class="navbar-logo"></a>
-      <ul class="navbar-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/committees.html">Committees</a></li>
-        <li><a href="/register.html">Register</a></li>
-      </ul>
+    <div class="navbar-brand">
+      <img src="assets/logo/lgumun-logo.png" alt="LGU MUN Logo" class="navbar-logo">
+      <span class="navbar-title">LGU MUN 2026</span>
     </div>
+    <ul class="navbar-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/committees.html" class="active">Committees</a></li>
+      <li><a href="/register.html">Register</a></li>
+    </ul>
   </nav>
 
   <!-- Committees Section -->
-  <section class="container" style="margin: 3rem auto;">
-    <h1 class="text-center mb-4">All Committees</h1>
+  <div class="committees-container">
+    <div class="committees-header">
+      <span class="committees-title">All Committees</span>
+      <span class="committees-count" id="committees-count">9 committees · 255 total seats</span>
+    </div>
 
     <!-- Loading Skeleton -->
-    <div id="loading-skeleton">
-      <div class="grid">
-        <div class="card"><p>Loading...</p></div>
-        <div class="card"><p>Loading...</p></div>
-        <div class="card"><p>Loading...</p></div>
-      </div>
+    <div id="loading-skeleton" class="committees-grid">
+      <div class="committee-card"><div style="height: 100px;"></div></div>
+      <div class="committee-card"><div style="height: 100px;"></div></div>
+      <div class="committee-card"><div style="height: 100px;"></div></div>
+      <div class="committee-card"><div style="height: 100px;"></div></div>
+      <div class="committee-card"><div style="height: 100px;"></div></div>
+      <div class="committee-card"><div style="height: 100px;"></div></div>
+      <div class="committee-card"><div style="height: 100px;"></div></div>
+      <div class="committee-card"><div style="height: 100px;"></div></div>
+      <div class="committee-card"><div style="height: 100px;"></div></div>
     </div>
 
     <!-- Committees Grid -->
-    <div id="committees-grid" class="grid"></div>
+    <div id="committees-grid" class="committees-grid"></div>
 
     <!-- Error State -->
-    <div id="error-state" class="hidden text-center">
-      <div class="card">
+    <div id="error-state" class="hidden">
+      <div class="details-card text-center">
         <h2 style="color: var(--color-error);">Failed to Load Committees</h2>
         <p>Please try again later.</p>
         <button onclick="location.reload()" class="btn btn-primary">Retry</button>
       </div>
     </div>
-  </section>
+
+    <!-- CTA -->
+    <div class="committees-cta">
+      <a href="/register.html" class="btn btn-primary">Register as Delegate</a>
+    </div>
+  </div>
 
   <!-- Footer -->
   <footer class="footer">
-    <div class="container">
-      <p>&copy; 2026 LGU MUN Society. All rights reserved.</p>
-    </div>
+    © 2026 LGU MUN Society · Lahore Garrison University
   </footer>
 
   <script src="js/api.js"></script>

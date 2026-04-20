@@ -42,6 +42,11 @@ async function handleSubmit(e) {
     return;
   }
 
+  // Update step indicator to step 2 (processing)
+  document.getElementById('fs1').className = 'form-step done';
+  document.getElementById('fs2').className = 'form-step active';
+  document.getElementById('fs3').className = 'form-step';
+
   // Disable button and show spinner
   submitButton.disabled = true;
   submitButton.innerHTML = '<span class="spinner"></span> Processing...';
@@ -60,16 +65,28 @@ async function handleSubmit(e) {
   try {
     const data = await apiPost('/delegates', formData);
 
-    // Redirect to success page with URL params
-    const params = new URLSearchParams({
-      roll: data.data.roll_number,
-      name: data.data.full_name,
-      committee: data.data.committee_name,
-      email: data.data.email,
-    });
-    window.location.href = `/success.html?${params.toString()}`;
+    // Update step indicator to step 3 (complete)
+    document.getElementById('fs2').className = 'form-step done';
+    document.getElementById('fs3').className = 'form-step done';
+
+    // Small delay for visual feedback
+    setTimeout(() => {
+      // Redirect to success page with URL params
+      const params = new URLSearchParams({
+        roll: data.data.roll_number,
+        name: data.data.full_name,
+        committee: data.data.committee_name,
+        email: data.data.email,
+      });
+      window.location.href = `/success.html?${params.toString()}`;
+    }, 400);
 
   } catch (error) {
+    // Reset step indicator
+    document.getElementById('fs1').className = 'form-step done';
+    document.getElementById('fs2').className = 'form-step';
+    document.getElementById('fs3').className = 'form-step';
+
     // Show error
     if (error.code === 'RATE_LIMITED') {
       showGlobalError('Too many requests. Please wait 10 minutes and try again.');
@@ -81,7 +98,7 @@ async function handleSubmit(e) {
 
     // Re-enable button
     submitButton.disabled = false;
-    submitButton.textContent = 'Register';
+    submitButton.textContent = 'Register as Delegate';
   }
 }
 
@@ -154,6 +171,7 @@ function showErrors(errors) {
     }
 
     if (fieldEl) {
+      fieldEl.classList.add('error');
       fieldEl.parentElement.classList.add('error');
     }
   });
@@ -169,6 +187,7 @@ function showFieldError(field, message) {
   }
 
   if (fieldEl) {
+    fieldEl.classList.add('error');
     fieldEl.parentElement.classList.add('error');
   }
 }

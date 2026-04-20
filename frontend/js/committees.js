@@ -10,6 +10,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Hide skeleton
     loadingSkeleton.classList.add('hidden');
 
+    // Update count
+    const totalSeats = committees.reduce((sum, c) => sum + c.total_seats, 0);
+    const filledSeats = committees.reduce((sum, c) => sum + c.filled_seats, 0);
+    document.getElementById('committees-count').textContent =
+      `${committees.length} committees · ${totalSeats} total seats`;
+
     // Render committees
     committees.forEach(committee => {
       const card = createCommitteeCard(committee);
@@ -26,53 +32,38 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 function createCommitteeCard(committee) {
   const card = document.createElement('div');
-  card.className = 'card';
+  card.className = 'committee-card';
 
-  const title = document.createElement('h3');
-  title.className = 'card-title';
-  title.textContent = committee.short_name;
+  const isFull = committee.filled_seats >= committee.total_seats;
+  const isPNA = committee.short_name === 'PNA';
+  const capacityPercentage = Math.round((committee.filled_seats / committee.total_seats) * 100);
 
-  const subtitle = document.createElement('p');
-  subtitle.className = 'card-subtitle';
-  subtitle.textContent = committee.full_name;
-
-  const chair = document.createElement('p');
-  chair.textContent = `Chair: ${committee.chair_name}`;
-
-  const agenda = document.createElement('p');
-  agenda.textContent = `Agenda: ${committee.agenda_1}`;
-
-  const language = document.createElement('p');
-  language.textContent = `Language: ${committee.language}`;
-
-  const seats = document.createElement('p');
-  seats.textContent = `Seats: ${committee.filled_seats}/${committee.total_seats}`;
-
-  // Progress bar
-  const progressBar = document.createElement('div');
-  progressBar.className = 'progress-bar';
-
-  const progressFill = document.createElement('div');
-  progressFill.className = 'progress-fill';
-  progressFill.style.width = `${committee.capacity_percentage}%`;
-
-  progressBar.appendChild(progressFill);
-
-  // Full badge
-  if (committee.is_full) {
-    const badge = document.createElement('span');
-    badge.className = 'badge';
-    badge.textContent = 'FULL';
-    title.appendChild(badge);
+  // Determine progress bar color
+  let fillColor = '#C9A227'; // gold
+  if (isFull) {
+    fillColor = '#C0392B'; // red
+  } else if (capacityPercentage > 70) {
+    fillColor = '#D4900A'; // amber
   }
 
-  card.appendChild(title);
-  card.appendChild(subtitle);
-  card.appendChild(chair);
-  card.appendChild(agenda);
-  card.appendChild(language);
-  card.appendChild(seats);
-  card.appendChild(progressBar);
+  // Build badge HTML
+  let badgeHtml = '';
+  if (isFull) {
+    badgeHtml = '<div class="committee-badge full">FULL</div>';
+  } else if (isPNA) {
+    badgeHtml = '<div class="committee-badge pna">National</div>';
+  }
+
+  card.innerHTML = `
+    ${badgeHtml}
+    <div class="committee-code">${committee.short_name}</div>
+    <div class="committee-name">${committee.full_name}</div>
+    <div class="committee-lang">${committee.language}</div>
+    <div class="committee-progress-bg">
+      <div class="committee-progress-fill" style="width:${capacityPercentage}%;background:${fillColor}"></div>
+    </div>
+    <div class="committee-seats">${committee.filled_seats}/${committee.total_seats} seats filled</div>
+  `;
 
   return card;
 }

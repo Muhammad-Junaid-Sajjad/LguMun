@@ -11,61 +11,61 @@
 <body>
   <!-- Navbar -->
   <nav class="navbar">
-    <div class="container">
-      <a href="/"><img src="assets/logo/lgumun-logo.png" alt="LGU MUN Logo" class="navbar-logo"></a>
-      <ul class="navbar-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/committees.html">Committees</a></li>
-        <li><a href="/register.html">Register</a></li>
-      </ul>
+    <div class="navbar-brand">
+      <img src="assets/logo/lgumun-logo.png" alt="LGU MUN Logo" class="navbar-logo">
+      <span class="navbar-title">LGU MUN 2026</span>
     </div>
+    <ul class="navbar-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/committees.html">Committees</a></li>
+      <li><a href="/register.html">Register</a></li>
+    </ul>
   </nav>
 
   <!-- Success Content -->
-  <section class="container" style="max-width: 600px; margin: 3rem auto;" id="success-content">
-    <h1 class="text-center mb-4">Registration Successful!</h1>
+  <div class="success-container" id="success-content">
+    <div class="success-icon">🎉</div>
+    <h1 class="success-title">You Are Registered!</h1>
+    <p class="success-subtitle">Your seat has been secured. Save your roll number below.</p>
 
     <!-- Roll Number Card -->
-    <div class="card text-center" style="background-color: var(--color-gold); color: var(--color-bg); padding: 2rem;">
-      <h2 style="color: var(--color-bg); font-family: monospace; font-size: 2.5rem; margin: 0;">
-        <span id="roll-number"></span>
-      </h2>
+    <div class="roll-card">
+      <div class="roll-label">YOUR DELEGATE ROLL NUMBER</div>
+      <div class="roll-number" id="roll-number"></div>
     </div>
 
     <!-- Save Banner -->
-    <div style="background-color: #FFB84D; color: var(--color-bg); padding: 1rem; border-radius: 4px; margin: 1.5rem 0; text-align: center; font-weight: bold;">
-      ⚠️ Save this roll number! You will need it for the event.
+    <div class="save-banner">
+      <div class="save-icon">⚠</div>
+      <div>IMPORTANT: Screenshot or note down this roll number. You will need it at the event. No email confirmation is sent.</div>
     </div>
 
     <!-- Details Card -->
-    <div class="card">
-      <h3>Your Details</h3>
-      <p><strong>Name:</strong> <span id="delegate-name"></span></p>
-      <p><strong>Committee:</strong> <span id="committee-name"></span></p>
-      <p><strong>Email:</strong> <span id="delegate-email"></span></p>
+    <div class="details-card">
+      <p><span class="detail-label">Name</span><span class="detail-value" id="delegate-name"></span></p>
+      <p><span class="detail-label">Committee</span><span class="detail-value" id="committee-name"></span></p>
+      <p><span class="detail-label">Email</span><span class="detail-value" id="delegate-email"></span></p>
     </div>
 
     <!-- Action Buttons -->
-    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-      <a href="/committees.html" class="btn btn-secondary" style="flex: 1; text-align: center;">View Committees</a>
-      <a href="/register.html" class="btn btn-primary" style="flex: 1; text-align: center;">Register Another</a>
+    <div class="action-row">
+      <a href="/committees.html" class="btn btn-secondary">View Committees</a>
+      <a href="/register.html" class="btn btn-primary">Register Another</a>
     </div>
-  </section>
+  </div>
 
   <!-- Error State -->
-  <section class="container" style="max-width: 600px; margin: 3rem auto;" id="error-message" class="hidden">
-    <div class="card text-center">
+  <div class="success-container hidden" id="error-message">
+    <div class="details-card text-center">
       <h2 style="color: var(--color-error);">Error</h2>
       <p>Registration information not found. Please register again.</p>
       <a href="/register.html" class="btn btn-primary">Go to Registration</a>
     </div>
-  </section>
+  </div>
 
   <!-- Footer -->
   <footer class="footer">
-    <div class="container">
-      <p>&copy; 2026 LGU MUN Society. All rights reserved.</p>
-    </div>
+    © 2026 LGU MUN Society · Lahore Garrison University
   </footer>
 
   <script src="js/success.js"></script>

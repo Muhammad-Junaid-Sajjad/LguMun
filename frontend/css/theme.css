@@ -1,14 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Crimson+Text:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
 
 :root {
-  --color-bg: #0D0D0D;
-  --color-surface: #1A1208;
+  /* Darker, richer Hogwarts theme palette */
+  --color-bg: #080806;
+  --color-surface: #14100A;
+  --color-surface-2: #1E1610;
+  --color-surface-3: #261C0E;
   --color-text: #F0E6C8;
+  --color-muted: #8A7045;
   --color-gold: #C9A227;
-  --color-border: #7B5C1E;
-  --color-error-light: #FFB3B3;
-  --color-error: #FF6B6B;
-  --color-success: #51CF66;
+  --color-gold-2: #E8BC30;
+  --color-gold-3: #F5D060;
+  --color-border: #5C4215;
+  --color-border-2: #7B5C1E;
+  --color-error: #E05555;
+  --color-amber: #D4900A;
+  --color-amber-bg: #2A1E00;
+  --color-red: #C0392B;
+  --color-success: #2E7D32;
 
   --font-heading: 'UnifrakturMaguntia', cursive;
   --font-body: 'Crimson Text', serif;

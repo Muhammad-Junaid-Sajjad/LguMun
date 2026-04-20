@@ -11,71 +11,152 @@
 <body>
   <!-- Navbar -->
   <nav class="navbar">
-    <div class="container">
-      <a href="/"><img src="assets/logo/lgumun-logo.png" alt="LGU MUN Logo" class="navbar-logo"></a>
-      <ul class="navbar-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/committees.html">Committees</a></li>
-        <li><a href="/register.html">Register</a></li>
-      </ul>
+    <div class="navbar-brand">
+      <img src="assets/logo/lgumun-logo.png" alt="LGU MUN Logo" class="navbar-logo">
+      <span class="navbar-title">LGU MUN 2026</span>
     </div>
+    <ul class="navbar-links">
+      <li><a href="/" class="active">Home</a></li>
+      <li><a href="/committees.html">Committees</a></li>
+      <li><a href="/register.html">Register</a></li>
+    </ul>
   </nav>
 
   <!-- Hero -->
   <section class="hero">
-    <div class="container">
-      <img src="assets/logo/lgumun-logo.png" alt="LGU MUN Logo" class="hero-logo">
-      <h1>Lahore Garrison University</h1>
-      <h1>Model United Nations 2026</h1>
-      <p class="hero-meta">April 25-27, 2026 | Lahore Garrison University</p>
-      <div class="hero-buttons">
-        <a href="/register.html" class="btn btn-primary">Register Now</a>
-        <a href="/committees.html" class="btn btn-secondary">View Committees</a>
-      </div>
+    <div class="hero-deco">
+      <div class="hero-line" style="width:200px;height:200px;top:-60px;left:-60px;"></div>
+      <div class="hero-line" style="width:300px;height:300px;top:-100px;right:-80px;"></div>
+    </div>
+    <div class="hero-crest">
+      <img src="assets/logo/lgumun-logo.png" alt="LGU MUN Crest">
+    </div>
+    <p class="hero-tag">Lahore Garrison University</p>
+    <h1>Model United Nations</h1>
+    <h2>2026</h2>
+    <div class="hero-divider"></div>
+    <p class="hero-meta">April 25–27, 2026 &nbsp;·&nbsp; LGU Main Campus, Lahore</p>
+    <div class="hero-buttons">
+      <a href="/register.html" class="btn btn-primary">Register Now</a>
+      <a href="/committees.html" class="btn btn-secondary">View Committees</a>
     </div>
   </section>
 
-  <!-- Photo Gallery -->
-  <section class="container">
-    <h2 class="text-center mb-4">Past Events</h2>
+  <!-- Stats Bar -->
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stat-number">9</div>
+      <div class="stat-label">Committees</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">255</div>
+      <div class="stat-label">Total Seats</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" id="regCount">0</div>
+      <div class="stat-label">Registered</div>
+    </div>
+  </div>
+
+  <!-- Past Events Gallery -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-ornament">✦</span>
+      <span class="section-title">Past Events</span>
+      <div class="section-line"></div>
+    </div>
     <div class="gallery">
-      <img src="assets/photos/event1.jpg" alt="LGU MUN 2024" class="gallery-item">
-      <img src="assets/photos/event2.jpg" alt="LGU MUN 2024" class="gallery-item">
-      <img src="assets/photos/event3.jpg" alt="LGU MUN 2024" class="gallery-item">
+      <div class="gallery-photo">
+        <div class="gallery-photo-inner">
+          <div class="gallery-icon">I</div>
+          <div class="gallery-label">MUN I · 2023</div>
+        </div>
+      </div>
+      <div class="gallery-photo">
+        <div class="gallery-photo-inner">
+          <div class="gallery-icon">II</div>
+          <div class="gallery-label">MUN II · 2024</div>
+        </div>
+      </div>
+      <div class="gallery-photo">
+        <div class="gallery-photo-inner">
+          <div class="gallery-icon">III</div>
+          <div class="gallery-label">MUN III · 2025</div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- Committee Preview -->
-  <section class="container">
-    <h2 class="text-center mb-4">Featured Committees</h2>
-    <div class="grid">
+  <!-- Featured Committees -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-ornament">✦</span>
+      <span class="section-title">Featured Committees</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="grid" style="grid-template-columns: repeat(3, 1fr); gap: 0.6rem;">
       <div class="card">
-        <h3>UNGA</h3>
-        <p class="card-subtitle">United Nations General Assembly</p>
-        <p>30 Seats | English</p>
-        <a href="/committees.html" class="btn btn-secondary" style="width: 100%">View All</a>
+        <div class="card-top">
+          <span class="card-code">UNGA</span>
+        </div>
+        <div class="card-name">United Nations General Assembly</div>
+        <div class="card-meta">English · 30 seats</div>
+        <div class="progress-wrap">
+          <div class="progress-head"><span>Capacity</span><span>8/30</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:27%"></div></div>
+        </div>
       </div>
       <div class="card">
-        <h3>UNSC</h3>
-        <p class="card-subtitle">United Nations Security Council</p>
-        <p>15 Seats | English</p>
-        <a href="/committees.html" class="btn btn-secondary" style="width: 100%">View All</a>
+        <div class="card-top">
+          <span class="card-code">UNSC</span>
+          <span class="badge full">FULL</span>
+        </div>
+        <div class="card-name">United Nations Security Council</div>
+        <div class="card-meta">English · 15 seats</div>
+        <div class="progress-wrap">
+          <div class="progress-head"><span>Capacity</span><span>15/15</span></div>
+          <div class="progress-bar"><div class="progress-fill danger" style="width:100%"></div></div>
+        </div>
       </div>
-      <div class="card">
-        <h3>PNA</h3>
-        <p class="card-subtitle">Pakistan National Assembly</p>
-        <p>30 Seats | Urdu & English</p>
-        <a href="/committees.html" class="btn btn-secondary" style="width: 100%">View All</a>
+      <div class="card pna">
+        <div class="card-top">
+          <span class="card-code">PNA</span>
+          <span class="badge pna">Urdu & English</span>
+        </div>
+        <div class="card-name">Pakistan National Assembly</div>
+        <div class="card-meta" style="color:var(--color-gold-2);">Urdu & English · 30 seats</div>
+        <div class="progress-wrap">
+          <div class="progress-head"><span>Capacity</span><span>3/30</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:10%"></div></div>
+        </div>
       </div>
+    </div>
+    <div style="text-align:center;margin-top:.9rem;">
+      <a href="/committees.html" class="btn btn-secondary" style="font-size:.82rem;padding:.4rem 1.1rem;">View all 9 committees →</a>
     </div>
   </section>
 
   <!-- Footer -->
   <footer class="footer">
-    <div class="container">
-      <p>&copy; 2026 LGU MUN Society. All rights reserved.</p>
-      <p>Contact: mun@lgu.edu.pk</p>
-    </div>
+    © 2026 LGU MUN Society · Lahore Garrison University · <a href="mailto:mun@lgu.edu.pk">mun@lgu.edu.pk</a>
   </footer>
+
+  <script>
+    // Fetch registration count from API
+    async function updateRegistrationCount() {
+      try {
+        const response = await fetch('/api/v1/delegates/count');
+        if (response.ok) {
+          const data = await response.json();
+          document.getElementById('regCount').textContent = data.data.count || 0;
+        }
+      } catch (error) {
+        console.error('Failed to fetch registration count:', error);
+      }
+    }
+
+    // Update on page load
+    document.addEventListener('DOMContentLoaded', updateRegistrationCount);
+  </script>
 </body>
 </html>

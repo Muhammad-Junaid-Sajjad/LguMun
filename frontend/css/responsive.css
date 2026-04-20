@@ -1,47 +1,356 @@
 /* Mobile first — base styles */
 
-/* Tablets and up */
-@media (min-width: 768px) {
-  .gallery {
-    grid-template-columns: repeat(2, 1fr);
+/* Small mobile (up to 375px) */
+@media (max-width: 375px) {
+  .navbar {
+    padding: 0 1rem;
   }
 
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
+  .navbar-title {
+    font-size: 13px;
+  }
+
+  .navbar-links a {
+    padding: 0.4rem 0.6rem;
+    font-size: 12px;
+  }
+
+  .hero {
+    padding: 1.5rem 1rem;
+  }
+
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .hero h2 {
+    font-size: 1rem;
   }
 
   .hero-buttons {
-    gap: 2rem;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 
-  .navbar {
-    padding: 1rem 3rem;
+  .btn {
+    width: 100%;
+    text-align: center;
   }
 
-  .container {
-    padding: 0 2rem;
+  .section {
+    padding: 1rem;
+  }
+
+  .gallery {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .committees-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .committees-header {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  .committees-count {
+    font-size: 0.7rem;
+  }
+
+  .form-container {
+    padding: 1rem;
+  }
+
+  .form-title {
+    font-size: 1.5rem;
+  }
+
+  .form-subtitle {
+    font-size: 0.75rem;
+  }
+
+  .success-container {
+    padding: 1rem;
+  }
+
+  .success-title {
+    font-size: 1.5rem;
+  }
+
+  .roll-number {
+    font-size: 1.4rem;
+  }
+
+  .action-row {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .action-row .btn {
+    width: 100%;
   }
 }
 
-/* Desktop and up */
-@media (min-width: 1280px) {
-  .gallery {
-    grid-template-columns: repeat(3, 1fr);
+/* Tablets and up (768px+) */
+@media (min-width: 768px) {
+  .navbar {
+    padding: 0 2rem;
   }
 
-  .grid {
+  .navbar-links {
+    gap: 0.5rem;
+  }
+
+  .navbar-links a {
+    padding: 0.4rem 1rem;
+  }
+
+  .hero {
+    padding: 3rem 2rem;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero h2 {
+    font-size: 1.3rem;
+  }
+
+  .hero-buttons {
+    gap: 1rem;
+  }
+
+  .section {
+    padding: 1.5rem 2rem;
+  }
+
+  .gallery {
     grid-template-columns: repeat(3, 1fr);
+    gap: 0.8rem;
+  }
+
+  .committees-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.8rem;
+  }
+
+  .form-container {
+    max-width: 500px;
+    padding: 2rem;
+  }
+
+  .success-container {
+    max-width: 500px;
+    padding: 2rem;
+  }
+
+  .action-row {
+    gap: 1rem;
+  }
+}
+
+/* Desktop and up (1280px+) */
+@media (min-width: 1280px) {
+  .navbar {
+    padding: 0 2.5rem;
+  }
+
+  .navbar-links {
+    gap: 1rem;
+  }
+
+  .navbar-links a {
+    padding: 0.4rem 1.25rem;
+    font-size: 14px;
+  }
+
+  .hero {
+    padding: 4rem 2rem;
+  }
+
+  .hero h1 {
+    font-size: 2.8rem;
+  }
+
+  .hero h2 {
+    font-size: 1.5rem;
+  }
+
+  .section {
+    padding: 2rem 2.5rem;
+  }
+
+  .gallery {
+    gap: 1rem;
+  }
+
+  .committees-grid {
+    gap: 1rem;
   }
 
   .form-container {
     max-width: 600px;
-    margin: 0 auto;
+    padding: 2.5rem;
+  }
+
+  .success-container {
+    max-width: 600px;
+    padding: 2.5rem;
+  }
+
+  .action-row {
+    gap: 1.5rem;
+  }
+}
+
+/* Large desktop (1600px+) */
+@media (min-width: 1600px) {
+  .container {
+    max-width: 1400px;
   }
 
   .hero {
-    padding: 6rem 2rem;
+    padding: 5rem 2rem;
   }
 
-  h1 { font-size: 4rem; }
-  h2 { font-size: 3rem; }
+  .hero h1 {
+    font-size: 3.2rem;
+  }
+
+  .hero h2 {
+    font-size: 1.8rem;
+  }
+
+  .section {
+    padding: 2.5rem 3rem;
+  }
+
+  .form-container {
+    max-width: 700px;
+  }
+
+  .success-container {
+    max-width: 700px;
+  }
+}
+
+/* Grid responsiveness */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .committees-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .committees-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-bar {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-item {
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .stat-item:last-child {
+    border-bottom: none;
+  }
+}
+
+/* Form responsiveness */
+@media (max-width: 480px) {
+  .form-steps {
+    margin-bottom: 1rem;
+  }
+
+  .form-field {
+    margin-bottom: 0.75rem;
+  }
+
+  .form-field label {
+    font-size: 0.75rem;
+  }
+
+  .form-field input,
+  .form-field select {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.85rem;
+  }
+
+  .form-hint {
+    font-size: 0.65rem;
+  }
+
+  .form-submit {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .form-note {
+    font-size: 0.7rem;
+  }
+}
+
+/* Card responsiveness */
+@media (max-width: 768px) {
+  .card {
+    padding: 0.75rem;
+  }
+
+  .card-code {
+    font-size: 0.95rem;
+  }
+
+  .card-name {
+    font-size: 0.72rem;
+  }
+
+  .card-meta {
+    font-size: 0.65rem;
+  }
+
+  .committee-card {
+    padding: 0.7rem;
+  }
+
+  .committee-code {
+    font-size: 0.9rem;
+  }
+
+  .committee-name {
+    font-size: 0.65rem;
+  }
+
+  .committee-lang {
+    font-size: 0.6rem;
+  }
+
+  .committee-seats {
+    font-size: 0.6rem;
+  }
+}
+
+/* Footer responsiveness */
+@media (max-width: 768px) {
+  .footer {
+    padding: 0.75rem;
+    font-size: 0.65rem;
+  }
 }
