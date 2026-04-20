@@ -5,337 +5,169 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LGU Inter-University MUN 2026 - June</title>
   <meta name="description" content="Lahore Garrison University Inter-University Model United Nations 2026 - June">
-  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- CSS Files - Industrial Design -->
   <link rel="stylesheet" href="/css/globals.css">
   <link rel="stylesheet" href="/css/theme.css">
-  <link rel="stylesheet" href="/css/main.css">
-  <link rel="stylesheet" href="/css/design-enhancements.css">
-  <link rel="stylesheet" href="/css/responsive.css">
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            border: 'hsl(var(--border))',
-            input: 'hsl(var(--input))',
-            ring: 'hsl(var(--ring))',
-            background: 'hsl(var(--background))',
-            foreground: 'hsl(var(--foreground))',
-            primary: {
-              DEFAULT: 'hsl(var(--primary))',
-              foreground: 'hsl(var(--primary-foreground))',
-            },
-            secondary: {
-              DEFAULT: 'hsl(var(--secondary))',
-              foreground: 'hsl(var(--secondary-foreground))',
-            },
-            destructive: {
-              DEFAULT: 'hsl(var(--destructive))',
-              foreground: 'hsl(var(--destructive-foreground))',
-            },
-            muted: {
-              DEFAULT: 'hsl(var(--muted))',
-              foreground: 'hsl(var(--muted-foreground))',
-            },
-            accent: {
-              DEFAULT: 'hsl(var(--accent))',
-              foreground: 'hsl(var(--accent-foreground))',
-            },
-            popover: {
-              DEFAULT: 'hsl(var(--popover))',
-              foreground: 'hsl(var(--popover-foreground))',
-            },
-            card: {
-              DEFAULT: 'hsl(var(--card))',
-              foreground: 'hsl(var(--card-foreground))',
-            },
-          },
-          borderRadius: {
-            lg: 'var(--radius)',
-            md: 'calc(var(--radius) - 2px)',
-            sm: 'calc(var(--radius) - 4px)',
-          },
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            display: ['Poppins', 'sans-serif'],
-          },
-        },
-      },
-    }
-  </script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap');
+  <link rel="stylesheet" href="/css/industrial.css">
 
-    :root {
-      --background: 0 0% 100%;
-      --foreground: 222.2 84% 4.9%;
-      --card: 0 0% 100%;
-      --card-foreground: 222.2 84% 4.9%;
-      --popover: 0 0% 100%;
-      --popover-foreground: 222.2 84% 4.9%;
-      --muted: 221.2 63.6% 97.8%;
-      --muted-foreground: 215.4 16.3% 46.9%;
-      --accent: 221.2 83.2% 53.3%;
-      --accent-foreground: 210 40% 98%;
-      --destructive: 0 84.2% 60.2%;
-      --destructive-foreground: 210 40% 98%;
-      --border: 214.3 31.8% 91.4%;
-      --input: 214.3 31.8% 91.4%;
-      --primary: 221.2 83.2% 53.3%;
-      --primary-foreground: 210 40% 98%;
-      --secondary: 217.2 91.2% 59.8%;
-      --secondary-foreground: 222.2 47.4% 11.2%;
-      --ring: 221.2 83.2% 53.3%;
-      --radius: 0.5rem;
-    }
-
-    .dark {
-      --background: 222.2 84% 4.9%;
-      --foreground: 210 40% 98%;
-      --card: 222.2 84% 4.9%;
-      --card-foreground: 210 40% 98%;
-      --popover: 222.2 84% 4.9%;
-      --popover-foreground: 210 40% 98%;
-      --muted: 217.2 32.6% 17.5%;
-      --muted-foreground: 215 20.3% 65.1%;
-      --accent: 217.2 91.2% 59.8%;
-      --accent-foreground: 222.2 47.4% 11.2%;
-      --destructive: 0 62.8% 30.6%;
-      --destructive-foreground: 210 40% 98%;
-      --border: 217.2 32.6% 17.5%;
-      --input: 217.2 32.6% 17.5%;
-      --primary: 217.2 91.2% 59.8%;
-      --primary-foreground: 222.2 47.4% 11.2%;
-      --secondary: 221.2 83.2% 53.3%;
-      --secondary-foreground: 210 40% 98%;
-      --ring: 217.2 91.2% 59.8%;
-    }
-
-    @layer base {
-      * { border-color: hsl(var(--border)); }
-      body { background-color: hsl(var(--background)); color: hsl(var(--foreground)); }
-    }
-
-    @layer utilities {
-      .text-balance { text-wrap: balance; }
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-20px); }
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes scaleIn {
-      from {
-        opacity: 0;
-        transform: scale(0.9);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    .animate-float {
-      animation: float 6s ease-in-out infinite;
-    }
-
-    .animate-fade-in-up {
-      animation: fadeInUp 0.6s ease-out forwards;
-    }
-
-    .animate-scale-in {
-      animation: scaleIn 0.4s ease-out forwards;
-    }
-
-    .stagger-1 { animation-delay: 0.1s; }
-    .stagger-2 { animation-delay: 0.2s; }
-    .stagger-3 { animation-delay: 0.3s; }
-    .stagger-4 { animation-delay: 0.4s; }
-
-    .card-hover {
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .card-hover:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-    }
-  </style>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
 </head>
-<body class="min-h-screen bg-background font-sans antialiased">
+<body>
   <!-- Navbar -->
-  <header class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-    <div class="container mx-auto px-4 h-16 flex items-center justify-between">
-      <a href="/" class="flex items-center gap-2 font-display font-bold text-xl">
-        <img src="assets/logo/lgumun-logo.svg" alt="LGU MUN" class="w-10 h-10">
-        <span class="hidden sm:inline">LGU MUN 2026</span>
+  <header class="navbar-simple">
+    <div class="container">
+      <a href="/" class="logo">
+        <img src="/assets/logo/lgumun-logo.svg" alt="LGU MUN">
+        <span>LGU MUN 2026</span>
       </a>
-      <nav class="flex items-center gap-4">
-        <a href="/" class="text-sm font-medium transition-colors hover:text-primary">Home</a>
-        <a href="/committees.html" class="text-sm font-medium transition-colors hover:text-primary">Committees</a>
-        <a href="/register.html" class="text-sm font-medium transition-colors hover:text-primary">Register</a>
+      <nav>
+        <a href="/" class="active">Home</a>
+        <a href="/committees.html">Committees</a>
+        <a href="/register.html">Register</a>
       </nav>
     </div>
   </header>
 
+  <!-- Breadcrumb -->
+  <div class="container" style="padding-top: 80px;">
+    <nav class="breadcrumb">
+      <a href="/">Home</a>
+      <span>/</span>
+      <span class="current">LGU MUN 2026</span>
+    </nav>
+  </div>
+
   <!-- Hero Section -->
-  <section class="hero-enhanced relative overflow-hidden">
-    <div class="absolute inset-0 -z-10 bg-gradient-mesh"></div>
-    <div class="container mx-auto px-4 text-center relative z-10">
-      <img src="assets/logo/lgumun-logo.svg" alt="LGU MUN" class="mx-auto w-32 h-32 mb-8 animate-float drop-shadow-lg">
-      <h1 class="text-display-1 mb-6 animate-fade-in-up">
-        Inter-University MUN <br class="hidden sm:block">
-        <span class="text-gradient-primary">2026</span>
-      </h1>
-      <p class="text-body-lg max-w-2xl mx-auto mb-10 animate-fade-in-up stagger-1">
-        Join the premier Inter-University Model United Nations conference at Lahore Garrison University - June 2026
-      </p>
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up stagger-2">
-        <a href="/register.html" class="btn-enhanced-primary">
+  <section class="hero-simple">
+    <div class="container">
+      <img src="/assets/logo/lgumun-logo.svg" alt="LGU MUN" style="width: 120px; height: 120px; margin: 0 auto 2rem;">
+      <h1>Inter-University MUN 2026</h1>
+      <p class="lead">Join the premier Inter-University Model United Nations conference at Lahore Garrison University - June 2026</p>
+      <div class="cta-buttons">
+        <a href="/register.html" class="btn-primary">
           <span>Register Now</span>
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
           </svg>
         </a>
-        <a href="/committees.html" class="btn-enhanced-secondary">
-          <span>View Committees</span>
-        </a>
+        <a href="/committees.html" class="btn-secondary">View Committees</a>
       </div>
     </div>
   </section>
 
   <!-- Stats Section -->
-  <section class="border-y bg-gradient-subtle">
-    <div class="container mx-auto px-4 py-16">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
-        <div class="space-y-3 group">
-          <div class="text-6xl font-display font-extrabold text-gradient-primary transition-transform duration-300 group-hover:scale-110">9</div>
-          <div class="text-caption">Committees</div>
+  <section class="stats">
+    <div class="container">
+      <div class="stat-grid">
+        <div>
+          <div class="stat-number">9</div>
+          <div class="stat-label">Committees</div>
         </div>
-        <div class="space-y-3 group">
-          <div class="text-6xl font-display font-extrabold text-gradient-primary transition-transform duration-300 group-hover:scale-110">255</div>
-          <div class="text-caption">Total Seats</div>
+        <div>
+          <div class="stat-number">255</div>
+          <div class="stat-label">Total Seats</div>
         </div>
-        <div class="space-y-3 group">
-          <div class="text-6xl font-display font-extrabold text-gradient-primary transition-transform duration-300 group-hover:scale-110" id="stat-registered">0</div>
-          <div class="text-caption">Registered</div>
+        <div>
+          <div class="stat-number" id="stat-registered">0</div>
+          <div class="stat-label">Registered</div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Featured Committees -->
-  <section class="py-20">
-    <div class="container mx-auto px-4">
-      <div class="text-center mb-16">
-        <h2 class="text-heading-1 mb-4 animate-fade-in-up">Featured Committees</h2>
-        <p class="text-body max-w-2xl mx-auto animate-fade-in-up stagger-1">Explore our prestigious committees and find the perfect fit for your academic interests</p>
+  <section class="section">
+    <div class="container">
+      <div class="page-header text-center">
+        <h2>Featured Committees</h2>
+        <p>Explore our prestigious committees and find the perfect fit for your academic interests</p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="card-enhanced animate-scale-in stagger-1">
-          <div class="flex items-start justify-between mb-4">
-            <h3 class="font-display text-3xl font-bold text-gradient-primary">UNGA</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+        <!-- UNGA Card -->
+        <div class="card-simple">
+          <h3 style="font-size: 2rem; color: var(--primary); margin-bottom: 0.5rem;">UNGA</h3>
+          <h4 style="font-size: 1.25rem; margin-bottom: 0.5rem;">United Nations General Assembly</h4>
+          <p style="color: var(--text-tertiary); font-size: 0.875rem; margin-bottom: 1.5rem;">English • 30 Seats</p>
+          <div style="margin-bottom: 0.5rem; display: flex; justify-content: space-between; font-size: 0.875rem;">
+            <span>Capacity</span>
+            <span style="font-weight: 600;">8/30</span>
           </div>
-          <h4 class="text-heading-3 mb-2">United Nations General Assembly</h4>
-          <p class="text-body-sm mb-6">English • 30 Seats</p>
-          <div class="space-y-3">
-            <div class="flex justify-between text-sm">
-              <span class="text-body-sm">Capacity</span>
-              <span class="font-semibold text-gray-900">8/30</span>
-            </div>
-            <div class="progress-enhanced">
-              <div class="progress-enhanced-fill" style="width: 27%"></div>
-            </div>
+          <div style="background: var(--gray-200); height: 8px; border-radius: 4px; overflow: hidden;">
+            <div style="background: var(--primary); height: 100%; width: 27%; transition: width 0.3s;"></div>
           </div>
         </div>
 
-        <div class="card-enhanced animate-scale-in stagger-2 opacity-75">
-          <div class="flex items-start justify-between mb-4">
-            <h3 class="font-display text-3xl font-bold text-gradient-primary">UNSC</h3>
-            <span class="badge-enhanced badge-error">Full</span>
+        <!-- UNSC Card -->
+        <div class="card-simple" style="opacity: 0.6;">
+          <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+            <h3 style="font-size: 2rem; color: var(--primary); margin: 0;">UNSC</h3>
+            <span class="badge badge-error">Full</span>
           </div>
-          <h4 class="text-heading-3 mb-2">United Nations Security Council</h4>
-          <p class="text-body-sm mb-6">English • 15 Seats</p>
-          <div class="space-y-3">
-            <div class="flex justify-between text-sm">
-              <span class="text-body-sm">Capacity</span>
-              <span class="font-semibold text-gray-900">15/15</span>
-            </div>
-            <div class="progress-enhanced">
-              <div class="progress-enhanced-fill error" style="width: 100%"></div>
-            </div>
+          <h4 style="font-size: 1.25rem; margin-bottom: 0.5rem;">United Nations Security Council</h4>
+          <p style="color: var(--text-tertiary); font-size: 0.875rem; margin-bottom: 1.5rem;">English • 15 Seats</p>
+          <div style="margin-bottom: 0.5rem; display: flex; justify-content: space-between; font-size: 0.875rem;">
+            <span>Capacity</span>
+            <span style="font-weight: 600;">15/15</span>
+          </div>
+          <div style="background: var(--gray-200); height: 8px; border-radius: 4px; overflow: hidden;">
+            <div style="background: var(--error); height: 100%; width: 100%;"></div>
           </div>
         </div>
 
-        <div class="card-enhanced animate-scale-in stagger-3">
-          <div class="flex items-start justify-between mb-4">
-            <h3 class="font-display text-3xl font-bold text-gradient-primary">PNA</h3>
-            <span class="badge-enhanced badge-secondary">National</span>
+        <!-- PNA Card -->
+        <div class="card-simple">
+          <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+            <h3 style="font-size: 2rem; color: var(--primary); margin: 0;">PNA</h3>
+            <span class="badge badge-info">National</span>
           </div>
-          <h4 class="text-heading-3 mb-2">Pakistan National Assembly</h4>
-          <p class="text-body-sm mb-6">Urdu & English • 30 Seats</p>
-          <div class="space-y-3">
-            <div class="flex justify-between text-sm">
-              <span class="text-body-sm">Capacity</span>
-              <span class="font-semibold text-gray-900">3/30</span>
-            </div>
-            <div class="progress-enhanced">
-              <div class="progress-enhanced-fill" style="width: 10%"></div>
-            </div>
+          <h4 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Pakistan National Assembly</h4>
+          <p style="color: var(--text-tertiary); font-size: 0.875rem; margin-bottom: 1.5rem;">Urdu & English • 30 Seats</p>
+          <div style="margin-bottom: 0.5rem; display: flex; justify-content: space-between; font-size: 0.875rem;">
+            <span>Capacity</span>
+            <span style="font-weight: 600;">3/30</span>
+          </div>
+          <div style="background: var(--gray-200); height: 8px; border-radius: 4px; overflow: hidden;">
+            <div style="background: var(--primary); height: 100%; width: 10%; transition: width 0.3s;"></div>
           </div>
         </div>
       </div>
 
-      <div class="text-center mt-12 animate-fade-in-up stagger-4">
-        <a href="/committees.html" class="btn-enhanced-secondary">
-          View All 9 Committees
-        </a>
+      <div class="text-center">
+        <a href="/committees.html" class="btn-secondary">View All 9 Committees</a>
       </div>
     </div>
   </section>
 
-  <!-- Photo Gallery -->
-  <section class="py-20 bg-gradient-subtle">
-    <div class="container mx-auto px-4">
-      <div class="text-center mb-16">
-        <h2 class="text-heading-1 mb-4 animate-fade-in-up">Past Events</h2>
-        <p class="text-body max-w-2xl mx-auto animate-fade-in-up stagger-1">Relive the success of our previous Model United Nations conferences</p>
+  <!-- Past Events -->
+  <section class="section" style="background: var(--bg-secondary);">
+    <div class="container">
+      <div class="page-header text-center">
+        <h2>Past Events</h2>
+        <p>Relive the success of our previous Model United Nations conferences</p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="group relative overflow-hidden rounded-2xl aspect-[16/9] animate-scale-in stagger-1 shadow-lg hover:shadow-2xl transition-all duration-500">
-          <img src="assets/photos/event1.jpg" alt="LGU MUN 2023" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent transition-opacity duration-300 group-hover:opacity-95"></div>
-          <div class="absolute bottom-0 left-0 right-0 p-8 text-white transform transition-transform duration-300 group-hover:translate-y-0 translate-y-2">
-            <span class="text-caption text-white/90">MUN I · 2023</span>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+        <div style="position: relative; border-radius: 1rem; overflow: hidden; aspect-ratio: 16/9; box-shadow: var(--shadow-md);">
+          <img src="/assets/photos/event1.jpg" alt="LGU MUN 2023" style="width: 100%; height: 100%; object-fit: cover;">
+          <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); color: white;">
+            <p style="margin: 0; font-size: 0.875rem; color: rgba(255,255,255,0.9);">MUN I • 2023</p>
           </div>
         </div>
-        <div class="group relative overflow-hidden rounded-2xl aspect-[16/9] animate-scale-in stagger-2 shadow-lg hover:shadow-2xl transition-all duration-500">
-          <img src="assets/photos/event2.jpg" alt="LGU MUN 2024" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent transition-opacity duration-300 group-hover:opacity-95"></div>
-          <div class="absolute bottom-0 left-0 right-0 p-8 text-white transform transition-transform duration-300 group-hover:translate-y-0 translate-y-2">
-            <span class="text-caption text-white/90">MUN II · 2024</span>
+        <div style="position: relative; border-radius: 1rem; overflow: hidden; aspect-ratio: 16/9; box-shadow: var(--shadow-md);">
+          <img src="/assets/photos/event2.jpg" alt="LGU MUN 2024" style="width: 100%; height: 100%; object-fit: cover;">
+          <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); color: white;">
+            <p style="margin: 0; font-size: 0.875rem; color: rgba(255,255,255,0.9);">MUN II • 2024</p>
           </div>
         </div>
-        <div class="group relative overflow-hidden rounded-2xl aspect-[16/9] animate-scale-in stagger-3 shadow-lg hover:shadow-2xl transition-all duration-500">
-          <img src="assets/photos/event3.jpg" alt="LGU MUN 2025" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent transition-opacity duration-300 group-hover:opacity-95"></div>
-          <div class="absolute bottom-0 left-0 right-0 p-8 text-white transform transition-transform duration-300 group-hover:translate-y-0 translate-y-2">
-            <span class="text-caption text-white/90">MUN III · 2025</span>
+        <div style="position: relative; border-radius: 1rem; overflow: hidden; aspect-ratio: 16/9; box-shadow: var(--shadow-md);">
+          <img src="/assets/photos/event3.jpg" alt="LGU MUN 2025" style="width: 100%; height: 100%; object-fit: cover;">
+          <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); color: white;">
+            <p style="margin: 0; font-size: 0.875rem; color: rgba(255,255,255,0.9);">MUN III • 2025</p>
           </div>
         </div>
       </div>
@@ -343,73 +175,80 @@
   </section>
 
   <!-- CTA Section -->
-  <section class="py-20">
-    <div class="container mx-auto px-4">
-      <div class="relative rounded-3xl overflow-hidden p-16 text-center shadow-elevated animate-scale-in">
-        <div class="absolute inset-0 bg-gradient-brand"></div>
-        <div class="absolute inset-0 bg-pattern-dots opacity-10"></div>
-        <div class="relative z-10 text-white">
-          <h2 class="text-display-2 mb-6">Ready to Join Us?</h2>
-          <p class="text-xl opacity-95 mb-10 max-w-2xl mx-auto font-medium">Secure your spot at LGU MUN 2026 and become part of an elite community of young leaders</p>
-          <a href="/register.html" class="inline-flex items-center gap-2 h-14 px-10 rounded-xl bg-white text-primary-600 font-display font-bold text-lg shadow-xl transition-all hover:shadow-2xl hover:scale-105 hover:bg-gray-50">
-            <span>Register as Delegate</span>
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-            </svg>
-          </a>
-        </div>
+  <section class="section">
+    <div class="container">
+      <div style="background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); border-radius: 1rem; padding: 4rem 2rem; text-align: center; color: white; box-shadow: var(--shadow-lg);">
+        <h2 style="color: white; font-size: 2.5rem; margin-bottom: 1rem;">Ready to Join Us?</h2>
+        <p style="font-size: 1.25rem; margin-bottom: 2rem; color: rgba(255,255,255,0.95);">Secure your spot at LGU MUN 2026 and become part of an elite community of young leaders</p>
+        <a href="/register.html" class="btn-primary" style="background: white; color: var(--primary); font-size: 1.125rem; padding: 1rem 2rem;">
+          <span>Register as Delegate</span>
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+          </svg>
+        </a>
       </div>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="border-t bg-background py-12">
-    <div class="container mx-auto px-4">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div class="space-y-4">
-          <div class="flex items-center gap-2 font-display font-bold text-xl">
-            <img src="assets/logo/lgumun-logo.svg" alt="LGU MUN" class="w-10 h-10">
-            <span>LGU MUN 2026</span>
+  <footer class="footer-simple">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 2rem; text-align: left;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+            <img src="/assets/logo/lgumun-logo.svg" alt="LGU MUN" style="width: 40px; height: 40px;">
+            <span style="font-family: var(--font-display); font-weight: 700; font-size: 1.125rem;">LGU MUN 2026</span>
           </div>
-          <p class="text-sm text-muted-foreground">Lahore Garrison University Inter-University Model United Nations</p>
+          <p style="font-size: 0.875rem; color: var(--text-tertiary);">Lahore Garrison University Inter-University Model United Nations</p>
         </div>
         <div>
-          <h4 class="font-medium mb-4">Quick Links</h4>
-          <ul class="space-y-2 text-sm text-muted-foreground">
-            <li><a href="/" class="hover:text-primary">Home</a></li>
-            <li><a href="/committees.html" class="hover:text-primary">Committees</a></li>
-            <li><a href="/register.html" class="hover:text-primary">Register</a></li>
+          <h4 style="font-weight: 600; margin-bottom: 1rem; font-size: 1rem;">Quick Links</h4>
+          <ul style="list-style: none; padding: 0; margin: 0;">
+            <li style="margin-bottom: 0.5rem;"><a href="/" style="font-size: 0.875rem; color: var(--text-tertiary);">Home</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="/committees.html" style="font-size: 0.875rem; color: var(--text-tertiary);">Committees</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="/register.html" style="font-size: 0.875rem; color: var(--text-tertiary);">Register</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="font-medium mb-4">Contact</h4>
-          <ul class="space-y-2 text-sm text-muted-foreground">
-            <li><a href="mailto:mun@lgu.edu.pk" class="hover:text-primary">mun@lgu.edu.pk</a></li>
-            <li>Lahore Garrison University</li>
-            <li>Lahore, Pakistan</li>
+          <h4 style="font-weight: 600; margin-bottom: 1rem; font-size: 1rem;">Contact</h4>
+          <ul style="list-style: none; padding: 0; margin: 0;">
+            <li style="margin-bottom: 0.5rem;"><a href="mailto:mun@lgu.edu.pk" style="font-size: 0.875rem; color: var(--text-tertiary);">mun@lgu.edu.pk</a></li>
+            <li style="margin-bottom: 0.5rem; font-size: 0.875rem; color: var(--text-tertiary);">Lahore Garrison University</li>
+            <li style="margin-bottom: 0.5rem; font-size: 0.875rem; color: var(--text-tertiary);">Lahore, Pakistan</li>
           </ul>
         </div>
       </div>
-      <div class="mt-12 pt-8 border-t text-center text-sm text-muted-foreground">
-        &copy; 2026 LGU MUN Society. All rights reserved.
+      <div style="border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+        <p style="text-align: center; font-size: 0.875rem; color: var(--text-tertiary); margin: 0;">&copy; 2026 LGU MUN Society. All rights reserved.</p>
       </div>
     </div>
   </footer>
 
+  <!-- JavaScript -->
+  <script src="/js/industrial.js"></script>
   <script>
-    // Update registration count
+    // Update registration count from API
     async function updateStats() {
       try {
         const response = await fetch('/api/v1/delegates/count');
         if (response.ok) {
           const data = await response.json();
-          document.getElementById('stat-registered').textContent = data.data.count || 0;
+          const countElement = document.getElementById('stat-registered');
+          if (countElement && data.data && typeof data.data.count === 'number') {
+            countElement.textContent = data.data.count;
+          }
         }
       } catch (error) {
-        console.error('Failed to fetch stats:', error);
+        console.error('Failed to fetch registration stats:', error);
       }
     }
-    document.addEventListener('DOMContentLoaded', updateStats);
+
+    // Initialize on page load
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', updateStats);
+    } else {
+      updateStats();
+    }
   </script>
 </body>
 </html>

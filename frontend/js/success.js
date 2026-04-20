@@ -7,15 +7,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const email = params.get('email');
 
   // Check for missing params
-  if (!rollNumber || !name || !committee || !email) {
-    document.getElementById('success-content').classList.add('hidden');
-    document.getElementById('error-content').classList.remove('hidden');
+  if (!rollNumber || !committee || !email) {
+    document.getElementById('success-content').style.display = 'none';
+    document.getElementById('error-content').style.display = 'block';
     return;
   }
 
   // Set values (textContent only, never innerHTML)
   document.getElementById('roll-number').textContent = rollNumber;
-  document.getElementById('delegate-name').textContent = name;
-  document.getElementById('committee-name').textContent = committee;
-  document.getElementById('delegate-email').textContent = email;
+  document.getElementById('detail-roll').textContent = rollNumber;
+  document.getElementById('detail-committee').textContent = committee;
+  document.getElementById('detail-email').textContent = email;
 });

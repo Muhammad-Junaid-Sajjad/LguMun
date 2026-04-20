@@ -5,223 +5,217 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registration Success - LGU Inter-University MUN 2026</title>
   <meta name="description" content="Your registration for LGU Inter-University MUN 2026 - June is complete">
-  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="/css/globals.css">
   <link rel="stylesheet" href="/css/theme.css">
-  <link rel="stylesheet" href="/css/main.css">
-  <link rel="stylesheet" href="/css/design-enhancements.css">
-  <link rel="stylesheet" href="/css/responsive.css">
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            border: 'hsl(var(--border))',
-            input: 'hsl(var(--input))',
-            ring: 'hsl(var(--ring))',
-            background: 'hsl(var(--background))',
-            foreground: 'hsl(var(--foreground))',
-            primary: {
-              DEFAULT: 'hsl(var(--primary))',
-              foreground: 'hsl(var(--primary-foreground))',
-            },
-            secondary: {
-              DEFAULT: 'hsl(var(--secondary))',
-              foreground: 'hsl(var(--secondary-foreground))',
-            },
-            destructive: {
-              DEFAULT: 'hsl(var(--destructive))',
-              foreground: 'hsl(var(--destructive-foreground))',
-            },
-            muted: {
-              DEFAULT: 'hsl(var(--muted))',
-              foreground: 'hsl(var(--muted-foreground))',
-            },
-            accent: {
-              DEFAULT: 'hsl(var(--accent))',
-              foreground: 'hsl(var(--accent-foreground))',
-            },
-            card: {
-              DEFAULT: 'hsl(var(--card))',
-              foreground: 'hsl(var(--card-foreground))',
-            },
-          },
-          borderRadius: {
-            lg: 'var(--radius)',
-            md: 'calc(var(--radius) - 2px)',
-            sm: 'calc(var(--radius) - 4px)',
-          },
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            display: ['Poppins', 'sans-serif'],
-          },
-        },
-      },
-    }
-  </script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap');
-
-    :root {
-      --background: 0 0% 100%;
-      --foreground: 222.2 84% 4.9%;
-      --card: 0 0% 100%;
-      --card-foreground: 222.2 84% 4.9%;
-      --muted: 221.2 63.6% 97.8%;
-      --muted-foreground: 215.4 16.3% 46.9%;
-      --accent: 221.2 83.2% 53.3%;
-      --accent-foreground: 210 40% 98%;
-      --destructive: 0 84.2% 60.2%;
-      --destructive-foreground: 210 40% 98%;
-      --border: 214.3 31.8% 91.4%;
-      --input: 214.3 31.8% 91.4%;
-      --primary: 221.2 83.2% 53.3%;
-      --primary-foreground: 210 40% 98%;
-      --secondary: 217.2 91.2% 59.8%;
-      --secondary-foreground: 222.2 47.4% 11.2%;
-      --ring: 221.2 83.2% 53.3%;
-      --radius: 0.5rem;
-    }
-
-    @layer base {
-      * { border-color: hsl(var(--border)); }
-      body { background-color: hsl(var(--background)); color: hsl(var(--foreground)); }
-    }
-  </style>
+  <link rel="stylesheet" href="/css/industrial.css">
 </head>
-<body class="min-h-screen bg-background font-sans antialiased">
+<body>
   <!-- Navbar -->
-  <header class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-    <div class="container mx-auto px-4 h-16 flex items-center justify-between">
-      <a href="/" class="flex items-center gap-2 font-display font-bold text-xl">
-        <img src="assets/logo/lgumun-logo.svg" alt="LGU MUN" class="w-10 h-10">
-        <span class="hidden sm:inline">LGU MUN 2026</span>
+  <header class="navbar">
+    <div class="container">
+      <a href="/" class="navbar-brand">
+        <img src="assets/logo/lgumun-logo.svg" alt="LGU MUN" class="navbar-logo">
+        <span class="navbar-title">LGU MUN 2026</span>
       </a>
-      <nav class="flex items-center gap-4">
-        <a href="/" class="text-sm font-medium transition-colors hover:text-primary">Home</a>
-        <a href="/committees.html" class="text-sm font-medium transition-colors hover:text-primary">Committees</a>
-        <a href="/register.html" class="text-sm font-medium transition-colors hover:text-primary">Register</a>
+      <nav class="navbar-nav">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/committees.html" class="nav-link">Committees</a>
+        <a href="/register.html" class="nav-link">Register</a>
       </nav>
     </div>
   </header>
 
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <div class="container">
+      <a href="/" class="breadcrumb-link">Home</a>
+      <span class="breadcrumb-separator">/</span>
+      <span class="breadcrumb-current">Registration Success</span>
+    </div>
+  </div>
+
   <!-- Success Content -->
-  <section class="py-12 md:py-20 bg-gradient-subtle">
-    <div class="container mx-auto px-4 max-w-2xl">
+  <section class="section">
+    <div class="container" style="max-width: 800px;">
       <!-- Success Card -->
-      <div id="success-content" class="card-enhanced p-8 md:p-12 text-center">
+      <div id="success-content" class="card">
         <!-- Success Icon -->
-        <div class="mx-auto mb-8 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-success to-success-dark text-5xl text-white shadow-glow-primary animate-scale-in">
-          ✓
+        <div class="success-icon">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="32" cy="32" r="32" fill="#10b981"/>
+            <path d="M20 32L28 40L44 24" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </div>
 
-        <h1 class="text-display-2 mb-3 animate-fade-in-up">Registration Complete!</h1>
-        <p class="text-body mb-10 animate-fade-in-up stagger-1">Your seat has been secured. Save your roll number below.</p>
+        <h1 class="page-title">Registration Complete!</h1>
+        <p class="text-center" style="margin-bottom: 2rem; color: var(--text-secondary);">Your seat has been secured for LGU Inter-University MUN 2026.</p>
 
-        <!-- Roll Number Card -->
-        <div class="mb-10 rounded-2xl border-2 border-primary-600 bg-gradient-to-br from-primary-50 to-secondary-50 p-10 shadow-glow-primary animate-fade-in-up stagger-2">
-          <p class="text-caption mb-3">Your Delegate Roll Number</p>
-          <div id="roll-number" class="font-mono text-5xl font-extrabold text-gradient-primary tracking-widest">LGU-MUN26-000</div>
+        <!-- Warning Banner -->
+        <div class="alert alert-warning">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 9V13M12 17H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div>
+            <strong>Save your roll number!</strong>
+            <p>You'll need it for check-in at the event. No email confirmation will be sent.</p>
+          </div>
         </div>
 
-        <!-- Save Banner -->
-        <div class="mb-10 rounded-xl border-2 border-warning bg-warning-light p-5 text-left animate-fade-in-up stagger-3">
-          <div class="flex gap-3">
-            <div class="text-warning-dark text-2xl flex-shrink-0">⚠️</div>
-            <div>
-              <h4 class="font-semibold text-warning-dark mb-1 text-lg">Important</h4>
-              <p class="text-sm text-warning-dark">Screenshot or note down this roll number. You will need it at the event. No email confirmation is sent.</p>
+        <!-- Roll Number Display -->
+        <div class="roll-number-card">
+          <p class="roll-number-label">Your Delegate Roll Number</p>
+          <div id="roll-number" class="roll-number">LGU-MUN26-000</div>
+        </div>
+
+        <!-- Registration Details -->
+        <div class="details-card">
+          <h3 class="section-title">Registration Details</h3>
+          <div class="details-grid">
+            <div class="detail-row">
+              <span class="detail-label">Roll Number</span>
+              <span id="detail-roll" class="detail-value">—</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Committee</span>
+              <span id="detail-committee" class="detail-value">—</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Email</span>
+              <span id="detail-email" class="detail-value">—</span>
             </div>
           </div>
         </div>
 
-        <!-- Details Card -->
-        <div class="rounded-xl border border-gray-200 bg-white p-8 mb-10 text-left shadow-sm animate-fade-in-up stagger-4">
-          <h3 class="text-heading-3 mb-6 pb-4 border-b border-gray-200">Your Registration Details</h3>
-          <div class="space-y-4">
-            <div class="flex justify-between items-center py-2">
-              <span class="text-body-sm">Name</span>
-              <span id="delegate-name" class="font-semibold text-gray-900">—</span>
+        <!-- Export Options -->
+        <div class="export-buttons">
+          <button onclick="exportToPDF()" class="btn btn-secondary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15M7 10L12 15M12 15L17 10M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Download PDF
+          </button>
+          <button onclick="addToCalendar()" class="btn btn-secondary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 7V3M16 7V3M7 11H17M5 21H19C20.1046 21 21 20.1046 21 19V7C21 5.89543 20.1046 5 19 5H5C3.89543 5 3 5.89543 3 7V19C3 20.1046 3.89543 21 5 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Add to Calendar
+          </button>
+        </div>
+
+        <!-- What's Next Section -->
+        <div class="whats-next">
+          <h3 class="section-title">What's Next?</h3>
+          <ol class="steps-list">
+            <li class="step-item">
+              <span class="step-number">1</span>
+              <div class="step-content">
+                <strong>Save Your Roll Number</strong>
+                <p>Screenshot or write down your roll number. You'll need it at check-in.</p>
+              </div>
+            </li>
+            <li class="step-item">
+              <span class="step-number">2</span>
+              <div class="step-content">
+                <strong>Prepare Your Position Paper</strong>
+                <p>Research your committee's agenda and prepare your position paper.</p>
+              </div>
+            </li>
+            <li class="step-item">
+              <span class="step-number">3</span>
+              <div class="step-content">
+                <strong>Arrive on Time</strong>
+                <p>Event starts June 15, 2026 at 9:00 AM. Arrive 30 minutes early for registration.</p>
+              </div>
+            </li>
+            <li class="step-item">
+              <span class="step-number">4</span>
+              <div class="step-content">
+                <strong>Bring Required Documents</strong>
+                <p>Student ID card and your roll number for verification.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="contact-info">
+          <h3 class="section-title">Need Help?</h3>
+          <p style="margin-bottom: 1rem;">Contact us if you have any questions:</p>
+          <div class="contact-details">
+            <div class="contact-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 8L10.89 13.26C11.2187 13.4793 11.6049 13.5963 12 13.5963C12.3951 13.5963 12.7813 13.4793 13.11 13.26L21 8M5 19H19C19.5304 19 20.0391 18.7893 20.4142 18.4142C20.7893 18.0391 21 17.5304 21 17V7C21 6.46957 20.7893 5.96086 20.4142 5.58579C20.0391 5.21071 19.5304 5 19 5H5C4.46957 5 3.96086 5.21071 3.58579 5.58579C3.21071 5.96086 3 6.46957 3 7V17C3 17.5304 3.21071 18.0391 3.58579 18.4142C3.96086 18.7893 4.46957 19 5 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <a href="mailto:mun@lgu.edu.pk">mun@lgu.edu.pk</a>
             </div>
-            <div class="flex justify-between items-center py-2 border-t border-gray-100">
-              <span class="text-body-sm">Committee</span>
-              <span id="committee-name" class="font-semibold text-gradient-primary">—</span>
-            </div>
-            <div class="flex justify-between items-center py-2 border-t border-gray-100">
-              <span class="text-body-sm">Email</span>
-              <span id="delegate-email" class="font-semibold text-gray-900">—</span>
+            <div class="contact-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8.228 9C8.228 8.20435 8.54407 7.44129 9.10668 6.87868C9.66929 6.31607 10.4324 6 11.228 6H12.772C13.5676 6 14.3307 6.31607 14.8933 6.87868C15.4559 7.44129 15.772 8.20435 15.772 9C15.772 11.5 14 12.5 12 13.5M12 18H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <a href="/faq.html">View FAQ</a>
             </div>
           </div>
         </div>
 
         <!-- Action Buttons -->
-        <div class="flex flex-col sm:flex-row gap-4">
-          <a href="/committees.html" class="btn-enhanced-secondary flex-1 inline-flex items-center justify-center">
-            View All Committees
-          </a>
-          <a href="/register.html" class="btn-enhanced-primary flex-1 inline-flex items-center justify-center">
-            <span>Register Another</span>
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-            </svg>
-          </a>
+        <div class="action-buttons">
+          <a href="/" class="btn btn-secondary">Back to Home</a>
+          <a href="/register.html" class="btn btn-primary">Register Another Delegate</a>
         </div>
       </div>
 
       <!-- Error State -->
-      <div id="error-content" class="hidden">
-        <div class="card-enhanced p-12 text-center">
-          <div class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-error-light text-4xl text-error">
-            ✕
-          </div>
-          <h2 class="text-heading-1 text-error mb-4">Error</h2>
-          <p class="text-body mb-8">Registration information not found. Please register again.</p>
-          <a href="/register.html" class="btn-enhanced-primary">
-            <span>Go to Registration</span>
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-            </svg>
-          </a>
+      <div id="error-content" class="card" style="display: none;">
+        <div class="error-icon">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="32" cy="32" r="32" fill="#ef4444"/>
+            <path d="M24 24L40 40M40 24L24 40" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h2 class="page-title">Registration Not Found</h2>
+        <p class="text-center" style="margin-bottom: 2rem; color: var(--text-secondary);">We couldn't find your registration information. Please register again.</p>
+        <div class="action-buttons">
+          <a href="/register.html" class="btn btn-primary">Go to Registration</a>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="border-t bg-background py-12">
-    <div class="container mx-auto px-4">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div class="space-y-4">
-          <div class="flex items-center gap-2 font-display font-bold text-xl">
-            <img src="assets/logo/lgumun-logo.svg" alt="LGU MUN" class="w-10 h-10">
-            <span>LGU MUN 2026</span>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-section">
+          <div class="footer-brand">
+            <img src="assets/logo/lgumun-logo.svg" alt="LGU MUN" class="footer-logo">
+            <span class="footer-title">LGU MUN 2026</span>
           </div>
-          <p class="text-sm text-muted-foreground">Lahore Garrison University Inter-University Model United Nations</p>
+          <p class="footer-description">Lahore Garrison University Inter-University Model United Nations</p>
         </div>
-        <div>
-          <h4 class="font-medium mb-4">Quick Links</h4>
-          <ul class="space-y-2 text-sm text-muted-foreground">
-            <li><a href="/" class="hover:text-primary">Home</a></li>
-            <li><a href="/committees.html" class="hover:text-primary">Committees</a></li>
-            <li><a href="/register.html" class="hover:text-primary">Register</a></li>
+        <div class="footer-section">
+          <h4 class="footer-heading">Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/committees.html">Committees</a></li>
+            <li><a href="/register.html">Register</a></li>
           </ul>
         </div>
-        <div>
-          <h4 class="font-medium mb-4">Contact</h4>
-          <ul class="space-y-2 text-sm text-muted-foreground">
-            <li><a href="mailto:mun@lgu.edu.pk" class="hover:text-primary">mun@lgu.edu.pk</a></li>
+        <div class="footer-section">
+          <h4 class="footer-heading">Contact</h4>
+          <ul class="footer-links">
+            <li><a href="mailto:mun@lgu.edu.pk">mun@lgu.edu.pk</a></li>
             <li>Lahore Garrison University</li>
             <li>Lahore, Pakistan</li>
           </ul>
         </div>
       </div>
-      <div class="mt-12 pt-8 border-t text-center text-sm text-muted-foreground">
-        &copy; 2026 LGU MUN Society. All rights reserved.
+      <div class="footer-bottom">
+        <p>&copy; 2026 LGU MUN Society. All rights reserved.</p>
       </div>
     </div>
   </footer>
 
+  <script src="js/industrial.js"></script>
   <script src="js/success.js"></script>
 </body>
 </html>

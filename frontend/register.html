@@ -5,285 +5,331 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register - LGU Inter-University MUN 2026</title>
   <meta name="description" content="Register as a delegate for LGU Inter-University MUN 2026 - June">
-  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="/css/globals.css">
   <link rel="stylesheet" href="/css/theme.css">
-  <link rel="stylesheet" href="/css/main.css">
-  <link rel="stylesheet" href="/css/design-enhancements.css">
-  <link rel="stylesheet" href="/css/responsive.css">
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            border: 'hsl(var(--border))',
-            input: 'hsl(var(--input))',
-            ring: 'hsl(var(--ring))',
-            background: 'hsl(var(--background))',
-            foreground: 'hsl(var(--foreground))',
-            primary: {
-              DEFAULT: 'hsl(var(--primary))',
-              foreground: 'hsl(var(--primary-foreground))',
-            },
-            secondary: {
-              DEFAULT: 'hsl(var(--secondary))',
-              foreground: 'hsl(var(--secondary-foreground))',
-            },
-            destructive: {
-              DEFAULT: 'hsl(var(--destructive))',
-              foreground: 'hsl(var(--destructive-foreground))',
-            },
-            muted: {
-              DEFAULT: 'hsl(var(--muted))',
-              foreground: 'hsl(var(--muted-foreground))',
-            },
-            accent: {
-              DEFAULT: 'hsl(var(--accent))',
-              foreground: 'hsl(var(--accent-foreground))',
-            },
-            card: {
-              DEFAULT: 'hsl(var(--card))',
-              foreground: 'hsl(var(--card-foreground))',
-            },
-          },
-          borderRadius: {
-            lg: 'var(--radius)',
-            md: 'calc(var(--radius) - 2px)',
-            sm: 'calc(var(--radius) - 4px)',
-          },
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            display: ['Poppins', 'sans-serif'],
-          },
-        },
-      },
-    }
-  </script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap');
-
-    :root {
-      --background: 0 0% 100%;
-      --foreground: 222.2 84% 4.9%;
-      --card: 0 0% 100%;
-      --card-foreground: 222.2 84% 4.9%;
-      --muted: 221.2 63.6% 97.8%;
-      --muted-foreground: 215.4 16.3% 46.9%;
-      --accent: 221.2 83.2% 53.3%;
-      --accent-foreground: 210 40% 98%;
-      --destructive: 0 84.2% 60.2%;
-      --destructive-foreground: 210 40% 98%;
-      --border: 214.3 31.8% 91.4%;
-      --input: 214.3 31.8% 91.4%;
-      --primary: 221.2 83.2% 53.3%;
-      --primary-foreground: 210 40% 98%;
-      --secondary: 217.2 91.2% 59.8%;
-      --secondary-foreground: 222.2 47.4% 11.2%;
-      --ring: 221.2 83.2% 53.3%;
-      --radius: 0.5rem;
-    }
-
-    @layer base {
-      * { border-color: hsl(var(--border)); }
-      body { background-color: hsl(var(--background)); color: hsl(var(--foreground)); }
-    }
-  </style>
+  <link rel="stylesheet" href="/css/industrial.css">
 </head>
-<body class="min-h-screen bg-background font-sans antialiased">
+<body>
   <!-- Navbar -->
-  <header class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-    <div class="container mx-auto px-4 h-16 flex items-center justify-between">
-      <a href="/" class="flex items-center gap-2 font-display font-bold text-xl">
-        <img src="assets/logo/lgumun-logo.svg" alt="LGU MUN" class="w-10 h-10">
-        <span class="hidden sm:inline">LGU MUN 2026</span>
+  <header class="navbar">
+    <div class="container navbar-content">
+      <a href="/" class="navbar-brand">
+        <img src="assets/logo/lgumun-logo.svg" alt="LGU MUN" class="navbar-logo">
+        <span class="navbar-title">LGU MUN 2026</span>
       </a>
-      <nav class="flex items-center gap-4">
-        <a href="/" class="text-sm font-medium transition-colors hover:text-primary">Home</a>
-        <a href="/committees.html" class="text-sm font-medium transition-colors hover:text-primary">Committees</a>
-        <a href="/register.html" class="text-sm font-medium text-primary">Register</a>
+      <nav class="navbar-links">
+        <a href="/" class="navbar-link">Home</a>
+        <a href="/committees.html" class="navbar-link">Committees</a>
+        <a href="/register.html" class="navbar-link navbar-link-active">Register</a>
       </nav>
     </div>
   </header>
 
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <div class="container">
+      <a href="/" class="breadcrumb-link">Home</a>
+      <span class="breadcrumb-separator">/</span>
+      <span class="breadcrumb-current">Register</span>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" class="loading-overlay" style="display: none;">
+    <div class="loading-spinner"></div>
+    <p class="loading-text">Submitting your registration...</p>
+  </div>
+
   <!-- Registration Form -->
-  <section class="py-12 md:py-20 bg-gradient-subtle">
-    <div class="container mx-auto px-4 max-w-2xl">
-      <div class="card-enhanced p-8 md:p-12">
+  <section class="section">
+    <div class="container" style="max-width: 800px;">
+      <div class="card">
         <!-- Form Header -->
-        <div class="mb-8 text-center">
-          <h1 class="text-display-2 mb-3">Delegate Registration</h1>
-          <p class="text-body">Complete all fields to secure your place at LGU MUN 2026</p>
+        <div class="form-header">
+          <h1 class="form-title">Delegate Registration</h1>
+          <p class="form-subtitle">Complete all fields to secure your place at LGU MUN 2026</p>
         </div>
 
         <!-- Progress Steps -->
-        <div class="flex gap-3 mb-10 justify-center">
-          <div class="h-1.5 w-20 rounded-full bg-gradient-brand shadow-glow-primary" id="step1"></div>
-          <div class="h-1.5 w-20 rounded-full bg-gray-200" id="step2"></div>
-          <div class="h-1.5 w-20 rounded-full bg-gray-200" id="step3"></div>
+        <div class="progress-steps">
+          <div class="progress-step progress-step-active" id="progress-step-1">
+            <div class="progress-step-number">1</div>
+            <div class="progress-step-label">Personal Info</div>
+          </div>
+          <div class="progress-step" id="progress-step-2">
+            <div class="progress-step-number">2</div>
+            <div class="progress-step-label">Committee Selection</div>
+          </div>
+          <div class="progress-step" id="progress-step-3">
+            <div class="progress-step-number">3</div>
+            <div class="progress-step-label">Confirmation</div>
+          </div>
         </div>
 
         <!-- Error Banner -->
-        <div id="error-banner" class="hidden mb-6 rounded-xl border-2 border-error bg-error-light p-5">
-          <div class="flex gap-3">
-            <div class="text-error text-2xl flex-shrink-0">⚠️</div>
-            <div>
-              <h4 class="font-semibold text-error mb-1 text-lg">Error</h4>
-              <p class="text-sm text-error-dark" id="error-message"></p>
-            </div>
+        <div id="error-banner" class="alert alert-error" style="display: none;">
+          <div class="alert-icon">⚠️</div>
+          <div class="alert-content">
+            <h4 class="alert-title">Registration Error</h4>
+            <p class="alert-message" id="error-message"></p>
+            <button class="alert-action" id="error-retry">Try Again</button>
+          </div>
+        </div>
+
+        <!-- Success Banner -->
+        <div id="success-banner" class="alert alert-success" style="display: none;">
+          <div class="alert-icon">✓</div>
+          <div class="alert-content">
+            <h4 class="alert-title">Registration Successful!</h4>
+            <p class="alert-message" id="success-message"></p>
           </div>
         </div>
 
         <!-- Registration Form -->
-        <form id="registration-form" class="space-y-6">
-          <!-- Full Name -->
-          <div>
-            <label for="full_name" class="block text-sm font-semibold mb-2 text-gray-700">
-              Full Name <span class="text-error">*</span>
-            </label>
-            <input
-              type="text"
-              id="full_name"
-              name="full_name"
-              placeholder="Enter your full name as on ID"
-              class="input-enhanced"
-            >
-            <p class="text-sm text-error mt-2 hidden font-medium" id="full_name-error"></p>
+        <form id="registration-form" class="form">
+          <!-- Step 1: Personal Information -->
+          <div class="form-step" id="step-1">
+            <h2 class="form-step-title">Personal Information</h2>
+
+            <!-- Full Name -->
+            <div class="form-group">
+              <label for="full_name" class="form-label">
+                Full Name <span class="form-required">*</span>
+                <span class="form-tooltip" data-tooltip="Enter your full legal name as it appears on your ID">ⓘ</span>
+              </label>
+              <input
+                type="text"
+                id="full_name"
+                name="full_name"
+                placeholder="Enter your full name as on ID"
+                class="form-input"
+                required
+              >
+              <p class="form-error" id="full_name-error"></p>
+              <p class="form-success" id="full_name-success"></p>
+            </div>
+
+            <!-- Student ID / CNIC -->
+            <div class="form-group">
+              <label for="student_id_cnic" class="form-label">
+                Student ID / CNIC <span class="form-required">*</span>
+                <span class="form-tooltip" data-tooltip="Enter your university student ID or national CNIC number">ⓘ</span>
+              </label>
+              <input
+                type="text"
+                id="student_id_cnic"
+                name="student_id_cnic"
+                placeholder="e.g. 12345-1234567-1 or STU-2024-001"
+                class="form-input"
+                required
+              >
+              <p class="form-hint">Format: CNIC (12345-1234567-1) or Student ID</p>
+              <p class="form-error" id="student_id_cnic-error"></p>
+              <p class="form-success" id="student_id_cnic-success"></p>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+              <label for="email" class="form-label">
+                Email Address <span class="form-required">*</span>
+                <span class="form-tooltip" data-tooltip="We'll send confirmation and updates to this email">ⓘ</span>
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="your@email.com"
+                class="form-input"
+                required
+              >
+              <p class="form-error" id="email-error"></p>
+              <p class="form-success" id="email-success"></p>
+            </div>
+
+            <!-- Phone -->
+            <div class="form-group">
+              <label for="phone" class="form-label">
+                Phone Number <span class="form-required">*</span>
+                <span class="form-tooltip" data-tooltip="Enter a valid Pakistani mobile number">ⓘ</span>
+              </label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                placeholder="03001234567"
+                class="form-input"
+                required
+              >
+              <p class="form-hint">Format: 03001234567 or +923001234567</p>
+              <p class="form-error" id="phone-error"></p>
+              <p class="form-success" id="phone-success"></p>
+            </div>
+
+            <!-- Institution -->
+            <div class="form-group">
+              <label for="institution" class="form-label">
+                Institution <span class="form-required">*</span>
+                <span class="form-tooltip" data-tooltip="Enter your university or college name">ⓘ</span>
+              </label>
+              <input
+                type="text"
+                id="institution"
+                name="institution"
+                placeholder="Lahore Garrison University"
+                class="form-input"
+                required
+              >
+              <p class="form-error" id="institution-error"></p>
+              <p class="form-success" id="institution-success"></p>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
+              <button type="button" class="btn btn-primary" id="next-step-1">Next: Committee Selection</button>
+            </div>
           </div>
 
-          <!-- Student ID / CNIC -->
-          <div>
-            <label for="student_id_cnic" class="block text-sm font-semibold mb-2 text-gray-700">
-              Student ID / CNIC <span class="text-error">*</span>
-            </label>
-            <input
-              type="text"
-              id="student_id_cnic"
-              name="student_id_cnic"
-              placeholder="e.g. 12345-1234567-1"
-              class="input-enhanced"
-            >
-            <p class="text-sm text-error mt-2 hidden font-medium" id="student_id_cnic-error"></p>
+          <!-- Step 2: Committee Selection -->
+          <div class="form-step" id="step-2" style="display: none;">
+            <h2 class="form-step-title">Committee Selection</h2>
+
+            <!-- Committee -->
+            <div class="form-group">
+              <label for="committee_id" class="form-label">
+                Select Committee <span class="form-required">*</span>
+                <span class="form-tooltip" data-tooltip="Choose the committee you wish to participate in">ⓘ</span>
+              </label>
+              <select
+                id="committee_id"
+                name="committee_id"
+                class="form-select"
+                required
+              >
+                <option value="">-- Select a Committee --</option>
+              </select>
+              <p class="form-hint">View <a href="/committees.html" class="form-link">all committees</a> for details</p>
+              <p class="form-error" id="committee_id-error"></p>
+              <p class="form-success" id="committee_id-success"></p>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn btn-secondary" id="prev-step-2">Back</button>
+              <button type="button" class="btn btn-primary" id="next-step-2">Next: Confirmation</button>
+            </div>
           </div>
 
-          <!-- Email -->
-          <div>
-            <label for="email" class="block text-sm font-semibold mb-2 text-gray-700">
-              Email Address <span class="text-error">*</span>
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="your@email.com"
-              class="input-enhanced"
-            >
-            <p class="text-sm text-error mt-2 hidden font-medium" id="email-error"></p>
-          </div>
+          <!-- Step 3: Confirmation -->
+          <div class="form-step" id="step-3" style="display: none;">
+            <h2 class="form-step-title">Confirm Your Registration</h2>
 
-          <!-- Phone -->
-          <div>
-            <label for="phone" class="block text-sm font-semibold mb-2 text-gray-700">
-              Phone Number <span class="text-error">*</span>
-            </label>
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              placeholder="03001234567"
-              class="input-enhanced"
-            >
-            <p class="text-xs text-gray-500 mt-2">Format: 03001234567 or +923001234567</p>
-            <p class="text-sm text-error mt-2 hidden font-medium" id="phone-error"></p>
-          </div>
+            <div class="confirmation-card">
+              <h3 class="confirmation-title">Review Your Information</h3>
+              <div class="confirmation-grid">
+                <div class="confirmation-item">
+                  <span class="confirmation-label">Full Name:</span>
+                  <span class="confirmation-value" id="confirm-full_name"></span>
+                </div>
+                <div class="confirmation-item">
+                  <span class="confirmation-label">Student ID / CNIC:</span>
+                  <span class="confirmation-value" id="confirm-student_id_cnic"></span>
+                </div>
+                <div class="confirmation-item">
+                  <span class="confirmation-label">Email:</span>
+                  <span class="confirmation-value" id="confirm-email"></span>
+                </div>
+                <div class="confirmation-item">
+                  <span class="confirmation-label">Phone:</span>
+                  <span class="confirmation-value" id="confirm-phone"></span>
+                </div>
+                <div class="confirmation-item">
+                  <span class="confirmation-label">Institution:</span>
+                  <span class="confirmation-value" id="confirm-institution"></span>
+                </div>
+                <div class="confirmation-item">
+                  <span class="confirmation-label">Committee:</span>
+                  <span class="confirmation-value" id="confirm-committee"></span>
+                </div>
+              </div>
+            </div>
 
-          <!-- Institution -->
-          <div>
-            <label for="institution" class="block text-sm font-semibold mb-2 text-gray-700">
-              Institution <span class="text-error">*</span>
-            </label>
-            <input
-              type="text"
-              id="institution"
-              name="institution"
-              placeholder="Lahore Garrison University"
-              class="input-enhanced"
-            >
-            <p class="text-sm text-error mt-2 hidden font-medium" id="institution-error"></p>
-          </div>
+            <div class="form-group">
+              <label class="form-checkbox">
+                <input type="checkbox" id="terms-checkbox" required>
+                <span>I agree to the event code of conduct and terms</span>
+              </label>
+              <p class="form-error" id="terms-error"></p>
+            </div>
 
-          <!-- Committee -->
-          <div>
-            <label for="committee_id" class="block text-sm font-semibold mb-2 text-gray-700">
-              Select Committee <span class="text-error">*</span>
-            </label>
-            <select
-              id="committee_id"
-              name="committee_id"
-              class="select-enhanced"
-            >
-              <option value="">-- Select a Committee --</option>
-            </select>
-            <p class="text-sm text-error mt-2 hidden font-medium" id="committee_id-error"></p>
+            <div class="form-actions">
+              <button type="button" class="btn btn-secondary" id="prev-step-3">Back</button>
+              <button type="submit" class="btn btn-primary" id="submit-btn">
+                <span>Complete Registration</span>
+              </button>
+            </div>
           </div>
-
-          <!-- Submit Button -->
-          <button
-            type="submit"
-            id="submit-btn"
-            class="btn-enhanced-primary w-full h-14 text-lg mt-4"
-          >
-            <span>Register as Delegate</span>
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-            </svg>
-          </button>
         </form>
 
         <!-- Form Note -->
-        <p class="text-center text-sm text-gray-500 mt-8">
+        <p class="form-note">
           By registering you agree to the event code of conduct.
-          <a href="/committees.html" class="text-primary-600 hover:text-primary-700 font-semibold hover:underline">View all committees →</a>
+          <a href="/committees.html" class="form-link">View all committees →</a>
         </p>
       </div>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="border-t bg-background py-12">
-    <div class="container mx-auto px-4">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div class="space-y-4">
-          <div class="flex items-center gap-2 font-display font-bold text-xl">
-            <img src="assets/logo/lgumun-logo.svg" alt="LGU MUN" class="w-10 h-10">
-            <span>LGU MUN 2026</span>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-section">
+          <div class="footer-brand">
+            <img src="assets/logo/lgumun-logo.svg" alt="LGU MUN" class="footer-logo">
+            <span class="footer-title">LGU MUN 2026</span>
           </div>
-          <p class="text-sm text-muted-foreground">Lahore Garrison University Inter-University Model United Nations</p>
+          <p class="footer-description">Lahore Garrison University Inter-University Model United Nations</p>
         </div>
-        <div>
-          <h4 class="font-medium mb-4">Quick Links</h4>
-          <ul class="space-y-2 text-sm text-muted-foreground">
-            <li><a href="/" class="hover:text-primary">Home</a></li>
-            <li><a href="/committees.html" class="hover:text-primary">Committees</a></li>
-            <li><a href="/register.html" class="hover:text-primary">Register</a></li>
+        <div class="footer-section">
+          <h4 class="footer-heading">Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="/" class="footer-link">Home</a></li>
+            <li><a href="/committees.html" class="footer-link">Committees</a></li>
+            <li><a href="/register.html" class="footer-link">Register</a></li>
           </ul>
         </div>
-        <div>
-          <h4 class="font-medium mb-4">Contact</h4>
-          <ul class="space-y-2 text-sm text-muted-foreground">
-            <li><a href="mailto:mun@lgu.edu.pk" class="hover:text-primary">mun@lgu.edu.pk</a></li>
-            <li>Lahore Garrison University</li>
-            <li>Lahore, Pakistan</li>
+        <div class="footer-section">
+          <h4 class="footer-heading">Contact</h4>
+          <ul class="footer-links">
+            <li><a href="mailto:mun@lgu.edu.pk" class="footer-link">mun@lgu.edu.pk</a></li>
+            <li class="footer-text">Lahore Garrison University</li>
+            <li class="footer-text">Lahore, Pakistan</li>
           </ul>
         </div>
       </div>
-      <div class="mt-12 pt-8 border-t text-center text-sm text-muted-foreground">
-        &copy; 2026 LGU MUN Society. All rights reserved.
+      <div class="footer-bottom">
+        <p>&copy; 2026 LGU MUN Society. All rights reserved.</p>
       </div>
     </div>
   </footer>
 
+  <!-- Confirmation Dialog -->
+  <div id="confirmation-dialog" class="dialog-overlay" style="display: none;">
+    <div class="dialog">
+      <div class="dialog-header">
+        <h3 class="dialog-title">Confirm Submission</h3>
+      </div>
+      <div class="dialog-content">
+        <p>Are you sure you want to submit your registration? Please ensure all information is correct.</p>
+      </div>
+      <div class="dialog-actions">
+        <button class="btn btn-secondary" id="dialog-cancel">Review Again</button>
+        <button class="btn btn-primary" id="dialog-confirm">Yes, Submit</button>
+      </div>
+    </div>
+  </div>
+
   <script src="js/api.js"></script>
+  <script src="js/industrial.js"></script>
   <script src="js/register.js"></script>
 </body>
 </html>

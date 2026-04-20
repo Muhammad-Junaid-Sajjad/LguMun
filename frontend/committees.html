@@ -5,315 +5,490 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Committees - LGU Inter-University MUN 2026</title>
   <meta name="description" content="Explore all committees for LGU Inter-University MUN 2026 - June">
-  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="/css/globals.css">
   <link rel="stylesheet" href="/css/theme.css">
-  <link rel="stylesheet" href="/css/main.css">
-  <link rel="stylesheet" href="/css/design-enhancements.css">
-  <link rel="stylesheet" href="/css/responsive.css">
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            border: 'hsl(var(--border))',
-            input: 'hsl(var(--input))',
-            ring: 'hsl(var(--ring))',
-            background: 'hsl(var(--background))',
-            foreground: 'hsl(var(--foreground))',
-            primary: {
-              DEFAULT: 'hsl(var(--primary))',
-              foreground: 'hsl(var(--primary-foreground))',
-            },
-            secondary: {
-              DEFAULT: 'hsl(var(--secondary))',
-              foreground: 'hsl(var(--secondary-foreground))',
-            },
-            destructive: {
-              DEFAULT: 'hsl(var(--destructive))',
-              foreground: 'hsl(var(--destructive-foreground))',
-            },
-            muted: {
-              DEFAULT: 'hsl(var(--muted))',
-              foreground: 'hsl(var(--muted-foreground))',
-            },
-            accent: {
-              DEFAULT: 'hsl(var(--accent))',
-              foreground: 'hsl(var(--accent-foreground))',
-            },
-            card: {
-              DEFAULT: 'hsl(var(--card))',
-              foreground: 'hsl(var(--card-foreground))',
-            },
-          },
-          borderRadius: {
-            lg: 'var(--radius)',
-            md: 'calc(var(--radius) - 2px)',
-            sm: 'calc(var(--radius) - 4px)',
-          },
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            display: ['Poppins', 'sans-serif'],
-          },
-        },
-      },
-    }
-  </script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap');
-
-    :root {
-      --background: 0 0% 100%;
-      --foreground: 222.2 84% 4.9%;
-      --card: 0 0% 100%;
-      --card-foreground: 222.2 84% 4.9%;
-      --muted: 221.2 63.6% 97.8%;
-      --muted-foreground: 215.4 16.3% 46.9%;
-      --accent: 221.2 83.2% 53.3%;
-      --accent-foreground: 210 40% 98%;
-      --destructive: 0 84.2% 60.2%;
-      --destructive-foreground: 210 40% 98%;
-      --border: 214.3 31.8% 91.4%;
-      --input: 214.3 31.8% 91.4%;
-      --primary: 221.2 83.2% 53.3%;
-      --primary-foreground: 210 40% 98%;
-      --secondary: 217.2 91.2% 59.8%;
-      --secondary-foreground: 222.2 47.4% 11.2%;
-      --ring: 221.2 83.2% 53.3%;
-      --radius: 0.5rem;
-    }
-
-    @layer base {
-      * { border-color: hsl(var(--border)); }
-      body { background-color: hsl(var(--background)); color: hsl(var(--foreground)); }
-    }
-  </style>
+  <link rel="stylesheet" href="/css/industrial.css">
 </head>
-<body class="min-h-screen bg-background font-sans antialiased">
+<body>
   <!-- Navbar -->
-  <header class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-    <div class="container mx-auto px-4 h-16 flex items-center justify-between">
-      <a href="/" class="flex items-center gap-2 font-display font-bold text-xl">
-        <img src="assets/logo/lgumun-logo.svg" alt="LGU MUN" class="w-10 h-10">
-        <span class="hidden sm:inline">LGU MUN 2026</span>
+  <header class="navbar-simple">
+    <div class="container">
+      <a href="/" class="logo">
+        <img src="/assets/logo/lgumun-logo.svg" alt="LGU MUN">
+        <span>LGU MUN 2026</span>
       </a>
-      <nav class="flex items-center gap-4">
-        <a href="/" class="text-sm font-medium transition-colors hover:text-primary">Home</a>
-        <a href="/committees.html" class="text-sm font-medium text-primary">Committees</a>
-        <a href="/register.html" class="text-sm font-medium transition-colors hover:text-primary">Register</a>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/committees.html" class="active">Committees</a>
+        <a href="/register.html">Register</a>
       </nav>
     </div>
   </header>
 
-  <!-- Page Header -->
-  <section class="border-b bg-gradient-subtle py-16">
-    <div class="container mx-auto px-4">
-      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-        <div>
-          <h1 class="text-display-2 mb-3">All Committees</h1>
-          <p class="text-body" id="committees-count">9 committees • 255 total seats</p>
+  <!-- Main Content -->
+  <main style="padding-top: 64px;">
+    <!-- Breadcrumb -->
+    <section class="section" style="padding-top: var(--space-lg); padding-bottom: 0;">
+      <div class="container">
+        <nav class="breadcrumb">
+          <a href="/">Home</a>
+          <span>/</span>
+          <span class="current">Committees</span>
+        </nav>
+      </div>
+    </section>
+
+    <!-- Page Header -->
+    <section class="section" style="padding-top: var(--space-md);">
+      <div class="container">
+        <div class="page-header">
+          <h1>All Committees</h1>
+          <p id="results-count">9 committees</p>
         </div>
-        <a href="/register.html" class="btn-enhanced-primary">
-          <span>Register Now</span>
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-          </svg>
-        </a>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Committees Table -->
-  <section class="py-12">
-    <div class="container mx-auto px-4">
-      <!-- Loading State -->
-      <div id="loading-skeleton" class="space-y-4">
-        <div class="h-20 bg-muted animate-pulse rounded-lg"></div>
-        <div class="h-20 bg-muted animate-pulse rounded-lg"></div>
-        <div class="h-20 bg-muted animate-pulse rounded-lg"></div>
+    <!-- Filter Bar -->
+    <section style="padding-bottom: var(--space-xl);">
+      <div class="container">
+        <div class="filter-bar">
+          <input
+            type="text"
+            id="search-input"
+            class="search-input"
+            placeholder="Search committees..."
+            aria-label="Search committees"
+          >
+          <select id="language-filter" class="filter-select" aria-label="Filter by language">
+            <option value="all">All Languages</option>
+            <option value="English">English</option>
+            <option value="Urdu">Urdu</option>
+          </select>
+          <select id="status-filter" class="filter-select" aria-label="Filter by status">
+            <option value="all">All Status</option>
+            <option value="available">Available</option>
+            <option value="limited">Limited</option>
+            <option value="full">Full</option>
+          </select>
+        </div>
       </div>
+    </section>
 
-      <!-- Committees Table -->
-      <div id="committees-table" class="hidden">
-        <div class="rounded-lg border bg-card">
-          <div class="overflow-x-auto">
-            <table class="w-full">
-              <thead class="border-b bg-muted/50">
-                <tr>
-                  <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Committee</th>
-                  <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground hidden md:table-cell">Full Name</th>
-                  <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground hidden sm:table-cell">Language</th>
-                  <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Capacity</th>
-                  <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Status</th>
-                </tr>
-              </thead>
-              <tbody id="committees-tbody" class="divide-y">
-                <!-- Rows will be inserted here -->
-              </tbody>
-            </table>
+    <!-- Data Table (Desktop) -->
+    <section style="padding-bottom: var(--space-3xl);">
+      <div class="container">
+        <div class="table-container">
+          <table class="data-table" id="committees-table">
+            <thead>
+              <tr>
+                <th data-sortable>Code</th>
+                <th data-sortable>Committee Name</th>
+                <th data-sortable>Language</th>
+                <th data-sortable>Seats</th>
+                <th data-sortable>Available</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="committees-tbody">
+              <!-- UNSC -->
+              <tr>
+                <td><span class="font-mono font-bold">UNSC</span></td>
+                <td>United Nations Security Council</td>
+                <td data-language="English">English</td>
+                <td>15</td>
+                <td>3</td>
+                <td data-status="limited">
+                  <span class="badge badge-warning">Limited</span>
+                </td>
+                <td>
+                  <a href="/register.html?committee=UNSC" class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">Register</a>
+                </td>
+              </tr>
+
+              <!-- UNGA -->
+              <tr>
+                <td><span class="font-mono font-bold">UNGA</span></td>
+                <td>United Nations General Assembly</td>
+                <td data-language="English">English</td>
+                <td>50</td>
+                <td>18</td>
+                <td data-status="available">
+                  <span class="badge badge-success">Available</span>
+                </td>
+                <td>
+                  <a href="/register.html?committee=UNGA" class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">Register</a>
+                </td>
+              </tr>
+
+              <!-- UNHRC -->
+              <tr>
+                <td><span class="font-mono font-bold">UNHRC</span></td>
+                <td>United Nations Human Rights Council</td>
+                <td data-language="English">English</td>
+                <td>47</td>
+                <td>12</td>
+                <td data-status="available">
+                  <span class="badge badge-success">Available</span>
+                </td>
+                <td>
+                  <a href="/register.html?committee=UNHRC" class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">Register</a>
+                </td>
+              </tr>
+
+              <!-- ECOSOC -->
+              <tr>
+                <td><span class="font-mono font-bold">ECOSOC</span></td>
+                <td>Economic and Social Council</td>
+                <td data-language="English">English</td>
+                <td>54</td>
+                <td>22</td>
+                <td data-status="available">
+                  <span class="badge badge-success">Available</span>
+                </td>
+                <td>
+                  <a href="/register.html?committee=ECOSOC" class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">Register</a>
+                </td>
+              </tr>
+
+              <!-- DISEC -->
+              <tr>
+                <td><span class="font-mono font-bold">DISEC</span></td>
+                <td>Disarmament and International Security Committee</td>
+                <td data-language="English">English</td>
+                <td>30</td>
+                <td>8</td>
+                <td data-status="available">
+                  <span class="badge badge-success">Available</span>
+                </td>
+                <td>
+                  <a href="/register.html?committee=DISEC" class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">Register</a>
+                </td>
+              </tr>
+
+              <!-- WHO -->
+              <tr>
+                <td><span class="font-mono font-bold">WHO</span></td>
+                <td>World Health Organization</td>
+                <td data-language="English">English</td>
+                <td>25</td>
+                <td>0</td>
+                <td data-status="full">
+                  <span class="badge badge-error">Full</span>
+                </td>
+                <td>
+                  <button class="btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.875rem;" disabled>Full</button>
+                </td>
+              </tr>
+
+              <!-- UNEP -->
+              <tr>
+                <td><span class="font-mono font-bold">UNEP</span></td>
+                <td>United Nations Environment Programme</td>
+                <td data-language="English">English</td>
+                <td>20</td>
+                <td>5</td>
+                <td data-status="available">
+                  <span class="badge badge-success">Available</span>
+                </td>
+                <td>
+                  <a href="/register.html?committee=UNEP" class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">Register</a>
+                </td>
+              </tr>
+
+              <!-- PNA -->
+              <tr>
+                <td><span class="font-mono font-bold">PNA</span></td>
+                <td>Pakistan National Assembly</td>
+                <td data-language="Urdu">Urdu</td>
+                <td>10</td>
+                <td>4</td>
+                <td data-status="available">
+                  <span class="badge badge-info">National</span>
+                </td>
+                <td>
+                  <a href="/register.html?committee=PNA" class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">Register</a>
+                </td>
+              </tr>
+
+              <!-- ICC -->
+              <tr>
+                <td><span class="font-mono font-bold">ICC</span></td>
+                <td>International Criminal Court</td>
+                <td data-language="English">English</td>
+                <td>4</td>
+                <td>1</td>
+                <td data-status="limited">
+                  <span class="badge badge-warning">Limited</span>
+                </td>
+                <td>
+                  <a href="/register.html?committee=ICC" class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">Register</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Mobile Card View -->
+        <div class="card-stack">
+          <!-- UNSC -->
+          <div class="card-simple">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--space-md);">
+              <div>
+                <div class="font-mono font-bold" style="font-size: 1.25rem; color: var(--primary);">UNSC</div>
+                <div style="font-size: 0.875rem; color: var(--text-secondary); margin-top: var(--space-xs);">United Nations Security Council</div>
+              </div>
+              <span class="badge badge-warning">Limited</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); margin-bottom: var(--space-md);">
+              <div>
+                <div style="font-size: 0.75rem; color: var(--text-tertiary); text-transform: uppercase;">Language</div>
+                <div style="font-weight: 600;">English</div>
+              </div>
+              <div>
+                <div style="font-size: 0.75rem; color: var(--text-tertiary); text-transform: uppercase;">Available</div>
+                <div style="font-weight: 600;">3 / 15</div>
+              </div>
+            </div>
+            <a href="/register.html?committee=UNSC" class="btn-primary" style="width: 100%;">Register</a>
+          </div>
+
+          <!-- UNGA -->
+          <div class="card-simple">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--space-md);">
+              <div>
+                <div class="font-mono font-bold" style="font-size: 1.25rem; color: var(--primary);">UNGA</div>
+                <div style="font-size: 0.875rem; color: var(--text-secondary); margin-top: var(--space-xs);">United Nations General Assembly</div>
+              </div>
+              <span class="badge badge-success">Available</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); margin-bottom: var(--space-md);">
+              <div>
+                <div style="font-size: 0.75rem; color: var(--text-tertiary); text-transform: uppercase;">Language</div>
+                <div style="font-weight: 600;">English</div>
+              </div>
+              <div>
+                <div style="font-size: 0.75rem; color: var(--text-tertiary); text-transform: uppercase;">Available</div>
+                <div style="font-weight: 600;">18 / 50</div>
+              </div>
+            </div>
+            <a href="/register.html?committee=UNGA" class="btn-primary" style="width: 100%;">Register</a>
+          </div>
+
+          <!-- UNHRC -->
+          <div class="card-simple">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--space-md);">
+              <div>
+                <div class="font-mono font-bold" style="font-size: 1.25rem; color: var(--primary);">UNHRC</div>
+                <div style="font-size: 0.875rem; color: var(--text-secondary); margin-top: var(--space-xs);">United Nations Human Rights Council</div>
+              </div>
+              <span class="badge badge-success">Available</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); margin-bottom: var(--space-md);">
+              <div>
+                <div style="font-size: 0.75rem; color: var(--text-tertiary); text-transform: uppercase;">Language</div>
+                <div style="font-weight: 600;">English</div>
+              </div>
+              <div>
+                <div style="font-size: 0.75rem; color: var(--text-tertiary); text-transform: uppercase;">Available</div>
+                <div style="font-weight: 600;">12 / 47</div>
+              </div>
+            </div>
+            <a href="/register.html?committee=UNHRC" class="btn-primary" style="width: 100%;">Register</a>
+          </div>
+
+          <!-- ECOSOC -->
+          <div class="card-simple">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--space-md);">
+              <div>
+                <div class="font-mono font-bold" style="font-size: 1.25rem; color: var(--primary);">ECOSOC</div>
+                <div style="font-size: 0.875rem; color: var(--text-secondary); margin-top: var(--space-xs);">Economic and Social Council</div>
+              </div>
+              <span class="badge badge-success">Available</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); margin-bottom: var(--space-md);">
+              <div>
+                <div style="font-size: 0.75rem; color: var(--text-tertiary); text-transform: uppercase;">Language</div>
+                <div style="font-weight: 600;">English</div>
+              </div>
+              <div>
+                <div style="font-size: 0.75rem; color: var(--text-tertiary); text-transform: uppercase;">Available</div>
+                <div style="font-weight: 600;">22 / 54</div>
+              </div>
+            </div>
+            <a href="/register.html?committee=ECOSOC" class="btn-primary" style="width: 100%;">Register</a>
+          </div>
+
+          <!-- DISEC -->
+          <div class="card-simple">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--space-md);">
+              <div>
+                <div class="font-mono font-bold" style="font-size: 1.25rem; color: var(--primary);">DISEC</div>
+                <div style="font-size: 0.875rem; color: var(--text-secondary); margin-top: var(--space-xs);">Disarmament and International Security Committee</div>
+              </div>
+              <span class="badge badge-success">Available</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); margin-bottom: var(--space-md);">
+              <div>
+                <div style="font-size: 0.75rem; color: var(--text-tertiary); text-transform: uppercase;">Language</div>
+                <div style="font-weight: 600;">English</div>
+              </div>
+              <div>
+                <div style="font-size: 0.75rem; color: var(--text-tertiary); text-transform: uppercase;">Available</div>
+                <div style="font-weight: 600;">8 / 30</div>
+              </div>
+            </div>
+            <a href="/register.html?committee=DISEC" class="btn-primary" style="width: 100%;">Register</a>
+          </div>
+
+          <!-- WHO -->
+          <div class="card-simple">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--space-md);">
+              <div>
+                <div class="font-mono font-bold" style="font-size: 1.25rem; color: var(--primary);">WHO</div>
+                <div style="font-size: 0.875rem; color: var(--text-secondary); margin-top: var(--space-xs);">World Health Organization</div>
+              </div>
+              <span class="badge badge-error">Full</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); margin-bottom: var(--space-md);">
+              <div>
+                <div style="font-size: 0.75rem; color: var(--text-tertiary); text-transform: uppercase;">Language</div>
+                <div style="font-weight: 600;">English</div>
+              </div>
+              <div>
+                <div style="font-size: 0.75rem; color: var(--text-tertiary); text-transform: uppercase;">Available</div>
+                <div style="font-weight: 600;">0 / 25</div>
+              </div>
+            </div>
+            <button class="btn-secondary" style="width: 100%;" disabled>Full</button>
+          </div>
+
+          <!-- UNEP -->
+          <div class="card-simple">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--space-md);">
+              <div>
+                <div class="font-mono font-bold" style="font-size: 1.25rem; color: var(--primary);">UNEP</div>
+                <div style="font-size: 0.875rem; color: var(--text-secondary); margin-top: var(--space-xs);">United Nations Environment Programme</div>
+              </div>
+              <span class="badge badge-success">Available</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); margin-bottom: var(--space-md);">
+              <div>
+                <div style="font-size: 0.75rem; color: var(--text-tertiary); text-transform: uppercase;">Language</div>
+                <div style="font-weight: 600;">English</div>
+              </div>
+              <div>
+                <div style="font-size: 0.75rem; color: var(--text-tertiary); text-transform: uppercase;">Available</div>
+                <div style="font-weight: 600;">5 / 20</div>
+              </div>
+            </div>
+            <a href="/register.html?committee=UNEP" class="btn-primary" style="width: 100%;">Register</a>
+          </div>
+
+          <!-- PNA -->
+          <div class="card-simple">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--space-md);">
+              <div>
+                <div class="font-mono font-bold" style="font-size: 1.25rem; color: var(--primary);">PNA</div>
+                <div style="font-size: 0.875rem; color: var(--text-secondary); margin-top: var(--space-xs);">Pakistan National Assembly</div>
+              </div>
+              <span class="badge badge-info">National</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); margin-bottom: var(--space-md);">
+              <div>
+                <div style="font-size: 0.75rem; color: var(--text-tertiary); text-transform: uppercase;">Language</div>
+                <div style="font-weight: 600;">Urdu</div>
+              </div>
+              <div>
+                <div style="font-size: 0.75rem; color: var(--text-tertiary); text-transform: uppercase;">Available</div>
+                <div style="font-weight: 600;">4 / 10</div>
+              </div>
+            </div>
+            <a href="/register.html?committee=PNA" class="btn-primary" style="width: 100%;">Register</a>
+          </div>
+
+          <!-- ICC -->
+          <div class="card-simple">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--space-md);">
+              <div>
+                <div class="font-mono font-bold" style="font-size: 1.25rem; color: var(--primary);">ICC</div>
+                <div style="font-size: 0.875rem; color: var(--text-secondary); margin-top: var(--space-xs);">International Criminal Court</div>
+              </div>
+              <span class="badge badge-warning">Limited</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); margin-bottom: var(--space-md);">
+              <div>
+                <div style="font-size: 0.75rem; color: var(--text-tertiary); text-transform: uppercase;">Language</div>
+                <div style="font-weight: 600;">English</div>
+              </div>
+              <div>
+                <div style="font-size: 0.75rem; color: var(--text-tertiary); text-transform: uppercase;">Available</div>
+                <div style="font-weight: 600;">1 / 4</div>
+              </div>
+            </div>
+            <a href="/register.html?committee=ICC" class="btn-primary" style="width: 100%;">Register</a>
           </div>
         </div>
       </div>
+    </section>
 
-      <!-- Error State -->
-      <div id="error-state" class="hidden">
-        <div class="rounded-lg border bg-card p-12 text-center">
-          <h3 class="text-lg font-semibold mb-2">Failed to Load Committees</h3>
-          <p class="text-muted-foreground mb-6">Please try again later.</p>
-          <button onclick="location.reload()" class="inline-flex h-10 items-center justify-center rounded-md bg-primary px-6 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90">
-            Retry
-          </button>
-        </div>
+    <!-- CTA Section -->
+    <section class="section" style="background: var(--bg-secondary);">
+      <div class="container text-center">
+        <h2>Ready to Register?</h2>
+        <p style="font-size: 1.125rem; margin-bottom: var(--space-xl);">Choose your committee and secure your spot at LGU MUN 2026</p>
+        <a href="/register.html" class="btn-primary" style="padding: 1rem 2rem; font-size: 1.125rem;">Register as Delegate</a>
       </div>
-    </div>
-  </section>
-
-  <!-- CTA Section -->
-  <section class="py-20 bg-gradient-subtle">
-    <div class="container mx-auto px-4">
-      <div class="relative rounded-3xl overflow-hidden p-16 text-center shadow-elevated">
-        <div class="absolute inset-0 bg-gradient-brand"></div>
-        <div class="absolute inset-0 bg-pattern-dots opacity-10"></div>
-        <div class="relative z-10 text-white">
-          <h2 class="text-display-2 mb-6">Ready to Register?</h2>
-          <p class="text-xl opacity-95 mb-10 max-w-2xl mx-auto font-medium">Choose your committee and secure your spot at LGU MUN 2026</p>
-          <a href="/register.html" class="inline-flex items-center gap-2 h-14 px-10 rounded-xl bg-white text-primary-600 font-display font-bold text-lg shadow-xl transition-all hover:shadow-2xl hover:scale-105 hover:bg-gray-50">
-            <span>Register as Delegate</span>
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <!-- Footer -->
-  <footer class="border-t bg-background py-12">
-    <div class="container mx-auto px-4">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div class="space-y-4">
-          <div class="flex items-center gap-2 font-display font-bold text-xl">
-            <img src="assets/logo/lgumun-logo.svg" alt="LGU MUN" class="w-10 h-10">
-            <span>LGU MUN 2026</span>
+  <footer class="footer-simple">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-xl); margin-bottom: var(--space-xl);">
+        <div>
+          <div style="display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-md);">
+            <img src="/assets/logo/lgumun-logo.svg" alt="LGU MUN" style="width: 40px; height: 40px;">
+            <span style="font-family: var(--font-display); font-weight: 700; font-size: 1.125rem;">LGU MUN 2026</span>
           </div>
-          <p class="text-sm text-muted-foreground">Lahore Garrison University Inter-University Model United Nations</p>
+          <p style="font-size: 0.875rem; color: var(--text-tertiary);">Lahore Garrison University Inter-University Model United Nations</p>
         </div>
         <div>
-          <h4 class="font-medium mb-4">Quick Links</h4>
-          <ul class="space-y-2 text-sm text-muted-foreground">
-            <li><a href="/" class="hover:text-primary">Home</a></li>
-            <li><a href="/committees.html" class="hover:text-primary">Committees</a></li>
-            <li><a href="/register.html" class="hover:text-primary">Register</a></li>
+          <h4 style="font-weight: 600; margin-bottom: var(--space-md);">Quick Links</h4>
+          <ul style="list-style: none; padding: 0; margin: 0;">
+            <li style="margin-bottom: var(--space-sm);"><a href="/">Home</a></li>
+            <li style="margin-bottom: var(--space-sm);"><a href="/committees.html">Committees</a></li>
+            <li style="margin-bottom: var(--space-sm);"><a href="/register.html">Register</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="font-medium mb-4">Contact</h4>
-          <ul class="space-y-2 text-sm text-muted-foreground">
-            <li><a href="mailto:mun@lgu.edu.pk" class="hover:text-primary">mun@lgu.edu.pk</a></li>
-            <li>Lahore Garrison University</li>
-            <li>Lahore, Pakistan</li>
+          <h4 style="font-weight: 600; margin-bottom: var(--space-md);">Contact</h4>
+          <ul style="list-style: none; padding: 0; margin: 0;">
+            <li style="margin-bottom: var(--space-sm);"><a href="mailto:mun@lgu.edu.pk">mun@lgu.edu.pk</a></li>
+            <li style="margin-bottom: var(--space-sm);">Lahore Garrison University</li>
+            <li style="margin-bottom: var(--space-sm);">Lahore, Pakistan</li>
           </ul>
         </div>
       </div>
-      <div class="mt-12 pt-8 border-t text-center text-sm text-muted-foreground">
-        &copy; 2026 LGU MUN Society. All rights reserved.
+      <div style="border-top: 1px solid var(--border-color); padding-top: var(--space-lg);">
+        <p>&copy; 2026 LGU MUN Society. All rights reserved.</p>
       </div>
     </div>
   </footer>
 
-  <script src="js/api.js"></script>
+  <!-- Scripts -->
+  <script src="/js/industrial.js"></script>
+  <script src="/js/data-table.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      const loadingSkeleton = document.getElementById('loading-skeleton');
-      const committeesTable = document.getElementById('committees-table');
-      const committeesTbody = document.getElementById('committees-tbody');
-      const errorState = document.getElementById('error-state');
+    // Initialize data table with filtering
+    document.addEventListener('DOMContentLoaded', () => {
+      const tableInstance = new DataTable('committees-table', {
+        searchable: true,
+        sortable: true
+      });
 
-      try {
-        const data = await apiGet('/committees');
-        const committees = data.data.committees;
-
-        // Hide loading, show table
-        loadingSkeleton.classList.add('hidden');
-        committeesTable.classList.remove('hidden');
-
-        // Update count
-        const totalSeats = committees.reduce((sum, c) => sum + c.total_seats, 0);
-        document.getElementById('committees-count').textContent =
-          `${committees.length} committees • ${totalSeats} total seats`;
-
-        // Render table rows
-        committees.forEach(committee => {
-          const row = createCommitteeRow(committee);
-          committeesTbody.appendChild(row);
-        });
-
-      } catch (error) {
-        loadingSkeleton.classList.add('hidden');
-        errorState.classList.remove('hidden');
-        console.error('Failed to load committees:', error);
-      }
+      setupFilters(tableInstance);
     });
-
-    function createCommitteeRow(committee) {
-      const tr = document.createElement('tr');
-      tr.className = 'hover:bg-muted/50 transition-colors';
-
-      const isFull = committee.filled_seats >= committee.total_seats;
-      const isPNA = committee.short_name === 'PNA';
-      const capacityPercentage = Math.round((committee.filled_seats / committee.total_seats) * 100);
-
-      // Status badge
-      let statusBadge = '';
-      if (isFull) {
-        statusBadge = '<span class="inline-flex items-center rounded-full bg-destructive px-2.5 py-0.5 text-xs font-semibold text-destructive-foreground">Full</span>';
-      } else if (capacityPercentage > 70) {
-        statusBadge = '<span class="inline-flex items-center rounded-full bg-yellow-500 px-2.5 py-0.5 text-xs font-semibold text-white">Limited</span>';
-      } else if (isPNA) {
-        statusBadge = '<span class="inline-flex items-center rounded-full bg-secondary px-2.5 py-0.5 text-xs font-semibold text-secondary-foreground">National</span>';
-      } else {
-        statusBadge = '<span class="inline-flex items-center rounded-full bg-green-500 px-2.5 py-0.5 text-xs font-semibold text-white">Available</span>';
-      }
-
-      // Progress bar color
-      let progressColor = 'bg-primary';
-      if (isFull) {
-        progressColor = 'bg-destructive';
-      } else if (capacityPercentage > 70) {
-        progressColor = 'bg-yellow-500';
-      }
-
-      tr.innerHTML = `
-        <td class="p-4 align-middle">
-          <div class="font-display font-bold text-lg text-primary">${committee.short_name}</div>
-          <div class="text-sm text-muted-foreground md:hidden">${committee.full_name}</div>
-        </td>
-        <td class="p-4 align-middle hidden md:table-cell">
-          <div class="font-medium">${committee.full_name}</div>
-        </td>
-        <td class="p-4 align-middle hidden sm:table-cell">
-          <div class="text-sm">${committee.language}</div>
-        </td>
-        <td class="p-4 align-middle">
-          <div class="space-y-2 min-w-[120px]">
-            <div class="flex justify-between text-xs">
-              <span class="text-muted-foreground">${committee.filled_seats}/${committee.total_seats}</span>
-              <span class="font-medium">${capacityPercentage}%</span>
-            </div>
-            <div class="h-2 rounded-full bg-muted overflow-hidden">
-              <div class="h-full ${progressColor} transition-all" style="width: ${capacityPercentage}%"></div>
-            </div>
-          </div>
-        </td>
-        <td class="p-4 align-middle">
-          ${statusBadge}
-        </td>
-      `;
-
-      return tr;
-    }
   </script>
 </body>
 </html>
