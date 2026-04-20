@@ -233,6 +233,14 @@
         </div>
       </div>
 
+      <div class="alert alert-success hidden" id="alert-success">
+        <span class="alert-icon">✓</span>
+        <div>
+          <div class="alert-title">Registration Successful!</div>
+          <div class="alert-msg" id="alert-success-msg"></div>
+        </div>
+      </div>
+
       <!-- STEP 1 -->
       <div class="form-card" id="step-1">
         <h2 class="form-step-title">Personal <em>Information</em></h2>
@@ -436,11 +444,12 @@
         const r = await fetch('http://localhost:8000/api/v1/committees');
         if (r.ok) {
           const d = await r.json();
-          if (d?.data) {
-            d.data.filter(c => c.available > 0).forEach(c => {
+          if (d?.data?.committees) {
+            d.data.committees.filter(c => !c.is_full).forEach(c => {
+              const available = c.total_seats - c.filled_seats;
               const opt = document.createElement('option');
-              opt.value = c.id || c.code;
-              opt.textContent = `${c.code} — ${c.name} (${c.available} seats left)`;
+              opt.value = c.id;
+              opt.textContent = `${c.short_name} — ${c.full_name} (${available} seats left)`;
               sel.appendChild(opt);
             });
             return;
@@ -490,7 +499,18 @@
         if (r.ok && d?.data) {
           const roll = d.data.roll_number || d.data.rollNumber || d.data.id;
           sessionStorage.setItem('mun_registration', JSON.stringify({ ...formData, roll_number: roll, ...d.data }));
-          window.location.href = '/success.html';
+          // Show success alert before redirect
+          const alertEl = document.getElementById('alert-success');
+          if (alertEl) {
+            document.getElementById('alert-success-msg').textContent = `Registration successful! Your roll number is ${roll}. Redirecting to success page...`;
+            alertEl.classList.remove('hidden');
+            btn.disabled = true;
+            setTimeout(() => {
+              window.location.href = '/success.html';
+            }, 1500);
+          } else {
+            window.location.href = '/success.html';
+          }
         } else {
           throw new Error(d?.message || d?.detail || 'Registration failed. Please try again.');
         }

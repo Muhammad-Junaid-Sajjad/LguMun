@@ -359,8 +359,15 @@
         const r = await fetch('http://localhost:8000/api/v1/committees');
         if (r.ok) {
           const d = await r.json();
-          if (d?.data) {
-            committees = d.data;
+          if (d?.data?.committees) {
+            committees = d.data.committees.map(c => ({
+              code: c.short_name,
+              name: c.full_name,
+              lang: c.language,
+              seats: c.total_seats,
+              available: c.total_seats - c.filled_seats,
+              status: c.is_full ? 'full' : (c.available < 5 ? 'limited' : 'available')
+            }));
             renderTable(committees);
           }
         }
