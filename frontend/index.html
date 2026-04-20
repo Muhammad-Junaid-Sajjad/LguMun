@@ -4,157 +4,277 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LGU MUN 2026 - Delegate Registration</title>
-  <meta name="description" content="Lahore Garrison University Model United Nations 2026 - Register as a delegate">
-  <link rel="stylesheet" href="css/theme.css">
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/responsive.css">
+  <meta name="description" content="Lahore Garrison University Model United Nations 2026">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            border: 'hsl(var(--border))',
+            input: 'hsl(var(--input))',
+            ring: 'hsl(var(--ring))',
+            background: 'hsl(var(--background))',
+            foreground: 'hsl(var(--foreground))',
+            primary: {
+              DEFAULT: 'hsl(var(--primary))',
+              foreground: 'hsl(var(--primary-foreground))',
+            },
+            secondary: {
+              DEFAULT: 'hsl(var(--secondary))',
+              foreground: 'hsl(var(--secondary-foreground))',
+            },
+            destructive: {
+              DEFAULT: 'hsl(var(--destructive))',
+              foreground: 'hsl(var(--destructive-foreground))',
+            },
+            muted: {
+              DEFAULT: 'hsl(var(--muted))',
+              foreground: 'hsl(var(--muted-foreground))',
+            },
+            accent: {
+              DEFAULT: 'hsl(var(--accent))',
+              foreground: 'hsl(var(--accent-foreground))',
+            },
+            popover: {
+              DEFAULT: 'hsl(var(--popover))',
+              foreground: 'hsl(var(--popover-foreground))',
+            },
+            card: {
+              DEFAULT: 'hsl(var(--card))',
+              foreground: 'hsl(var(--card-foreground))',
+            },
+          },
+          borderRadius: {
+            lg: 'var(--radius)',
+            md: 'calc(var(--radius) - 2px)',
+            sm: 'calc(var(--radius) - 4px)',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Poppins', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap');
+
+    :root {
+      --background: 0 0% 100%;
+      --foreground: 222.2 84% 4.9%;
+      --card: 0 0% 100%;
+      --card-foreground: 222.2 84% 4.9%;
+      --popover: 0 0% 100%;
+      --popover-foreground: 222.2 84% 4.9%;
+      --muted: 221.2 63.6% 97.8%;
+      --muted-foreground: 215.4 16.3% 46.9%;
+      --accent: 221.2 83.2% 53.3%;
+      --accent-foreground: 210 40% 98%;
+      --destructive: 0 84.2% 60.2%;
+      --destructive-foreground: 210 40% 98%;
+      --border: 214.3 31.8% 91.4%;
+      --input: 214.3 31.8% 91.4%;
+      --primary: 221.2 83.2% 53.3%;
+      --primary-foreground: 210 40% 98%;
+      --secondary: 217.2 91.2% 59.8%;
+      --secondary-foreground: 222.2 47.4% 11.2%;
+      --ring: 221.2 83.2% 53.3%;
+      --radius: 0.5rem;
+    }
+
+    .dark {
+      --background: 222.2 84% 4.9%;
+      --foreground: 210 40% 98%;
+      --card: 222.2 84% 4.9%;
+      --card-foreground: 210 40% 98%;
+      --popover: 222.2 84% 4.9%;
+      --popover-foreground: 210 40% 98%;
+      --muted: 217.2 32.6% 17.5%;
+      --muted-foreground: 215 20.3% 65.1%;
+      --accent: 217.2 91.2% 59.8%;
+      --accent-foreground: 222.2 47.4% 11.2%;
+      --destructive: 0 62.8% 30.6%;
+      --destructive-foreground: 210 40% 98%;
+      --border: 217.2 32.6% 17.5%;
+      --input: 217.2 32.6% 17.5%;
+      --primary: 217.2 91.2% 59.8%;
+      --primary-foreground: 222.2 47.4% 11.2%;
+      --secondary: 221.2 83.2% 53.3%;
+      --secondary-foreground: 210 40% 98%;
+      --ring: 217.2 91.2% 59.8%;
+    }
+
+    @layer base {
+      * { border-color: hsl(var(--border)); }
+      body { background-color: hsl(var(--background)); color: hsl(var(--foreground)); }
+    }
+
+    @layer utilities {
+      .text-balance { text-wrap: balance; }
+    }
+  </style>
 </head>
-<body>
+<body class="min-h-screen bg-background font-sans antialiased">
   <!-- Navbar -->
-  <nav class="navbar" id="navbar">
-    <div class="container navbar-content">
-      <a href="/" class="navbar-brand">
-        <img src="assets/logo/lgumun-logo.png" alt="LGU MUN Logo" class="navbar-logo">
-        <span class="navbar-title">LGU MUN 2026</span>
+  <header class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2 font-display font-bold text-xl">
+        <img src="assets/logo/lgumun-logo.png" alt="LGU MUN" class="w-8 h-8">
+        <span class="hidden sm:inline">LGU MUN 2026</span>
       </a>
-      <ul class="navbar-links">
-        <li><a href="/" class="active">Home</a></li>
-        <li><a href="/committees.html">Committees</a></li>
-        <li><a href="/register.html">Register</a></li>
-      </ul>
+      <nav class="flex items-center gap-4">
+        <a href="/" class="text-sm font-medium transition-colors hover:text-primary">Home</a>
+        <a href="/committees.html" class="text-sm font-medium transition-colors hover:text-primary">Committees</a>
+        <a href="/register.html" class="text-sm font-medium transition-colors hover:text-primary">Register</a>
+      </nav>
     </div>
-  </nav>
+  </header>
 
   <!-- Hero Section -->
-  <section class="hero">
-    <div class="container hero-content">
-      <img src="assets/logo/lgumun-logo.png" alt="LGU MUN Logo" class="hero-logo">
-      <h1>Model United Nations</h1>
-      <h2>2026 Edition</h2>
-      <p class="hero-meta">
-        <span>📅 April 25–27, 2026</span>
-        <span style="margin: 0 1rem;">•</span>
-        <span>📍 LGU Main Campus, Lahore</span>
+  <section class="relative overflow-hidden py-20 md:py-32">
+    <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/20 via-background to-background"></div>
+    <div class="container mx-auto px-4 text-center">
+      <img src="assets/logo/lgumun-logo.png" alt="LGU MUN" class="mx-auto w-32 h-32 mb-8 animate-float">
+      <h1 class="text-4xl md:text-6xl font-display font-bold tracking-tight mb-4">
+        Model United Nations <br class="hidden sm:block">
+        <span class="text-primary">2026</span>
+      </h1>
+      <p class="text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
+        Join the premier Model United Nations conference at Lahore Garrison University
       </p>
-      <div class="hero-buttons">
-        <a href="/register.html" class="btn btn-primary">Register Now</a>
-        <a href="/committees.html" class="btn btn-secondary">View Committees</a>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="/register.html" class="inline-flex h-11 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90">
+          Register Now
+        </a>
+        <a href="/committees.html" class="inline-flex h-11 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground">
+          View Committees
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- Stats Bar -->
-  <div class="stats-bar">
-    <div class="container stats-container">
-      <div class="stat-item">
-        <div class="stat-number" id="stat-committees">9</div>
-        <div class="stat-label">Committees</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number" id="stat-seats">255</div>
-        <div class="stat-label">Total Seats</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number" id="stat-registered">0</div>
-        <div class="stat-label">Registered</div>
+  <!-- Stats Section -->
+  <section class="border-y bg-muted/30">
+    <div class="container mx-auto px-4 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+        <div class="space-y-2">
+          <div class="text-4xl font-display font-bold text-primary">9</div>
+          <div class="text-sm font-medium text-muted-foreground uppercase tracking-wider">Committees</div>
+        </div>
+        <div class="space-y-2">
+          <div class="text-4xl font-display font-bold text-primary">255</div>
+          <div class="text-sm font-medium text-muted-foreground uppercase tracking-wider">Total Seats</div>
+        </div>
+        <div class="space-y-2">
+          <div class="text-4xl font-display font-bold text-primary" id="stat-registered">0</div>
+          <div class="text-sm font-medium text-muted-foreground uppercase tracking-wider">Registered</div>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- Featured Committees -->
-  <section class="section">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">Featured Committees</h2>
-        <p class="section-subtitle">Explore our prestigious committees and find the perfect fit for your academic interests</p>
+  <section class="py-20">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl font-display font-bold mb-4">Featured Committees</h2>
+        <p class="text-muted-foreground max-w-2xl mx-auto">Explore our prestigious committees and find the perfect fit for your academic interests</p>
       </div>
 
-      <div class="committees-grid">
-        <div class="card">
-          <div class="card-header">
-            <span class="card-code">UNGA</span>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="rounded-xl border bg-card p-6 shadow-sm transition-all hover:shadow-md">
+          <div class="flex items-start justify-between mb-4">
+            <h3 class="font-display text-2xl font-bold text-primary">UNGA</h3>
           </div>
-          <h3 class="card-title">United Nations General Assembly</h3>
-          <p class="card-meta">English • 30 Seats</p>
-          <div class="progress-wrap">
-            <div class="progress-labels">
-              <span>Capacity</span>
-              <span id="unga-seats">8/30</span>
+          <h4 class="font-medium text-lg mb-2">United Nations General Assembly</h4>
+          <p class="text-sm text-muted-foreground mb-4">English • 30 Seats</p>
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs">
+              <span class="text-muted-foreground">Capacity</span>
+              <span class="font-medium">8/30</span>
             </div>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: 27%"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <span class="card-code">UNSC</span>
-            <span class="badge badge-full">Full</span>
-          </div>
-          <h3 class="card-title">United Nations Security Council</h3>
-          <p class="card-meta">English • 15 Seats</p>
-          <div class="progress-wrap">
-            <div class="progress-labels">
-              <span>Capacity</span>
-              <span id="unsc-seats">15/15</span>
-            </div>
-            <div class="progress-bar">
-              <div class="progress-fill danger" style="width: 100%"></div>
+            <div class="h-2 rounded-full bg-muted overflow-hidden">
+              <div class="h-full bg-primary" style="width: 27%"></div>
             </div>
           </div>
         </div>
 
-        <div class="card">
-          <div class="card-header">
-            <span class="card-code">PNA</span>
-            <span class="badge badge-pna">National</span>
+        <div class="rounded-xl border bg-card p-6 shadow-sm transition-all hover:shadow-md opacity-75">
+          <div class="flex items-start justify-between mb-4">
+            <h3 class="font-display text-2xl font-bold text-primary">UNSC</h3>
+            <span class="inline-flex items-center rounded-full bg-destructive px-2.5 py-0.5 text-xs font-semibold text-destructive-foreground">Full</span>
           </div>
-          <h3 class="card-title">Pakistan National Assembly</h3>
-          <p class="card-meta" style="color: var(--color-primary);">Urdu & English • 30 Seats</p>
-          <div class="progress-wrap">
-            <div class="progress-labels">
-              <span>Capacity</span>
-              <span id="pna-seats">3/30</span>
+          <h4 class="font-medium text-lg mb-2">United Nations Security Council</h4>
+          <p class="text-sm text-muted-foreground mb-4">English • 15 Seats</p>
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs">
+              <span class="text-muted-foreground">Capacity</span>
+              <span class="font-medium">15/15</span>
             </div>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: 10%"></div>
+            <div class="h-2 rounded-full bg-muted overflow-hidden">
+              <div class="h-full bg-destructive" style="width: 100%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-xl border bg-card p-6 shadow-sm transition-all hover:shadow-md">
+          <div class="flex items-start justify-between mb-4">
+            <h3 class="font-display text-2xl font-bold text-primary">PNA</h3>
+            <span class="inline-flex items-center rounded-full bg-secondary px-2.5 py-0.5 text-xs font-semibold text-secondary-foreground">National</span>
+          </div>
+          <h4 class="font-medium text-lg mb-2">Pakistan National Assembly</h4>
+          <p class="text-sm text-primary mb-4">Urdu & English • 30 Seats</p>
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs">
+              <span class="text-muted-foreground">Capacity</span>
+              <span class="font-medium">3/30</span>
+            </div>
+            <div class="h-2 rounded-full bg-muted overflow-hidden">
+              <div class="h-full bg-primary" style="width: 10%"></div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="text-center" style="margin-top: var(--spacing-2xl)">
-        <a href="/committees.html" class="btn btn-secondary">View All 9 Committees</a>
+      <div class="text-center mt-10">
+        <a href="/committees.html" class="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-6 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground">
+          View All 9 Committees
+        </a>
       </div>
     </div>
   </section>
 
   <!-- Photo Gallery -->
-  <section class="section" style="background: var(--color-bg-secondary)">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">Past Events</h2>
-        <p class="section-subtitle">Relive the success of our previous Model United Nations conferences</p>
+  <section class="py-20 bg-muted/30">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl font-display font-bold mb-4">Past Events</h2>
+        <p class="text-muted-foreground max-w-2xl mx-auto">Relive the success of our previous Model United Nations conferences</p>
       </div>
 
-      <div class="gallery">
-        <div class="gallery-item">
-          <img src="assets/photos/event1.jpg" alt="LGU MUN 2023" class="gallery-image">
-          <div class="gallery-overlay">
-            <div class="gallery-label">MUN I · 2023</div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="group relative overflow-hidden rounded-xl aspect-[16/9]">
+          <img src="assets/photos/event1.jpg" alt="LGU MUN 2023" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+            <span class="text-sm font-medium uppercase tracking-wider opacity-80">MUN I · 2023</span>
           </div>
         </div>
-        <div class="gallery-item">
-          <img src="assets/photos/event2.jpg" alt="LGU MUN 2024" class="gallery-image">
-          <div class="gallery-overlay">
-            <div class="gallery-label">MUN II · 2024</div>
+        <div class="group relative overflow-hidden rounded-xl aspect-[16/9]">
+          <img src="assets/photos/event2.jpg" alt="LGU MUN 2024" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+            <span class="text-sm font-medium uppercase tracking-wider opacity-80">MUN II · 2024</span>
           </div>
         </div>
-        <div class="gallery-item">
-          <img src="assets/photos/event3.jpg" alt="LGU MUN 2025" class="gallery-image">
-          <div class="gallery-overlay">
-            <div class="gallery-label">MUN III · 2025</div>
+        <div class="group relative overflow-hidden rounded-xl aspect-[16/9]">
+          <img src="assets/photos/event3.jpg" alt="LGU MUN 2025" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+            <span class="text-sm font-medium uppercase tracking-wider opacity-80">MUN III · 2025</span>
           </div>
         </div>
       </div>
@@ -162,36 +282,54 @@
   </section>
 
   <!-- CTA Section -->
-  <section class="section">
-    <div class="container">
-      <div class="card" style="text-align: center; padding: var(--spacing-3xl)">
-        <h2 style="font-size: 2.5rem; margin-bottom: var(--spacing-md)">Ready to Join Us?</h2>
-        <p style="color: var(--color-text-tertiary); margin-bottom: var(--spacing-xl);">Secure your spot at LGU MUN 2026 and become part of an elite community of young leaders</p>
-        <a href="/register.html" class="btn btn-primary">Register as Delegate</a>
+  <section class="py-20">
+    <div class="container mx-auto px-4">
+      <div class="rounded-2xl bg-primary text-primary-foreground p-12 text-center shadow-xl">
+        <h2 class="text-3xl md:text-4xl font-display font-bold mb-6">Ready to Join Us?</h2>
+        <p class="text-lg opacity-90 mb-8 max-w-2xl mx-auto">Secure your spot at LGU MUN 2026 and become part of an elite community of young leaders</p>
+        <a href="/register.html" class="inline-flex h-12 items-center justify-center rounded-md bg-white text-primary px-8 font-semibold shadow transition-colors hover:bg-accent">
+          Register as Delegate
+        </a>
       </div>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="footer">
-    <div class="container footer-content">
-      <img src="assets/logo/lgumun-logo.png" alt="LGU MUN Logo" class="footer-logo">
-      <h3 class="footer-title">LGU MUN 2026</h3>
-      <div class="footer-links">
-        <a href="/">Home</a>
-        <a href="/committees.html">Committees</a>
-        <a href="/register.html">Register</a>
-        <a href="mailto:mun@lgu.edu.pk">Contact</a>
+  <footer class="border-t bg-background py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="space-y-4">
+          <div class="flex items-center gap-2 font-display font-bold text-xl">
+            <img src="assets/logo/lgumun-logo.png" alt="LGU MUN" class="w-8 h-8">
+            <span>LGU MUN 2026</span>
+          </div>
+          <p class="text-sm text-muted-foreground">Lahore Garrison University Model United Nations</p>
+        </div>
+        <div>
+          <h4 class="font-medium mb-4">Quick Links</h4>
+          <ul class="space-y-2 text-sm text-muted-foreground">
+            <li><a href="/" class="hover:text-primary">Home</a></li>
+            <li><a href="/committees.html" class="hover:text-primary">Committees</a></li>
+            <li><a href="/register.html" class="hover:text-primary">Register</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-medium mb-4">Contact</h4>
+          <ul class="space-y-2 text-sm text-muted-foreground">
+            <li><a href="mailto:mun@lgu.edu.pk" class="hover:text-primary">mun@lgu.edu.pk</a></li>
+            <li>Lahore Garrison University</li>
+            <li>Lahore, Pakistan</li>
+          </ul>
+        </div>
       </div>
-      <p class="footer-copyright">
-        &copy; 2026 LGU MUN Society. All rights reserved. | Lahore Garrison University
-      </p>
+      <div class="mt-12 pt-8 border-t text-center text-sm text-muted-foreground">
+        &copy; 2026 LGU MUN Society. All rights reserved.
+      </div>
     </div>
   </footer>
 
-  <script src="js/api.js"></script>
   <script>
-    // Update registration count on page load
+    // Update registration count
     async function updateStats() {
       try {
         const response = await fetch('/api/v1/delegates/count');
@@ -203,17 +341,6 @@
         console.error('Failed to fetch stats:', error);
       }
     }
-
-    // Navbar scroll effect
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
-      }
-    });
-
     document.addEventListener('DOMContentLoaded', updateStats);
   </script>
 </body>

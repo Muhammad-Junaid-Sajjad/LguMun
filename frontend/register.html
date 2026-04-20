@@ -5,137 +5,277 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register - LGU MUN 2026</title>
   <meta name="description" content="Register as a delegate for LGU MUN 2026">
-  <link rel="stylesheet" href="css/theme.css">
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/responsive.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            border: 'hsl(var(--border))',
+            input: 'hsl(var(--input))',
+            ring: 'hsl(var(--ring))',
+            background: 'hsl(var(--background))',
+            foreground: 'hsl(var(--foreground))',
+            primary: {
+              DEFAULT: 'hsl(var(--primary))',
+              foreground: 'hsl(var(--primary-foreground))',
+            },
+            secondary: {
+              DEFAULT: 'hsl(var(--secondary))',
+              foreground: 'hsl(var(--secondary-foreground))',
+            },
+            destructive: {
+              DEFAULT: 'hsl(var(--destructive))',
+              foreground: 'hsl(var(--destructive-foreground))',
+            },
+            muted: {
+              DEFAULT: 'hsl(var(--muted))',
+              foreground: 'hsl(var(--muted-foreground))',
+            },
+            accent: {
+              DEFAULT: 'hsl(var(--accent))',
+              foreground: 'hsl(var(--accent-foreground))',
+            },
+            card: {
+              DEFAULT: 'hsl(var(--card))',
+              foreground: 'hsl(var(--card-foreground))',
+            },
+          },
+          borderRadius: {
+            lg: 'var(--radius)',
+            md: 'calc(var(--radius) - 2px)',
+            sm: 'calc(var(--radius) - 4px)',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Poppins', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap');
+
+    :root {
+      --background: 0 0% 100%;
+      --foreground: 222.2 84% 4.9%;
+      --card: 0 0% 100%;
+      --card-foreground: 222.2 84% 4.9%;
+      --muted: 221.2 63.6% 97.8%;
+      --muted-foreground: 215.4 16.3% 46.9%;
+      --accent: 221.2 83.2% 53.3%;
+      --accent-foreground: 210 40% 98%;
+      --destructive: 0 84.2% 60.2%;
+      --destructive-foreground: 210 40% 98%;
+      --border: 214.3 31.8% 91.4%;
+      --input: 214.3 31.8% 91.4%;
+      --primary: 221.2 83.2% 53.3%;
+      --primary-foreground: 210 40% 98%;
+      --secondary: 217.2 91.2% 59.8%;
+      --secondary-foreground: 222.2 47.4% 11.2%;
+      --ring: 221.2 83.2% 53.3%;
+      --radius: 0.5rem;
+    }
+
+    @layer base {
+      * { border-color: hsl(var(--border)); }
+      body { background-color: hsl(var(--background)); color: hsl(var(--foreground)); }
+    }
+  </style>
 </head>
-<body>
+<body class="min-h-screen bg-background font-sans antialiased">
   <!-- Navbar -->
-  <nav class="navbar" id="navbar">
-    <div class="container navbar-content">
-      <a href="/" class="navbar-brand">
-        <img src="assets/logo/lgumun-logo.png" alt="LGU MUN Logo" class="navbar-logo">
-        <span class="navbar-title">LGU MUN 2026</span>
+  <header class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2 font-display font-bold text-xl">
+        <img src="assets/logo/lgumun-logo.png" alt="LGU MUN" class="w-8 h-8">
+        <span class="hidden sm:inline">LGU MUN 2026</span>
       </a>
-      <ul class="navbar-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/committees.html">Committees</a></li>
-        <li><a href="/register.html" class="active">Register</a></li>
-      </ul>
+      <nav class="flex items-center gap-4">
+        <a href="/" class="text-sm font-medium transition-colors hover:text-primary">Home</a>
+        <a href="/committees.html" class="text-sm font-medium transition-colors hover:text-primary">Committees</a>
+        <a href="/register.html" class="text-sm font-medium text-primary">Register</a>
+      </nav>
     </div>
-  </nav>
+  </header>
 
   <!-- Registration Form -->
-  <section class="section" style="padding-top: 120px;">
-    <div class="container">
-      <div class="form-container">
-        <div class="form-header">
-          <h1 class="form-title">Delegate Registration</h1>
-          <p class="form-subtitle">Complete all fields to secure your place at LGU MUN 2026</p>
+  <section class="py-12 md:py-20">
+    <div class="container mx-auto px-4 max-w-2xl">
+      <div class="rounded-2xl border bg-card shadow-lg p-8 md:p-12">
+        <!-- Form Header -->
+        <div class="mb-8">
+          <h1 class="text-3xl md:text-4xl font-display font-bold mb-2">Delegate Registration</h1>
+          <p class="text-muted-foreground">Complete all fields to secure your place at LGU MUN 2026</p>
         </div>
 
-        <!-- Form Steps -->
-        <div class="form-steps">
-          <div class="form-step completed" id="step1"></div>
-          <div class="form-step" id="step2"></div>
-          <div class="form-step" id="step3"></div>
+        <!-- Progress Steps -->
+        <div class="flex gap-2 mb-8">
+          <div class="h-1 flex-1 rounded-full bg-primary" id="step1"></div>
+          <div class="h-1 flex-1 rounded-full bg-muted" id="step2"></div>
+          <div class="h-1 flex-1 rounded-full bg-muted" id="step3"></div>
         </div>
 
         <!-- Error Banner -->
-        <div id="error-banner" class="save-banner" style="display: none; background: rgba(239, 68, 68, 0.1); border-color: var(--color-error);">
-          <span class="save-icon">⚠️</span>
-          <div class="save-text" id="error-message" style="color: var(--color-error);"></div>
+        <div id="error-banner" class="hidden mb-6 rounded-lg border border-destructive bg-destructive/10 p-4">
+          <div class="flex gap-3">
+            <div class="text-destructive text-lg">⚠️</div>
+            <div>
+              <h4 class="font-medium text-destructive mb-1">Error</h4>
+              <p class="text-sm text-destructive/80" id="error-message"></p>
+            </div>
+          </div>
         </div>
 
-        <form id="registration-form">
+        <!-- Registration Form -->
+        <form id="registration-form" class="space-y-6">
           <!-- Full Name -->
-          <div class="form-field">
-            <label class="form-label" for="full_name">Full Name <span>*</span></label>
-            <input type="text" id="full_name" name="full_name" class="form-input" placeholder="Enter your full name as on ID">
-            <span class="form-error" id="full_name-error"></span>
+          <div>
+            <label for="full_name" class="block text-sm font-medium mb-2">
+              Full Name <span class="text-destructive">*</span>
+            </label>
+            <input
+              type="text"
+              id="full_name"
+              name="full_name"
+              placeholder="Enter your full name as on ID"
+              class="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+            <p class="text-sm text-destructive mt-1 hidden" id="full_name-error"></p>
           </div>
 
           <!-- Student ID / CNIC -->
-          <div class="form-field">
-            <label class="form-label" for="student_id_cnic">Student ID / CNIC <span>*</span></label>
-            <input type="text" id="student_id_cnic" name="student_id_cnic" class="form-input" placeholder="e.g. 12345-1234567-1">
-            <span class="form-error" id="student_id_cnic-error"></span>
+          <div>
+            <label for="student_id_cnic" class="block text-sm font-medium mb-2">
+              Student ID / CNIC <span class="text-destructive">*</span>
+            </label>
+            <input
+              type="text"
+              id="student_id_cnic"
+              name="student_id_cnic"
+              placeholder="e.g. 12345-1234567-1"
+              class="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+            <p class="text-sm text-destructive mt-1 hidden" id="student_id_cnic-error"></p>
           </div>
 
           <!-- Email -->
-          <div class="form-field">
-            <label class="form-label" for="email">Email Address <span>*</span></label>
-            <input type="email" id="email" name="email" class="form-input" placeholder="your@email.com">
-            <span class="form-error" id="email-error"></span>
+          <div>
+            <label for="email" class="block text-sm font-medium mb-2">
+              Email Address <span class="text-destructive">*</span>
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="your@email.com"
+              class="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+            <p class="text-sm text-destructive mt-1 hidden" id="email-error"></p>
           </div>
 
           <!-- Phone -->
-          <div class="form-field">
-            <label class="form-label" for="phone">Phone Number <span>*</span></label>
-            <input type="tel" id="phone" name="phone" class="form-input" placeholder="03001234567">
-            <span class="form-hint">Format: 03001234567 or +923001234567</span>
-            <span class="form-error" id="phone-error"></span>
+          <div>
+            <label for="phone" class="block text-sm font-medium mb-2">
+              Phone Number <span class="text-destructive">*</span>
+            </label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              placeholder="03001234567"
+              class="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+            <p class="text-xs text-muted-foreground mt-1">Format: 03001234567 or +923001234567</p>
+            <p class="text-sm text-destructive mt-1 hidden" id="phone-error"></p>
           </div>
 
           <!-- Institution -->
-          <div class="form-field">
-            <label class="form-label" for="institution">Institution <span>*</span></label>
-            <input type="text" id="institution" name="institution" class="form-input" placeholder="Lahore Garrison University">
-            <span class="form-error" id="institution-error"></span>
+          <div>
+            <label for="institution" class="block text-sm font-medium mb-2">
+              Institution <span class="text-destructive">*</span>
+            </label>
+            <input
+              type="text"
+              id="institution"
+              name="institution"
+              placeholder="Lahore Garrison University"
+              class="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+            <p class="text-sm text-destructive mt-1 hidden" id="institution-error"></p>
           </div>
 
           <!-- Committee -->
-          <div class="form-field">
-            <label class="form-label" for="committee_id">Select Committee <span>*</span></label>
-            <select id="committee_id" name="committee_id" class="form-input">
+          <div>
+            <label for="committee_id" class="block text-sm font-medium mb-2">
+              Select Committee <span class="text-destructive">*</span>
+            </label>
+            <select
+              id="committee_id"
+              name="committee_id"
+              class="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            >
               <option value="">-- Select a Committee --</option>
             </select>
-            <span class="form-error" id="committee_id-error"></span>
+            <p class="text-sm text-destructive mt-1 hidden" id="committee_id-error"></p>
           </div>
 
           <!-- Submit Button -->
-          <button type="submit" id="submit-btn" class="btn btn-primary form-submit">
+          <button
+            type="submit"
+            id="submit-btn"
+            class="w-full h-11 rounded-md bg-primary text-primary-foreground font-semibold shadow transition-colors hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          >
             Register as Delegate
           </button>
         </form>
 
-        <p class="form-note">
+        <!-- Form Note -->
+        <p class="text-center text-sm text-muted-foreground mt-6">
           By registering you agree to the event code of conduct.
-          <a href="/committees.html">View all committees →</a>
+          <a href="/committees.html" class="text-primary hover:underline">View all committees →</a>
         </p>
       </div>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="footer">
-    <div class="container footer-content">
-      <img src="assets/logo/lgumun-logo.png" alt="LGU MUN Logo" class="footer-logo">
-      <h3 class="footer-title">LGU MUN 2026</h3>
-      <div class="footer-links">
-        <a href="/">Home</a>
-        <a href="/committees.html">Committees</a>
-        <a href="/register.html">Register</a>
-        <a href="mailto:mun@lgu.edu.pk">Contact</a>
+  <footer class="border-t bg-background py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="space-y-4">
+          <div class="flex items-center gap-2 font-display font-bold text-xl">
+            <img src="assets/logo/lgumun-logo.png" alt="LGU MUN" class="w-8 h-8">
+            <span>LGU MUN 2026</span>
+          </div>
+          <p class="text-sm text-muted-foreground">Lahore Garrison University Model United Nations</p>
+        </div>
+        <div>
+          <h4 class="font-medium mb-4">Quick Links</h4>
+          <ul class="space-y-2 text-sm text-muted-foreground">
+            <li><a href="/" class="hover:text-primary">Home</a></li>
+            <li><a href="/committees.html" class="hover:text-primary">Committees</a></li>
+            <li><a href="/register.html" class="hover:text-primary">Register</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-medium mb-4">Contact</h4>
+          <ul class="space-y-2 text-sm text-muted-foreground">
+            <li><a href="mailto:mun@lgu.edu.pk" class="hover:text-primary">mun@lgu.edu.pk</a></li>
+            <li>Lahore Garrison University</li>
+            <li>Lahore, Pakistan</li>
+          </ul>
+        </div>
       </div>
-      <p class="footer-copyright">
-        &copy; 2026 LGU MUN Society. All rights reserved. | Lahore Garrison University
-      </p>
+      <div class="mt-12 pt-8 border-t text-center text-sm text-muted-foreground">
+        &copy; 2026 LGU MUN Society. All rights reserved.
+      </div>
     </div>
   </footer>
 
   <script src="js/api.js"></script>
   <script src="js/register.js"></script>
-  <script>
-    // Navbar scroll effect
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
-      }
-    });
-  </script>
 </body>
 </html>

@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
   const committeeSelect = document.getElementById('committee_id');
   const submitButton = document.getElementById('submit-btn');
-  const errorBanner = document.getElementById('error-banner');
 
   // Populate committee dropdown
   try {
@@ -33,7 +32,6 @@ async function handleSubmit(e) {
   e.preventDefault();
 
   const submitButton = document.getElementById('submit-btn');
-  const errorBanner = document.getElementById('error-banner');
 
   // Validate form
   const errors = validate();
@@ -43,14 +41,14 @@ async function handleSubmit(e) {
   }
 
   // Update step indicator
-  document.getElementById('step1').className = 'form-step completed';
-  document.getElementById('step2').className = 'form-step active';
-  document.getElementById('step3').className = 'form-step';
+  document.getElementById('step1').className = 'h-1 flex-1 rounded-full bg-primary';
+  document.getElementById('step2').className = 'h-1 flex-1 rounded-full bg-muted';
+  document.getElementById('step3').className = 'h-1 flex-1 rounded-full bg-muted';
 
   // Disable button and show spinner
   submitButton.disabled = true;
   submitButton.innerHTML = '<span class="spinner"></span> Processing...';
-  errorBanner.style.display = 'none';
+  document.getElementById('error-banner').classList.add('hidden');
 
   // Get form data
   const formData = {
@@ -66,12 +64,11 @@ async function handleSubmit(e) {
     const data = await apiPost('/delegates', formData);
 
     // Update step indicator to complete
-    document.getElementById('step2').className = 'form-step completed';
-    document.getElementById('step3').className = 'form-step active';
+    document.getElementById('step2').className = 'h-1 flex-1 rounded-full bg-primary';
+    document.getElementById('step3').className = 'h-1 flex-1 rounded-full bg-primary';
 
     // Small delay for visual feedback
     setTimeout(() => {
-      // Redirect to success page with URL params
       const params = new URLSearchParams({
         roll: data.data.roll_number,
         name: data.data.full_name,
@@ -83,9 +80,9 @@ async function handleSubmit(e) {
 
   } catch (error) {
     // Reset step indicator
-    document.getElementById('step1').className = 'form-step completed';
-    document.getElementById('step2').className = 'form-step';
-    document.getElementById('step3').className = 'form-step';
+    document.getElementById('step1').className = 'h-1 flex-1 rounded-full bg-primary';
+    document.getElementById('step2').className = 'h-1 flex-1 rounded-full bg-muted';
+    document.getElementById('step3').className = 'h-1 flex-1 rounded-full bg-muted';
 
     // Show error
     if (error.code === 'RATE_LIMITED') {
@@ -157,10 +154,11 @@ function validate() {
 
 function showErrors(errors) {
   // Clear previous errors
-  document.querySelectorAll('.form-error').forEach(el => el.classList.remove('show'));
-  document.querySelectorAll('.form-input').forEach(el => {
-    el.classList.remove('error');
-    el.classList.remove('success');
+  document.querySelectorAll('.text-destructive').forEach(el => {
+    el.classList.add('hidden');
+  });
+  document.querySelectorAll('input, select').forEach(el => {
+    el.classList.remove('border-destructive');
   });
 
   // Show new errors
@@ -170,11 +168,11 @@ function showErrors(errors) {
 
     if (errorEl) {
       errorEl.textContent = message;
-      errorEl.classList.add('show');
+      errorEl.classList.remove('hidden');
     }
 
     if (fieldEl) {
-      fieldEl.classList.add('error');
+      fieldEl.classList.add('border-destructive');
     }
   });
 }
@@ -185,11 +183,11 @@ function showFieldError(field, message) {
 
   if (errorEl) {
     errorEl.textContent = message;
-    errorEl.classList.add('show');
+    errorEl.classList.remove('hidden');
   }
 
   if (fieldEl) {
-    fieldEl.classList.add('error');
+    fieldEl.classList.add('border-destructive');
   }
 }
 
@@ -197,5 +195,5 @@ function showGlobalError(message) {
   const errorBanner = document.getElementById('error-banner');
   const errorText = document.getElementById('error-message');
   errorText.textContent = message;
-  errorBanner.style.display = 'flex';
+  errorBanner.classList.remove('hidden');
 }

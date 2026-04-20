@@ -5,95 +5,300 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Committees - LGU MUN 2026</title>
   <meta name="description" content="Explore all committees for LGU MUN 2026">
-  <link rel="stylesheet" href="css/theme.css">
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/responsive.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            border: 'hsl(var(--border))',
+            input: 'hsl(var(--input))',
+            ring: 'hsl(var(--ring))',
+            background: 'hsl(var(--background))',
+            foreground: 'hsl(var(--foreground))',
+            primary: {
+              DEFAULT: 'hsl(var(--primary))',
+              foreground: 'hsl(var(--primary-foreground))',
+            },
+            secondary: {
+              DEFAULT: 'hsl(var(--secondary))',
+              foreground: 'hsl(var(--secondary-foreground))',
+            },
+            destructive: {
+              DEFAULT: 'hsl(var(--destructive))',
+              foreground: 'hsl(var(--destructive-foreground))',
+            },
+            muted: {
+              DEFAULT: 'hsl(var(--muted))',
+              foreground: 'hsl(var(--muted-foreground))',
+            },
+            accent: {
+              DEFAULT: 'hsl(var(--accent))',
+              foreground: 'hsl(var(--accent-foreground))',
+            },
+            card: {
+              DEFAULT: 'hsl(var(--card))',
+              foreground: 'hsl(var(--card-foreground))',
+            },
+          },
+          borderRadius: {
+            lg: 'var(--radius)',
+            md: 'calc(var(--radius) - 2px)',
+            sm: 'calc(var(--radius) - 4px)',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Poppins', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap');
+
+    :root {
+      --background: 0 0% 100%;
+      --foreground: 222.2 84% 4.9%;
+      --card: 0 0% 100%;
+      --card-foreground: 222.2 84% 4.9%;
+      --muted: 221.2 63.6% 97.8%;
+      --muted-foreground: 215.4 16.3% 46.9%;
+      --accent: 221.2 83.2% 53.3%;
+      --accent-foreground: 210 40% 98%;
+      --destructive: 0 84.2% 60.2%;
+      --destructive-foreground: 210 40% 98%;
+      --border: 214.3 31.8% 91.4%;
+      --input: 214.3 31.8% 91.4%;
+      --primary: 221.2 83.2% 53.3%;
+      --primary-foreground: 210 40% 98%;
+      --secondary: 217.2 91.2% 59.8%;
+      --secondary-foreground: 222.2 47.4% 11.2%;
+      --ring: 221.2 83.2% 53.3%;
+      --radius: 0.5rem;
+    }
+
+    @layer base {
+      * { border-color: hsl(var(--border)); }
+      body { background-color: hsl(var(--background)); color: hsl(var(--foreground)); }
+    }
+  </style>
 </head>
-<body>
+<body class="min-h-screen bg-background font-sans antialiased">
   <!-- Navbar -->
-  <nav class="navbar" id="navbar">
-    <div class="container navbar-content">
-      <a href="/" class="navbar-brand">
-        <img src="assets/logo/lgumun-logo.png" alt="LGU MUN Logo" class="navbar-logo">
-        <span class="navbar-title">LGU MUN 2026</span>
+  <header class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2 font-display font-bold text-xl">
+        <img src="assets/logo/lgumun-logo.png" alt="LGU MUN" class="w-8 h-8">
+        <span class="hidden sm:inline">LGU MUN 2026</span>
       </a>
-      <ul class="navbar-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/committees.html" class="active">Committees</a></li>
-        <li><a href="/register.html">Register</a></li>
-      </ul>
+      <nav class="flex items-center gap-4">
+        <a href="/" class="text-sm font-medium transition-colors hover:text-primary">Home</a>
+        <a href="/committees.html" class="text-sm font-medium text-primary">Committees</a>
+        <a href="/register.html" class="text-sm font-medium transition-colors hover:text-primary">Register</a>
+      </nav>
     </div>
-  </nav>
+  </header>
 
-  <!-- Committees Section -->
-  <section class="committees-container">
-    <div class="container">
-      <div class="committees-header">
-        <h1 class="committees-title">All Committees</h1>
-        <span class="committees-count" id="committees-count">9 committees • 255 seats</span>
+  <!-- Page Header -->
+  <section class="border-b bg-muted/30 py-12">
+    <div class="container mx-auto px-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-4xl font-display font-bold mb-2">All Committees</h1>
+          <p class="text-muted-foreground" id="committees-count">9 committees • 255 total seats</p>
+        </div>
+        <a href="/register.html" class="inline-flex h-10 items-center justify-center rounded-md bg-primary px-6 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90">
+          Register Now
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Committees Table -->
+  <section class="py-12">
+    <div class="container mx-auto px-4">
+      <!-- Loading State -->
+      <div id="loading-skeleton" class="space-y-4">
+        <div class="h-20 bg-muted animate-pulse rounded-lg"></div>
+        <div class="h-20 bg-muted animate-pulse rounded-lg"></div>
+        <div class="h-20 bg-muted animate-pulse rounded-lg"></div>
       </div>
 
-      <!-- Loading Skeleton -->
-      <div id="loading-skeleton" class="committees-grid">
-        <div class="committee-card skeleton" style="height: 200px;"></div>
-        <div class="committee-card skeleton" style="height: 200px;"></div>
-        <div class="committee-card skeleton" style="height: 200px;"></div>
-        <div class="committee-card skeleton" style="height: 200px;"></div>
-        <div class="committee-card skeleton" style="height: 200px;"></div>
-        <div class="committee-card skeleton" style="height: 200px;"></div>
-        <div class="committee-card skeleton" style="height: 200px;"></div>
-        <div class="committee-card skeleton" style="height: 200px;"></div>
-        <div class="committee-card skeleton" style="height: 200px;"></div>
-      </div>
-
-      <!-- Committees Grid -->
-      <div id="committees-grid" class="committees-grid"></div>
-
-      <!-- Error State -->
-      <div id="error-state" class="hidden">
-        <div class="card" style="text-align: center; padding: var(--spacing-2xl);">
-          <h2 style="color: var(--color-error); margin-bottom: var(--spacing-md);">Failed to Load Committees</h2>
-          <p style="color: var(--color-text-tertiary); margin-bottom: var(--spacing-xl);">Please try again later.</p>
-          <button onclick="location.reload()" class="btn btn-primary">Retry</button>
+      <!-- Committees Table -->
+      <div id="committees-table" class="hidden">
+        <div class="rounded-lg border bg-card">
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead class="border-b bg-muted/50">
+                <tr>
+                  <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Committee</th>
+                  <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground hidden md:table-cell">Full Name</th>
+                  <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground hidden sm:table-cell">Language</th>
+                  <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Capacity</th>
+                  <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Status</th>
+                </tr>
+              </thead>
+              <tbody id="committees-tbody" class="divide-y">
+                <!-- Rows will be inserted here -->
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
-      <!-- CTA -->
-      <div class="committees-cta">
-        <a href="/register.html" class="btn btn-primary">Register as Delegate</a>
+      <!-- Error State -->
+      <div id="error-state" class="hidden">
+        <div class="rounded-lg border bg-card p-12 text-center">
+          <h3 class="text-lg font-semibold mb-2">Failed to Load Committees</h3>
+          <p class="text-muted-foreground mb-6">Please try again later.</p>
+          <button onclick="location.reload()" class="inline-flex h-10 items-center justify-center rounded-md bg-primary px-6 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90">
+            Retry
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-20 bg-muted/30">
+    <div class="container mx-auto px-4">
+      <div class="rounded-2xl bg-primary text-primary-foreground p-12 text-center shadow-xl">
+        <h2 class="text-3xl md:text-4xl font-display font-bold mb-6">Ready to Register?</h2>
+        <p class="text-lg opacity-90 mb-8 max-w-2xl mx-auto">Choose your committee and secure your spot at LGU MUN 2026</p>
+        <a href="/register.html" class="inline-flex h-12 items-center justify-center rounded-md bg-white text-primary px-8 font-semibold shadow transition-colors hover:bg-accent">
+          Register as Delegate
+        </a>
       </div>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="footer">
-    <div class="container footer-content">
-      <img src="assets/logo/lgumun-logo.png" alt="LGU MUN Logo" class="footer-logo">
-      <h3 class="footer-title">LGU MUN 2026</h3>
-      <div class="footer-links">
-        <a href="/">Home</a>
-        <a href="/committees.html">Committees</a>
-        <a href="/register.html">Register</a>
-        <a href="mailto:mun@lgu.edu.pk">Contact</a>
+  <footer class="border-t bg-background py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="space-y-4">
+          <div class="flex items-center gap-2 font-display font-bold text-xl">
+            <img src="assets/logo/lgumun-logo.png" alt="LGU MUN" class="w-8 h-8">
+            <span>LGU MUN 2026</span>
+          </div>
+          <p class="text-sm text-muted-foreground">Lahore Garrison University Model United Nations</p>
+        </div>
+        <div>
+          <h4 class="font-medium mb-4">Quick Links</h4>
+          <ul class="space-y-2 text-sm text-muted-foreground">
+            <li><a href="/" class="hover:text-primary">Home</a></li>
+            <li><a href="/committees.html" class="hover:text-primary">Committees</a></li>
+            <li><a href="/register.html" class="hover:text-primary">Register</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-medium mb-4">Contact</h4>
+          <ul class="space-y-2 text-sm text-muted-foreground">
+            <li><a href="mailto:mun@lgu.edu.pk" class="hover:text-primary">mun@lgu.edu.pk</a></li>
+            <li>Lahore Garrison University</li>
+            <li>Lahore, Pakistan</li>
+          </ul>
+        </div>
       </div>
-      <p class="footer-copyright">
-        &copy; 2026 LGU MUN Society. All rights reserved. | Lahore Garrison University
-      </p>
+      <div class="mt-12 pt-8 border-t text-center text-sm text-muted-foreground">
+        &copy; 2026 LGU MUN Society. All rights reserved.
+      </div>
     </div>
   </footer>
 
   <script src="js/api.js"></script>
-  <script src="js/committees.js"></script>
   <script>
-    // Navbar scroll effect
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
+    document.addEventListener('DOMContentLoaded', async () => {
+      const loadingSkeleton = document.getElementById('loading-skeleton');
+      const committeesTable = document.getElementById('committees-table');
+      const committeesTbody = document.getElementById('committees-tbody');
+      const errorState = document.getElementById('error-state');
+
+      try {
+        const data = await apiGet('/committees');
+        const committees = data.data.committees;
+
+        // Hide loading, show table
+        loadingSkeleton.classList.add('hidden');
+        committeesTable.classList.remove('hidden');
+
+        // Update count
+        const totalSeats = committees.reduce((sum, c) => sum + c.total_seats, 0);
+        document.getElementById('committees-count').textContent =
+          `${committees.length} committees • ${totalSeats} total seats`;
+
+        // Render table rows
+        committees.forEach(committee => {
+          const row = createCommitteeRow(committee);
+          committeesTbody.appendChild(row);
+        });
+
+      } catch (error) {
+        loadingSkeleton.classList.add('hidden');
+        errorState.classList.remove('hidden');
+        console.error('Failed to load committees:', error);
       }
     });
+
+    function createCommitteeRow(committee) {
+      const tr = document.createElement('tr');
+      tr.className = 'hover:bg-muted/50 transition-colors';
+
+      const isFull = committee.filled_seats >= committee.total_seats;
+      const isPNA = committee.short_name === 'PNA';
+      const capacityPercentage = Math.round((committee.filled_seats / committee.total_seats) * 100);
+
+      // Status badge
+      let statusBadge = '';
+      if (isFull) {
+        statusBadge = '<span class="inline-flex items-center rounded-full bg-destructive px-2.5 py-0.5 text-xs font-semibold text-destructive-foreground">Full</span>';
+      } else if (capacityPercentage > 70) {
+        statusBadge = '<span class="inline-flex items-center rounded-full bg-yellow-500 px-2.5 py-0.5 text-xs font-semibold text-white">Limited</span>';
+      } else if (isPNA) {
+        statusBadge = '<span class="inline-flex items-center rounded-full bg-secondary px-2.5 py-0.5 text-xs font-semibold text-secondary-foreground">National</span>';
+      } else {
+        statusBadge = '<span class="inline-flex items-center rounded-full bg-green-500 px-2.5 py-0.5 text-xs font-semibold text-white">Available</span>';
+      }
+
+      // Progress bar color
+      let progressColor = 'bg-primary';
+      if (isFull) {
+        progressColor = 'bg-destructive';
+      } else if (capacityPercentage > 70) {
+        progressColor = 'bg-yellow-500';
+      }
+
+      tr.innerHTML = `
+        <td class="p-4 align-middle">
+          <div class="font-display font-bold text-lg text-primary">${committee.short_name}</div>
+          <div class="text-sm text-muted-foreground md:hidden">${committee.full_name}</div>
+        </td>
+        <td class="p-4 align-middle hidden md:table-cell">
+          <div class="font-medium">${committee.full_name}</div>
+        </td>
+        <td class="p-4 align-middle hidden sm:table-cell">
+          <div class="text-sm">${committee.language}</div>
+        </td>
+        <td class="p-4 align-middle">
+          <div class="space-y-2 min-w-[120px]">
+            <div class="flex justify-between text-xs">
+              <span class="text-muted-foreground">${committee.filled_seats}/${committee.total_seats}</span>
+              <span class="font-medium">${capacityPercentage}%</span>
+            </div>
+            <div class="h-2 rounded-full bg-muted overflow-hidden">
+              <div class="h-full ${progressColor} transition-all" style="width: ${capacityPercentage}%"></div>
+            </div>
+          </div>
+        </td>
+        <td class="p-4 align-middle">
+          ${statusBadge}
+        </td>
+      `;
+
+      return tr;
+    }
   </script>
 </body>
 </html>

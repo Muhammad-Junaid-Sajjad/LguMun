@@ -1,0 +1,32 @@
+{
+  "name": "lgu-mun",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Muhammad-Junaid-Sajjad/LguMun.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Muhammad-Junaid-Sajjad/LguMun/issues"
+  },
+  "homepage": "https://github.com/Muhammad-Junaid-Sajjad/LguMun#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.5.0",
+    "postcss": "^8.5.10",
+    "tailwindcss": "^4.2.2"
+  },
+  "dependencies": {
+    "@tailwindcss/typography": "^0.5.19",
+    "tailwindcss-animate": "^1.0.7"
+  }
+}
