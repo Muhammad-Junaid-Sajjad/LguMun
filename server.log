@@ -52,3 +52,23 @@ INFO:     127.0.0.1:46560 - "GET /api/v1/delegates/count HTTP/1.1" 200 OK
 INFO:     127.0.0.1:37728 - "GET /api/v1/committees HTTP/1.1" 200 OK
 INFO:     127.0.0.1:54852 - "GET /api/v1/committees HTTP/1.1" 200 OK
 INFO:     127.0.0.1:35450 - "GET /api/v1/delegates/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42658 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42658 - "GET /assets/logo/lgu-logo.jpeg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42662 - "GET /assets/photos/event1.jpg HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:42666 - "GET /assets/photos/event2.jpg HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:42674 - "GET /assets/photos/event3.jpg HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:42674 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:42658 - "GET /api/v1/delegates/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39856 - "GET /assets/photos/event1.jpg HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:39866 - "GET /assets/photos/event2.jpg HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:39876 - "GET /assets/photos/event3.jpg HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:39874 - "GET /api/v1/delegates/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39874 - "GET /assets/photos/event1.jpg HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:39876 - "GET /assets/photos/event3.jpg HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:39874 - "GET /assets/photos/event2.jpg HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:39866 - "GET /api/v1/delegates/count HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [53922]
+INFO:     Stopping reloader process [53920]
