@@ -8,11 +8,13 @@
 
 | ID | Task | Priority | Assigned | Status |
 |---|---|---|---|---|
-| T-UI-001 | Gather actual LGU MUN data (logo from WhatsApp) | P1 | Human | Pending |
-| T-UI-002 | Gather event details (date, venue, contact info) | P1 | Human | Pending |
-| T-UI-003 | Improve frontend UI with real branding | P1 | Developer | Pending |
-| T-UI-004 | Add event details, timeline, contact info | P2 | Developer | Pending |
-| T-UI-005 | Enhance design (colors, typography, animations) | P2 | Developer | Pending |
+| T-LOGO-001 | Integrate LGU MUN Society logo with styling | P1 | Developer | Pending |
+| T-LOGO-002 | Add logo click behavior (LGU & MUN links) | P1 | Developer | Pending |
+| T-LOGO-003 | Add logo hover tooltips | P1 | Developer | Pending |
+| T-PARTICLE-001 | Add particle system (120 dots) to all pages | P1 | Developer | Pending |
+| T-CONFETTI-001 | Fix success page confetti to run forever | P1 | Developer | Pending |
+| T-NAVBAR-001 | Update navbar with dual logos | P1 | Developer | Pending |
+| T-POLISH-001 | Apply seamless design from new files | P2 | Developer | Pending |
 | T-DEP-001 | Deploy to production (awaiting client hosting) | P1 | Developer | Blocked |
 | T-DEP-002 | Set up Sentry error monitoring (optional) | P3 | Developer | Deferred |
 
@@ -22,8 +24,8 @@
 
 | ID | Task | Priority | Assigned | Status |
 |---|---|---|---|---|
-| T-AUTO-001 | Project state management auto-mode activation | P1 | Claude | Completed |
-| T-AUTO-002 | Real-time state tracking | P1 | Claude | Active |
+| T-STATE-001 | Fix project state management system | P1 | Claude | In Progress |
+| T-STATE-002 | Update all state files to current reality | P1 | Claude | In Progress |
 
 ---
 

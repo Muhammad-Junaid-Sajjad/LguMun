@@ -130,3 +130,28 @@ Apply to all future interactions:
 2. Analyze root cause
 3. Update learning files
 4. Apply to next action
+
+---
+
+## LESSON-006: Verify Systems Actually Work, Don't Just Claim They Do
+**Date**: 2026-04-21T07:48:44Z  
+**Source**: MISTAKE-002
+
+### Context
+Auto-mode system was "activated" but never actually tracked or updated files.
+
+### Key Insight
+Creating configuration files and documentation doesn't make a system functional. A system is only "active" if it's actually executing and producing results. Claiming something works without verification leads to broken systems and lost visibility.
+
+### Best Practice
+- After "activating" a system, verify it's actually working
+- Check that files are being updated as claimed
+- Don't confuse declarative (config) with functional (running code)
+- Be honest: if it doesn't work, call it "planned" not "active"
+
+### Application
+Apply to all system activations:
+1. Activate the system
+2. Verify it's actually working (check outputs)
+3. If not working, fix it or document as "planned"
+4. Never claim a system is "active" without proof

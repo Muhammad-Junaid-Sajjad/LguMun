@@ -3,392 +3,582 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Committees — LGU MUN 2026</title>
+  <title>Committees — LGUMUN 2026</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Instrument+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --navy: #0a0f1e;
-      --navy-mid: #0f1729;
-      --navy-light: #162040;
-      --navy-card: #111827;
-      --gold: #c8a94a;
-      --gold-light: #e8c96a;
-      --gold-dim: #8a7232;
-      --cream: #f5f0e8;
-      --cream-dim: #c8c0b0;
-      --text-muted: #6b7a99;
-      --border: rgba(200,169,74,0.15);
-      --border-light: rgba(200,169,74,0.08);
-      --blue-accent: #3b6fd4;
-      --red-full: #e05252;
-      --green-avail: #3dba7e;
+      --navy: #060b19; --navy-deep: #03060f; --navy-mid: #0a1225;
+      --navy-light: #111e38; --navy-card: #0d1628;
+      --gold: #c9a84c; --gold-light: #e8c96a; --gold-warm: #d4a848; --gold-dim: #7a6228;
+      --cream: #f4ede0; --cream-dim: #bfb69e; --text-muted: #5a6a88;
+      --border: rgba(201,168,76,0.18); --border-light: rgba(201,168,76,0.07); --border-mid: rgba(201,168,76,0.12);
+      --blue-accent: #3a6fd4; --red-full: #e05252; --green-avail: #3dba7e;
     }
     html { scroll-behavior: smooth; }
-    body { background: var(--navy); color: var(--cream); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6; overflow-x: hidden; }
-    body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events:none; z-index:0; opacity:0.4; }
+    body { background: var(--navy); color: var(--cream); font-family: 'Instrument Sans', sans-serif; font-size: 16px; line-height: 1.65; overflow-x: hidden; }
+    body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E"); pointer-events:none; z-index:1; opacity:0.5; }
 
-    .navbar { position:fixed; top:0; left:0; right:0; z-index:1000; padding:0 2rem; height:72px; display:flex; align-items:center; justify-content:space-between; background:rgba(10,15,30,0.92); backdrop-filter:blur(20px); border-bottom:1px solid var(--border-light); transition:all 0.3s; }
-    .navbar.scrolled { border-bottom-color:var(--border); }
-    .nav-logo { display:flex; align-items:center; gap:12px; text-decoration:none; }
-    .nav-logo-icon { width:40px; height:40px; background:linear-gradient(135deg, var(--gold), var(--gold-dim)); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px; }
-    .nav-logo-text { font-family:'Playfair Display',serif; font-weight:700; font-size:1.1rem; color:var(--cream); }
+    /* CANVAS PARTICLES */
+    #particles-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* NAVBAR */
+    .navbar { position:fixed; top:0; left:0; right:0; z-index:1000; padding:0 3rem; height:76px; display:flex; align-items:center; justify-content:space-between; background:rgba(6,11,25,0.92); backdrop-filter:blur(24px); border-bottom:1px solid var(--border-light); transition:all 0.4s; }
+    .navbar.scrolled { background:rgba(6,11,25,0.98); border-bottom-color:var(--border-mid); box-shadow:0 4px 40px rgba(0,0,0,0.5); }
+    .nav-logo { display:flex; align-items:center; gap:0; text-decoration:none; }
+    .logo-lgu { height:46px; width:auto; border-radius:8px; filter:drop-shadow(0 2px 8px rgba(201,168,76,0.3)); transition:filter 0.3s; }
+    .logo-divider { width:1px; height:32px; background:var(--border); margin:0 14px; }
+    .logo-mun { height:44px; width:auto; filter:drop-shadow(0 2px 8px rgba(201,168,76,0.25)) brightness(1.1); transition:filter 0.3s; }
+    .nav-logo a[title]::after {
+      content: attr(title);
+      position: absolute;
+      bottom: -32px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(201,168,76,0.9);
+      color: var(--navy);
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      z-index: 1001;
+    }
+    .nav-logo a[title]:hover::after {
+      opacity: 1;
+    }
+    .logo-lgu {
+      height: 46px;
+      width: auto;
+      border-radius: 8px;
+      filter: drop-shadow(0 2px 8px rgba(201,168,76,0.3));
+      transition: all 0.3s;
+      position: relative;
+      z-index: 2;
+      cursor: pointer;
+    }
+    .logo-lgu:hover {
+      filter: drop-shadow(0 4px 16px rgba(201,168,76,0.5)) brightness(1.1);
+      transform: scale(1.05);
+    }
+    .logo-divider {
+      width: 1px;
+      height: 32px;
+      background: var(--border);
+      margin: 0 14px;
+    }
+    .logo-mun {
+      height: 44px;
+      width: auto;
+      filter: drop-shadow(0 2px 8px rgba(201,168,76,0.25)) brightness(1.1);
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    .logo-mun:hover {
+      filter: drop-shadow(0 4px 16px rgba(201,168,76,0.5)) brightness(1.2);
+      transform: scale(1.05);
+    }
+    .nav-logo-text { font-family:'Cormorant Garamond',serif; font-weight:600; font-size:1.15rem; color:var(--cream); letter-spacing:0.05em; margin-left:14px; }
     .nav-logo-text span { color:var(--gold); }
     .nav-links { display:flex; align-items:center; gap:2.5rem; }
-    .nav-links a { text-decoration:none; color:var(--cream-dim); font-size:0.875rem; font-weight:500; letter-spacing:0.06em; text-transform:uppercase; transition:color 0.2s; position:relative; }
+    .nav-links a { text-decoration:none; color:var(--cream-dim); font-size:0.8rem; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; transition:color 0.2s; position:relative; }
     .nav-links a::after { content:''; position:absolute; bottom:-4px; left:0; right:0; height:1px; background:var(--gold); transform:scaleX(0); transform-origin:left; transition:transform 0.3s; }
     .nav-links a:hover, .nav-links a.active { color:var(--cream); }
     .nav-links a:hover::after, .nav-links a.active::after { transform:scaleX(1); }
-    .nav-cta { background:linear-gradient(135deg, var(--gold), var(--gold-dim)); color:var(--navy) !important; padding:8px 20px; border-radius:6px; font-weight:600 !important; }
+    .nav-cta { background:linear-gradient(135deg,var(--gold-light),var(--gold)); color:var(--navy) !important; padding:9px 22px !important; border-radius:6px; font-weight:700 !important; letter-spacing:0.08em !important; box-shadow:0 4px 20px rgba(201,168,76,0.25); }
     .nav-cta::after { display:none !important; }
-    .nav-cta:hover { box-shadow:0 8px 24px rgba(200,169,74,0.3) !important; color:var(--navy) !important; }
+    .nav-cta:hover { transform:translateY(-1px); box-shadow:0 8px 30px rgba(201,168,76,0.4) !important; color:var(--navy) !important; }
     .mobile-toggle { display:none; background:none; border:1px solid var(--border); color:var(--cream); padding:8px; border-radius:6px; cursor:pointer; }
 
-    .page-header { padding: 140px 2rem 4rem; position:relative; overflow:hidden; }
-    .page-header-bg { position:absolute; inset:0; background-image:linear-gradient(rgba(200,169,74,0.03) 1px, transparent 1px),linear-gradient(90deg, rgba(200,169,74,0.03) 1px, transparent 1px); background-size:60px 60px; }
-    .page-header-glow { position:absolute; top:0; left:50%; transform:translateX(-50%); width:600px; height:400px; background:radial-gradient(ellipse, rgba(59,111,212,0.1) 0%, transparent 70%); }
-    .page-header-content { position:relative; z-index:1; max-width:1100px; margin:0 auto; }
-    .breadcrumb { display:flex; align-items:center; gap:8px; margin-bottom:1.5rem; }
-    .breadcrumb a, .breadcrumb span { font-size:0.8rem; letter-spacing:0.08em; text-transform:uppercase; }
+    /* PAGE HEADER */
+    .page-header {
+      padding: 140px 3rem 5rem;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, var(--navy-deep) 0%, var(--navy) 100%);
+    }
+    .page-header-grid {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: radial-gradient(ellipse 80% 100% at center top, black 0%, transparent 80%);
+    }
+    .page-header-glow { position:absolute; top:-100px; left:50%; transform:translateX(-50%); width:700px; height:500px; background:radial-gradient(ellipse, rgba(59,111,212,0.08) 0%, transparent 70%); pointer-events:none; }
+    .page-header-content { position:relative; z-index:2; max-width:1100px; margin:0 auto; }
+    .breadcrumb { display:flex; align-items:center; gap:8px; margin-bottom:1.75rem; }
+    .breadcrumb a, .breadcrumb span { font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase; }
     .breadcrumb a { color:var(--text-muted); text-decoration:none; transition:color 0.2s; }
     .breadcrumb a:hover { color:var(--cream); }
-    .breadcrumb .sep { color:var(--gold); opacity:0.4; }
-    .breadcrumb .current { color:var(--gold); }
-    .page-title { font-family:'Playfair Display',serif; font-size:clamp(2.5rem,5vw,4rem); font-weight:800; line-height:1.05; margin-bottom:0.5rem; }
-    .page-count { font-size:0.875rem; color:var(--text-muted); }
+    .breadcrumb .sep { color:var(--gold); opacity:0.35; }
+    .breadcrumb .current { color:var(--gold); font-weight:600; }
+    .page-title { font-family:'Cormorant Garamond',serif; font-size:clamp(2.5rem,5.5vw,4.5rem); font-weight:400; line-height:1.0; margin-bottom:0.75rem; }
+    .page-title em { font-style:italic; color:var(--gold); }
+    .page-meta { font-size:0.8rem; color:var(--text-muted); letter-spacing:0.1em; text-transform:uppercase; }
 
-    .section { padding:3rem 2rem 6rem; }
+    /* SECTIONS */
+    .section { padding:3rem 3rem 6rem; }
     .container { max-width:1100px; margin:0 auto; }
 
-    /* FILTERS */
+    /* FILTER BAR */
     .filter-bar {
       display:flex; gap:1rem; align-items:center; flex-wrap:wrap;
-      padding:1.5rem; background:var(--navy-card); border:1px solid var(--border-light); border-radius:12px; margin-bottom:2.5rem;
+      padding:1.25rem 1.5rem;
+      background:linear-gradient(145deg, var(--navy-card), rgba(11,18,37,0.9));
+      border:1px solid var(--border-light); border-radius:14px;
+      margin-bottom:2rem;
+      backdrop-filter:blur(10px);
     }
     .search-input {
       flex:1; min-width:200px;
       background:rgba(255,255,255,0.04); border:1px solid var(--border-light); border-radius:8px;
-      padding:10px 16px; color:var(--cream); font-family:'DM Sans',sans-serif; font-size:0.9rem;
-      outline:none; transition:border-color 0.2s;
+      padding:10px 16px; color:var(--cream); font-family:'Instrument Sans',sans-serif; font-size:0.875rem;
+      outline:none; transition:border-color 0.25s, box-shadow 0.25s;
     }
     .search-input::placeholder { color:var(--text-muted); }
-    .search-input:focus { border-color:var(--border); }
+    .search-input:focus { border-color:var(--border); box-shadow:0 0 0 3px rgba(201,168,76,0.07); }
     .filter-select {
       background:rgba(255,255,255,0.04); border:1px solid var(--border-light); border-radius:8px;
-      padding:10px 16px; color:var(--cream-dim); font-family:'DM Sans',sans-serif; font-size:0.875rem;
+      padding:10px 16px; color:var(--cream-dim); font-family:'Instrument Sans',sans-serif; font-size:0.85rem;
       outline:none; cursor:pointer; transition:border-color 0.2s;
     }
     .filter-select:focus { border-color:var(--border); }
     .filter-select option { background:var(--navy-card); }
 
-    /* TABLE */
+    /* COMMITTEES TABLE */
     .committees-table {
-      width:100%; border-collapse:collapse; background:var(--navy-card); border-radius:16px; overflow:hidden;
-      border:1px solid var(--border-light);
+      width:100%; border-collapse:separate; border-spacing:0 8px;
     }
-    .committees-table thead tr {
-      background:rgba(200,169,74,0.06);
-      border-bottom:1px solid var(--border);
+    .committees-table thead th {
+      font-size:0.65rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase;
+      color:var(--text-muted); padding:0 1.25rem 0.5rem; text-align:left;
     }
-    .committees-table th {
-      padding:14px 20px; text-align:left; font-size:0.7rem; letter-spacing:0.12em; text-transform:uppercase;
-      color:var(--gold); font-weight:600; white-space:nowrap;
+    .committees-table tbody tr {
+      background:linear-gradient(145deg, var(--navy-card), rgba(11,18,37,0.85));
+      border-radius:14px;
+      transition:all 0.3s ease;
     }
-    .committees-table td {
-      padding:18px 20px; border-bottom:1px solid var(--border-light);
-      vertical-align:middle; font-size:0.9rem;
+    .committees-table tbody tr:hover {
+      transform:translateY(-2px);
+      box-shadow:0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px var(--border-light);
     }
-    .committees-table tbody tr:last-child td { border-bottom:none; }
-    .committees-table tbody tr { transition:background 0.2s; }
-    .committees-table tbody tr:hover { background:rgba(200,169,74,0.03); }
-    .committees-table tbody tr.full-row { opacity:0.5; }
+    .committees-table tbody tr td {
+      padding:1.1rem 1.25rem;
+      vertical-align:middle;
+      border-top:1px solid var(--border-light);
+      border-bottom:1px solid var(--border-light);
+    }
+    .committees-table tbody tr td:first-child {
+      border-left:1px solid var(--border-light);
+      border-radius:14px 0 0 14px;
+    }
+    .committees-table tbody tr td:last-child {
+      border-right:1px solid var(--border-light);
+      border-radius:0 14px 14px 0;
+    }
+    .committees-table tbody tr.full-row { opacity:0.45; }
 
-    .code-cell {
-      font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:700; color:var(--gold);
-    }
-    .name-cell { color:var(--cream); font-weight:500; }
-    .lang-cell { color:var(--text-muted); font-size:0.8rem; }
-    .num-cell { font-variant-numeric:tabular-nums; color:var(--cream-dim); }
-    .avail-cell { font-weight:600; }
-    .avail-green { color:var(--green-avail); }
-    .avail-red { color:var(--red-full); }
-    .avail-gold { color:var(--gold); }
+    .code-cell { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:600; color:var(--gold); white-space:nowrap; }
+    .name-cell { font-weight:500; color:var(--cream); font-size:0.9rem; }
+    .lang-cell { color:var(--text-muted); font-size:0.82rem; }
+    .num-cell { font-family:'DM Mono',monospace; font-size:0.85rem; color:var(--cream-dim); text-align:center; }
+    .avail-green { color:var(--green-avail) !important; }
+    .avail-gold { color:var(--gold) !important; }
+    .avail-red { color:var(--red-full) !important; }
 
-    .badge { font-size:0.65rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; padding:4px 10px; border-radius:100px; white-space:nowrap; }
-    .badge-full { background:rgba(224,82,82,0.15); color:var(--red-full); border:1px solid rgba(224,82,82,0.3); }
-    .badge-avail { background:rgba(61,186,126,0.1); color:var(--green-avail); border:1px solid rgba(61,186,126,0.25); }
-    .badge-national { background:rgba(59,111,212,0.12); color:#6b9ef5; border:1px solid rgba(59,111,212,0.3); }
-    .badge-limited { background:rgba(200,169,74,0.12); color:var(--gold); border:1px solid rgba(200,169,74,0.3); }
+    .badge { font-size:0.6rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:4px 12px; border-radius:100px; }
+    .badge-full { background:rgba(224,82,82,0.12); color:var(--red-full); border:1px solid rgba(224,82,82,0.25); }
+    .badge-avail { background:rgba(61,186,126,0.1); color:var(--green-avail); border:1px solid rgba(61,186,126,0.22); }
+    .badge-national { background:rgba(59,111,212,0.12); color:#7aa8f8; border:1px solid rgba(59,111,212,0.28); }
+    .badge-limited { background:rgba(201,168,76,0.1); color:var(--gold); border:1px solid rgba(201,168,76,0.28); }
+
+    .mini-progress { display:inline-block; width:50px; height:3px; background:rgba(255,255,255,0.07); border-radius:100px; overflow:hidden; vertical-align:middle; }
+    .mini-fill { height:100%; border-radius:100px; }
+    .mini-fill-gold { background:linear-gradient(90deg, var(--gold-dim), var(--gold)); }
+    .mini-fill-red { background:linear-gradient(90deg, #c04040, var(--red-full)); }
 
     .reg-btn {
       display:inline-flex; align-items:center; gap:6px;
-      background:linear-gradient(135deg, var(--gold), var(--gold-dim)); color:var(--navy);
-      padding:8px 18px; border-radius:6px; text-decoration:none; font-weight:700;
-      font-size:0.8rem; letter-spacing:0.04em; text-transform:uppercase;
-      transition:all 0.2s; white-space:nowrap;
+      background:linear-gradient(135deg, var(--gold-light), var(--gold));
+      color:var(--navy); padding:7px 18px; border-radius:7px;
+      text-decoration:none; font-size:0.75rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+      transition:all 0.3s; white-space:nowrap;
+      box-shadow:0 3px 12px rgba(201,168,76,0.2);
     }
-    .reg-btn:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(200,169,74,0.3); }
-    .reg-btn-disabled { color:var(--text-muted); font-size:0.8rem; }
+    .reg-btn:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(201,168,76,0.35); }
+    .reg-btn-disabled {
+      display:inline-block; padding:7px 18px; font-size:0.75rem; font-weight:600; letter-spacing:0.06em; text-transform:uppercase;
+      color:var(--text-muted); background:rgba(255,255,255,0.04); border:1px solid var(--border-light); border-radius:7px;
+    }
+    .hide-mobile { }
 
-    /* MINI PROGRESS */
-    .mini-progress { width:60px; height:3px; background:rgba(255,255,255,0.07); border-radius:100px; overflow:hidden; display:inline-block; }
-    .mini-fill { height:100%; border-radius:100px; }
-    .mini-fill-gold { background:var(--gold); }
-    .mini-fill-red { background:var(--red-full); }
-    .mini-fill-blue { background:var(--blue-accent); }
-
-    /* CTA */
-    .bottom-cta { background:linear-gradient(135deg, var(--navy-light), var(--navy-card)); border:1px solid var(--border); border-radius:24px; padding:4rem 2rem; text-align:center; position:relative; overflow:hidden; margin-top:4rem; }
-    .bottom-cta::before { content:''; position:absolute; top:-80px; left:50%; transform:translateX(-50%); width:400px; height:300px; background:radial-gradient(circle, rgba(200,169,74,0.09) 0%, transparent 70%); }
-    .bottom-cta-title { font-family:'Playfair Display',serif; font-size:2rem; font-weight:700; margin-bottom:0.75rem; position:relative; }
+    /* BOTTOM CTA */
+    .bottom-cta {
+      margin-top:4rem; padding:4rem 3rem; text-align:center;
+      background:linear-gradient(145deg, var(--navy-light), var(--navy-card));
+      border:1px solid var(--border-mid); border-radius:24px;
+      position:relative; overflow:hidden;
+    }
+    .bottom-cta::before {
+      content:''; position:absolute; top:-100px; left:50%; transform:translateX(-50%);
+      width:500px; height:300px;
+      background:radial-gradient(ellipse, rgba(201,168,76,0.08) 0%, transparent 70%);
+    }
+    .bottom-cta-inner { position:relative; z-index:1; }
+    .bottom-cta-title { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,4vw,3rem); font-weight:400; margin-bottom:1rem; }
     .bottom-cta-title em { font-style:italic; color:var(--gold); }
-    .bottom-cta-desc { color:var(--cream-dim); margin-bottom:2rem; position:relative; }
-    .btn-primary { display:inline-flex; align-items:center; gap:8px; background:linear-gradient(135deg, var(--gold), var(--gold-dim)); color:var(--navy); padding:14px 32px; border-radius:8px; text-decoration:none; font-weight:700; font-size:0.9rem; letter-spacing:0.04em; text-transform:uppercase; transition:all 0.3s; }
-    .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 32px rgba(200,169,74,0.35); }
+    .bottom-cta-desc { color:var(--cream-dim); font-size:1rem; max-width:480px; margin:0 auto 2.5rem; line-height:1.8; }
+
+    .btn-primary {
+      display:inline-flex; align-items:center; gap:10px;
+      background:linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold-warm) 100%);
+      color:var(--navy); padding:15px 36px; border-radius:8px; text-decoration:none;
+      font-weight:700; font-size:0.85rem; letter-spacing:0.1em; text-transform:uppercase;
+      transition:all 0.35s; box-shadow:0 6px 30px rgba(201,168,76,0.25), inset 0 1px 0 rgba(255,255,255,0.15);
+    }
+    .btn-primary:hover { transform:translateY(-2px); box-shadow:0 12px 40px rgba(201,168,76,0.4); }
 
     /* FOOTER */
-    .footer { background:rgba(5,8,18,0.9); border-top:1px solid var(--border-light); padding:4rem 2rem 2rem; }
+    .footer { background:var(--navy-deep); border-top:1px solid var(--border-light); padding:5rem 3rem 2.5rem; }
     .footer-inner { max-width:1100px; margin:0 auto; }
-    .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr; gap:3rem; margin-bottom:3rem; }
-    .footer-brand-name { font-family:'Playfair Display',serif; font-weight:700; font-size:1.25rem; margin-bottom:0.75rem; }
+    .footer-grid { display:grid; grid-template-columns:2.5fr 1fr 1fr; gap:4rem; margin-bottom:3rem; }
+    .footer-logos { display:flex; align-items:center; gap:0; margin-bottom:1.25rem; }
+    .footer-logo-img { height:40px; width:auto; border-radius:6px; filter:opacity(0.7) grayscale(0.3); transition:filter 0.3s; }
+    .footer-logo-img:hover { filter:opacity(1) grayscale(0); }
+    .footer-logo-sep { width:1px; height:28px; background:var(--border-light); margin:0 12px; }
+    .footer-brand-name { font-family:'Cormorant Garamond',serif; font-weight:600; font-size:1.2rem; margin-bottom:0.75rem; }
     .footer-brand-name span { color:var(--gold); }
-    .footer-desc { font-size:0.875rem; color:var(--text-muted); line-height:1.7; max-width:280px; }
-    .footer-heading { font-size:0.7rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold); font-weight:600; margin-bottom:1.25rem; }
+    .footer-desc { font-size:0.875rem; color:var(--text-muted); line-height:1.75; max-width:300px; }
+    .footer-heading { font-size:0.65rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold); font-weight:600; margin-bottom:1.5rem; }
     .footer-links { list-style:none; }
-    .footer-links li { margin-bottom:0.6rem; }
+    .footer-links li { margin-bottom:0.7rem; }
     .footer-links a { color:var(--text-muted); text-decoration:none; font-size:0.875rem; transition:color 0.2s; }
     .footer-links a:hover { color:var(--cream); }
-    .footer-bottom { border-top:1px solid var(--border-light); padding-top:1.5rem; text-align:center; font-size:0.8rem; color:var(--text-muted); }
+    .footer-bottom { border-top:1px solid var(--border-light); padding-top:1.75rem; display:flex; justify-content:space-between; align-items:center; font-size:0.78rem; color:var(--text-muted); }
+    .footer-bottom-logos { display:flex; align-items:center; gap:12px; }
+    .footer-bottom-logos img { height:24px; width:auto; opacity:0.4; transition:opacity 0.2s; }
+    .footer-bottom-logos img:hover { opacity:0.7; }
 
-    .reveal { opacity:0; transform:translateY(30px); transition:opacity 0.7s ease, transform 0.7s ease; }
+    .reveal { opacity:0; transform:translateY(30px); transition:opacity 0.8s ease, transform 0.8s ease; }
     .reveal.visible { opacity:1; transform:translateY(0); }
 
     @keyframes fadeInUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
-    .animate-in { animation:fadeInUp 0.7s ease both; }
+    .animate-in { animation:fadeInUp 0.8s ease both; }
 
-    @media (max-width:768px) {
+    @media(max-width:900px) { .footer-grid { grid-template-columns:1fr 1fr; } }
+    @media(max-width:600px) {
+      .navbar { padding:0 1.25rem; }
       .nav-links { display:none; }
-      .nav-links.open { display:flex; flex-direction:column; position:fixed; top:72px; left:0; right:0; background:var(--navy-card); padding:2rem; gap:1.5rem; border-bottom:1px solid var(--border); }
+      .nav-links.open { display:flex; flex-direction:column; position:fixed; top:76px; left:0; right:0; background:rgba(6,11,25,0.98); backdrop-filter:blur(20px); padding:2rem; gap:1.75rem; border-bottom:1px solid var(--border); }
       .mobile-toggle { display:block; }
-      .footer-grid { grid-template-columns:1fr; }
-      .committees-table { font-size:0.8rem; }
-      .committees-table th, .committees-table td { padding:12px 12px; }
       .hide-mobile { display:none; }
+      .section { padding:2rem 1.25rem 4rem; }
+      .page-header { padding:130px 1.25rem 3rem; }
+      .footer { padding:3rem 1.25rem 2rem; }
+      .footer-grid { grid-template-columns:1fr; gap:2rem; }
+      .footer-bottom { flex-direction:column; gap:1rem; text-align:center; }
+      .logo-divider, .logo-mun { display:none; }
+      .bottom-cta { padding:3rem 1.5rem; }
     }
   </style>
 </head>
 <body>
-  <header class="navbar" id="navbar">
-    <a href="/" class="nav-logo">
-      <img src="/assets/logo/lgu-logo.jpeg" alt="LGU Logo" style="height: 50px; width: auto; border-radius: 8px;">
-      <span class="nav-logo-text">LGU <span>MUN</span> 2026</span>
+<canvas id="particles-canvas"></canvas>
+<header class="navbar" id="navbar">
+  <div class="nav-logo">
+    <a href="/" title="Home" style="display:flex;align-items:center;">
+      <img src="/assets/logo/lgu-logo.jpeg" alt="LGU Official Logo" class="logo-lgu">
     </a>
-    <button class="mobile-toggle" id="mobile-toggle" aria-label="Menu">
-      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10h14M3 5h14M3 15h14"/></svg>
-    </button>
-    <nav class="nav-links" id="nav-links">
-      <a href="/">Home</a>
-      <a href="/committees.html" class="active">Committees</a>
-      <a href="/register.html" class="nav-cta">Register Now</a>
-    </nav>
-  </header>
-
-  <div class="page-header">
-    <div class="page-header-bg"></div>
-    <div class="page-header-glow"></div>
-    <div class="page-header-content">
-      <nav class="breadcrumb">
-        <a href="/">Home</a>
-        <span class="sep">/</span>
-        <span class="current">Committees</span>
-      </nav>
-      <h1 class="page-title animate-in">All Committees</h1>
-      <p class="page-count animate-in" id="committee-count" style="animation-delay:0.1s">9 committees · June 2026</p>
-    </div>
+    <div class="logo-divider"></div>
+    <a href="https://www.instagram.com/lgumun?igsh=Nmp4dXdkcXZuOTZq" target="_blank" rel="noopener noreferrer" title="Follow LGUMUN" style="display:flex;align-items:center;">
+      <img src="/assets/logo/lgu-mun-society-logo.jpeg" alt="LGUMUN Society Logo" class="logo-mun" onerror="this.style.display='none'">
+    </a>
+    <a href="/" style="text-decoration:none;">
+      <span class="nav-logo-text" style="margin-left:14px;">LGU <span>MUN</span> 2026</span>
+    </a>
   </div>
+  <button class="mobile-toggle" id="mobile-toggle" aria-label="Menu">
+    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10h14M3 5h14M3 15h14"/></svg>
+  </button>
+  <nav class="nav-links" id="nav-links">
+    <a href="/">Home</a>
+    <a href="/committees.html" class="active">Committees</a>
+    <a href="/register.html" class="nav-cta">Register Now</a>
+  </nav>
+</header>
 
-  <section class="section">
-    <div class="container">
-      <div class="filter-bar reveal">
-        <input type="text" class="search-input" id="search-input" placeholder="Search committees…">
-        <select class="filter-select" id="lang-filter">
-          <option value="">All Languages</option>
-          <option value="english">English</option>
-          <option value="urdu">Urdu</option>
-        </select>
-        <select class="filter-select" id="status-filter">
-          <option value="">All Status</option>
-          <option value="available">Available</option>
-          <option value="limited">Limited</option>
-          <option value="full">Full</option>
-        </select>
-      </div>
+<div class="page-header">
+  <div class="page-header-grid"></div>
+  <div class="page-header-glow"></div>
+  <div class="page-header-content">
+    <nav class="breadcrumb">
+      <a href="/">Home</a>
+      <span class="sep">/</span>
+      <span class="current">Committees</span>
+    </nav>
+    <h1 class="page-title animate-in">All <em>Committees</em></h1>
+    <p class="page-meta animate-in" id="committee-count" style="animation-delay:0.1s">9 Committees &nbsp;·&nbsp; June 2026 &nbsp;·&nbsp; LGU, Lahore</p>
+  </div>
+</div>
 
-      <div class="reveal">
-        <table class="committees-table" id="committees-table">
-          <thead>
-            <tr>
-              <th>Code</th>
-              <th>Committee Name</th>
-              <th class="hide-mobile">Language</th>
-              <th>Seats</th>
-              <th>Available</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody id="committees-body">
-            <!-- Populated by JS or fallback -->
-          </tbody>
-        </table>
-      </div>
+<section class="section">
+  <div class="container">
+    <div class="filter-bar reveal">
+      <input type="text" class="search-input" id="search-input" placeholder="Search by name or code…">
+      <select class="filter-select" id="lang-filter">
+        <option value="">All Languages</option>
+        <option value="english">English</option>
+        <option value="urdu">Urdu</option>
+      </select>
+      <select class="filter-select" id="status-filter">
+        <option value="">All Status</option>
+        <option value="available">Available</option>
+        <option value="limited">Limited</option>
+        <option value="full">Full</option>
+      </select>
+    </div>
 
-      <div class="bottom-cta reveal" style="transition-delay:0.2s">
+    <div class="reveal" style="transition-delay:0.1s">
+      <table class="committees-table" id="committees-table">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Committee Name</th>
+            <th class="hide-mobile">Language</th>
+            <th>Seats</th>
+            <th>Available</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="committees-body"></tbody>
+      </table>
+    </div>
+
+    <div class="bottom-cta reveal" style="transition-delay:0.2s">
+      <div class="bottom-cta-inner">
         <h2 class="bottom-cta-title">Ready to <em>Register?</em></h2>
-        <p class="bottom-cta-desc">Choose your committee and secure your spot at LGU MUN 2026. Applications are now open.</p>
+        <p class="bottom-cta-desc">Choose your committee and secure your spot at LGUMUN 2026. Applications are now open.</p>
         <a href="/register.html" class="btn-primary">
           Register as Delegate
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-          </svg>
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
         </a>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <footer class="footer">
-    <div class="footer-inner">
-      <div class="footer-grid">
-        <div>
-          <div class="footer-brand-name">LGU <span>MUN</span> 2026</div>
-          <p class="footer-desc">Lahore Garrison University Inter-University Model United Nations — fostering diplomatic excellence since 2023.</p>
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logos">
+          <img src="/assets/logo/lgu-logo.jpeg" alt="LGU" class="footer-logo-img">
+          <div class="footer-logo-sep"></div>
+          <img src="/assets/logo/lgu-mun-society-logo.jpeg" alt="LGUMUN" class="footer-logo-img">
         </div>
-        <div>
-          <div class="footer-heading">Navigation</div>
-          <ul class="footer-links">
-            <li><a href="/">Home</a></li>
-            <li><a href="/committees.html">Committees</a></li>
-            <li><a href="/register.html">Register</a></li>
-          </ul>
-        </div>
-        <div>
-          <div class="footer-heading">Contact</div>
-          <ul class="footer-links">
-            <li><a href="mailto:mun@lgu.edu.pk">mun@lgu.edu.pk</a></li>
-            <li><a href="#">Lahore Garrison University</a></li>
-            <li><a href="#">Lahore, Pakistan</a></li>
-          </ul>
-        </div>
+        <div class="footer-brand-name">LGUMUN 2026</div>
+        <p class="footer-desc">Lahore Garrison University Inter-University Model United Nations — fostering diplomatic excellence since 2023.</p>
       </div>
-      <div class="footer-bottom">&copy; 2026 LGU MUN Society. All rights reserved.</div>
+      <div>
+        <div class="footer-heading">Navigation</div>
+        <ul class="footer-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/committees.html">Committees</a></li>
+          <li><a href="/register.html">Register</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Contact</div>
+        <ul class="footer-links">
+          <li><a href="mailto:mun@lgu.edu.pk">mun@lgu.edu.pk</a></li>
+          <li><a href="#">Lahore Garrison University</a></li>
+          <li><a href="#">Lahore, Pakistan</a></li>
+        </ul>
+      </div>
     </div>
-  </footer>
+    <div class="footer-bottom">
+      <span>&copy; 2026 LGUMUN Society. All rights reserved.</span>
+      <div class="footer-bottom-logos">
+        <img src="/assets/logo/lgu-logo.jpeg" alt="LGU">
+        <img src="/assets/logo/lgu-mun-society-logo.jpeg" alt="LGUMUN">
+      </div>
+    </div>
+  </div>
+</footer>
 
-  <script>
-    document.getElementById('navbar').addEventListener('scroll-event', ()=>{});
-    window.addEventListener('scroll', () => {
-      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+<script>
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+  }, { passive: true });
+  document.getElementById('mobile-toggle').addEventListener('click', () => {
+    document.getElementById('nav-links').classList.toggle('open');
+  });
+  const revealEls = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);} }), {threshold:0.1});
+  revealEls.forEach(el => obs.observe(el));
+
+  const fallback = [
+    { code:'UNSC', name:'United Nations Security Council', lang:'English', seats:15, available:3, status:'limited' },
+    { code:'UNGA', name:'United Nations General Assembly', lang:'English', seats:50, available:18, status:'available' },
+    { code:'UNHRC', name:'United Nations Human Rights Council', lang:'English', seats:47, available:12, status:'available' },
+    { code:'ECOSOC', name:'Economic and Social Council', lang:'English', seats:54, available:22, status:'available' },
+    { code:'DISEC', name:'Disarmament and International Security Committee', lang:'English', seats:30, available:8, status:'available' },
+    { code:'WHO', name:'World Health Organization', lang:'English', seats:25, available:0, status:'full' },
+    { code:'UNEP', name:'United Nations Environment Programme', lang:'English', seats:20, available:5, status:'available' },
+    { code:'PNA', name:'Pakistan National Assembly', lang:'Urdu', seats:10, available:4, status:'national' },
+    { code:'ICC', name:'International Criminal Court', lang:'English', seats:4, available:1, status:'limited' },
+  ];
+
+  function statusBadge(s) {
+    if (s==='full') return '<span class="badge badge-full">Full</span>';
+    if (s==='limited') return '<span class="badge badge-limited">Limited</span>';
+    if (s==='national') return '<span class="badge badge-national">National</span>';
+    return '<span class="badge badge-avail">Available</span>';
+  }
+  function availClass(av, s) {
+    if (s==='full') return 'avail-red';
+    if (s==='limited') return 'avail-gold';
+    return 'avail-green';
+  }
+
+  function renderTable(data) {
+    const tbody = document.getElementById('committees-body');
+    tbody.innerHTML = '';
+    data.forEach(c => {
+      const pct = c.seats > 0 ? Math.round((c.seats - c.available) / c.seats * 100) : 100;
+      const isFull = c.status === 'full';
+      const tr = document.createElement('tr');
+      if (isFull) tr.classList.add('full-row');
+      tr.innerHTML = `
+        <td class="code-cell">${c.code}</td>
+        <td class="name-cell">${c.name}</td>
+        <td class="lang-cell hide-mobile">${c.lang}</td>
+        <td class="num-cell">${c.seats}</td>
+        <td class="num-cell ${availClass(c.available, c.status)}">${c.available} <div class="mini-progress"><div class="mini-fill ${c.status==='full'?'mini-fill-red':'mini-fill-gold'}" style="width:${pct}%"></div></div></td>
+        <td>${statusBadge(c.status)}</td>
+        <td>${isFull ? '<span class="reg-btn-disabled">Full</span>' : `<a href="/register.html?committee=${c.code}" class="reg-btn">Register →</a>`}</td>
+      `;
+      tbody.appendChild(tr);
     });
-    document.getElementById('mobile-toggle').addEventListener('click', () => {
-      document.getElementById('nav-links').classList.toggle('open');
+  }
+
+  let committees = [...fallback];
+  renderTable(committees);
+
+  async function fetchCommittees() {
+    try {
+      const r = await fetch('http://localhost:8000/api/v1/committees');
+      if (r.ok) {
+        const d = await r.json();
+        if (d?.data?.committees) {
+          committees = d.data.committees.map(c => ({
+            code: c.short_name, name: c.full_name, lang: c.language,
+            seats: c.total_seats, available: c.total_seats - c.filled_seats,
+            status: c.is_full ? 'full' : (c.available < 5 ? 'limited' : 'available')
+          }));
+          renderTable(committees);
+        }
+      }
+    } catch(e) {}
+  }
+  fetchCommittees();
+
+  function filtered() {
+    const q = document.getElementById('search-input').value.toLowerCase();
+    const lang = document.getElementById('lang-filter').value.toLowerCase();
+    const status = document.getElementById('status-filter').value.toLowerCase();
+    return committees.filter(c => {
+      return (!q || c.name.toLowerCase().includes(q) || c.code.toLowerCase().includes(q)) &&
+             (!lang || c.lang.toLowerCase().includes(lang)) &&
+             (!status || c.status === status);
     });
-    const revealEls = document.querySelectorAll('.reveal');
-    const obs = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);} }), {threshold:0.1});
-    revealEls.forEach(el => obs.observe(el));
+  }
+  ['search-input','lang-filter','status-filter'].forEach(id => {
+    document.getElementById(id).addEventListener('input', () => renderTable(filtered()));
+  });
 
-    // Fallback committee data
-    const fallback = [
-      { code:'UNSC', name:'United Nations Security Council', lang:'English', seats:15, available:3, status:'limited' },
-      { code:'UNGA', name:'United Nations General Assembly', lang:'English', seats:50, available:18, status:'available' },
-      { code:'UNHRC', name:'United Nations Human Rights Council', lang:'English', seats:47, available:12, status:'available' },
-      { code:'ECOSOC', name:'Economic and Social Council', lang:'English', seats:54, available:22, status:'available' },
-      { code:'DISEC', name:'Disarmament and International Security Committee', lang:'English', seats:30, available:8, status:'available' },
-      { code:'WHO', name:'World Health Organization', lang:'English', seats:25, available:0, status:'full' },
-      { code:'UNEP', name:'United Nations Environment Programme', lang:'English', seats:20, available:5, status:'available' },
-      { code:'PNA', name:'Pakistan National Assembly', lang:'Urdu', seats:10, available:4, status:'national' },
-      { code:'ICC', name:'International Criminal Court', lang:'English', seats:4, available:1, status:'limited' },
-    ];
+  // Particle system
+  (function() {
+    const canvas = document.getElementById('particles-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [], rafId;
 
-    function statusBadge(status) {
-      if (status === 'full') return '<span class="badge badge-full">Full</span>';
-      if (status === 'limited') return '<span class="badge badge-limited">Limited</span>';
-      if (status === 'national') return '<span class="badge badge-national">National</span>';
-      return '<span class="badge badge-avail">Available</span>';
-    }
-    function availClass(avail, status) {
-      if (status === 'full') return 'avail-red';
-      if (status === 'limited') return 'avail-gold';
-      return 'avail-green';
-    }
-    function progressColor(status) {
-      if (status === 'full') return 'mini-fill-red';
-      if (status === 'national' || status === 'limited') return 'mini-fill-gold';
-      return 'mini-fill-gold';
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
     }
 
-    function renderTable(data) {
-      const tbody = document.getElementById('committees-body');
-      tbody.innerHTML = '';
-      data.forEach(c => {
-        const pct = c.seats > 0 ? Math.round((c.seats - c.available) / c.seats * 100) : 100;
-        const isFull = c.status === 'full';
-        const tr = document.createElement('tr');
-        if (isFull) tr.classList.add('full-row');
-        tr.innerHTML = `
-          <td class="code-cell">${c.code}</td>
-          <td class="name-cell">${c.name}</td>
-          <td class="lang-cell hide-mobile">${c.lang}</td>
-          <td class="num-cell">${c.seats}</td>
-          <td class="num-cell ${availClass(c.available, c.status)}">${c.available}
-            <div class="mini-progress" style="margin-left:8px;"><div class="mini-fill ${progressColor(c.status)}" style="width:${pct}%"></div></div>
-          </td>
-          <td>${statusBadge(c.status)}</td>
-          <td>${isFull ? '<span class="reg-btn-disabled">Full</span>' : `<a href="/register.html?committee=${c.code}" class="reg-btn">Register</a>`}</td>
-        `;
-        tbody.appendChild(tr);
+    class Particle {
+      constructor() { this.reset(); }
+      reset() {
+        this.x = Math.random() * W;
+        this.y = Math.random() * H;
+        this.size = Math.random() * 1.5 + 0.3;
+        this.vx = (Math.random() - 0.5) * 0.25;
+        this.vy = (Math.random() - 0.5) * 0.25;
+        this.alpha = Math.random() * 0.4 + 0.05;
+        this.color = Math.random() > 0.65 ? '201,168,76' : '255,255,255';
+        this.life = 0;
+        this.maxLife = 300 + Math.random() * 400;
+      }
+      update() {
+        this.x += this.vx; this.y += this.vy; this.life++;
+        if (this.life > this.maxLife || this.x < 0 || this.x > W || this.y < 0 || this.y > H) this.reset();
+      }
+      draw() {
+        const progress = this.life / this.maxLife;
+        const fade = progress < 0.1 ? progress / 0.1 : progress > 0.85 ? (1 - progress) / 0.15 : 1;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${this.color},${this.alpha * fade})`;
+        ctx.fill();
+      }
+    }
+
+    function init() {
+      resize();
+      particles = Array.from({length: 120}, () => {
+        const p = new Particle();
+        p.life = Math.random() * p.maxLife;
+        return p;
       });
     }
 
-    let committees = [...fallback];
-    renderTable(committees);
-
-    async function fetchCommittees() {
-      try {
-        const r = await fetch('http://localhost:8000/api/v1/committees');
-        if (r.ok) {
-          const d = await r.json();
-          if (d?.data?.committees) {
-            committees = d.data.committees.map(c => ({
-              code: c.short_name,
-              name: c.full_name,
-              lang: c.language,
-              seats: c.total_seats,
-              available: c.total_seats - c.filled_seats,
-              status: c.is_full ? 'full' : (c.available < 5 ? 'limited' : 'available')
-            }));
-            renderTable(committees);
+    function loop() {
+      ctx.clearRect(0, 0, W, H);
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < 100) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(201,168,76,${0.04 * (1 - dist/100)})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
           }
         }
-      } catch(e) {}
+      }
+      particles.forEach(p => { p.update(); p.draw(); });
+      rafId = requestAnimationFrame(loop);
     }
-    fetchCommittees();
 
-    function filtered() {
-      const q = document.getElementById('search-input').value.toLowerCase();
-      const lang = document.getElementById('lang-filter').value.toLowerCase();
-      const status = document.getElementById('status-filter').value.toLowerCase();
-      return committees.filter(c => {
-        const matchQ = !q || c.name.toLowerCase().includes(q) || c.code.toLowerCase().includes(q);
-        const matchL = !lang || c.lang.toLowerCase().includes(lang);
-        const matchS = !status || c.status === status;
-        return matchQ && matchL && matchS;
-      });
-    }
-    ['search-input','lang-filter','status-filter'].forEach(id => {
-      document.getElementById(id).addEventListener('input', () => renderTable(filtered()));
-    });
-  </script>
+    window.addEventListener('resize', () => { resize(); }, { passive: true });
+    init();
+    loop();
+  })();
+</script>
 </body>
 </html>
