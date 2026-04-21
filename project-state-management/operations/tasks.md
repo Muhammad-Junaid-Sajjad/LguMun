@@ -1,6 +1,6 @@
 # TASK TRACKING
 
-## CURRENT PHASE: 4 - Deployment & Launch
+## CURRENT PHASE: 3.6 - Premium Frontend Polish (95% Complete)
 
 ---
 
@@ -8,13 +8,6 @@
 
 | ID | Task | Priority | Assigned | Status |
 |---|---|---|---|---|
-| T-LOGO-001 | Integrate LGU MUN Society logo with styling | P1 | Developer | Pending |
-| T-LOGO-002 | Add logo click behavior (LGU & MUN links) | P1 | Developer | Pending |
-| T-LOGO-003 | Add logo hover tooltips | P1 | Developer | Pending |
-| T-PARTICLE-001 | Add particle system (120 dots) to all pages | P1 | Developer | Pending |
-| T-CONFETTI-001 | Fix success page confetti to run forever | P1 | Developer | Pending |
-| T-NAVBAR-001 | Update navbar with dual logos | P1 | Developer | Pending |
-| T-POLISH-001 | Apply seamless design from new files | P2 | Developer | Pending |
 | T-DEP-001 | Deploy to production (awaiting client hosting) | P1 | Developer | Blocked |
 | T-DEP-002 | Set up Sentry error monitoring (optional) | P3 | Developer | Deferred |
 
@@ -22,10 +15,28 @@
 
 ### IN-PROGRESS TASKS
 
-| ID | Task | Priority | Assigned | Status |
-|---|---|---|---|---|
-| T-STATE-001 | Fix project state management system | P1 | Claude | In Progress |
-| T-STATE-002 | Update all state files to current reality | P1 | Claude | In Progress |
+None currently in progress.
+
+---
+
+### COMPLETED TASKS (SESSION 2026-04-21)
+
+| ID | Task | Priority | Assigned | Status | Date |
+|---|---|---|---|---|---|
+| T-LOGO-001 | Integrate LGU MUN Society logo with styling | P1 | Developer | Completed | 2026-04-21T11:50:00Z |
+| T-LOGO-002 | Add logo click behavior (LGU → Home, MUN → Instagram) | P1 | Developer | Completed | 2026-04-21T11:50:00Z |
+| T-LOGO-003 | Add logo hover tooltips ("Home", "Follow LGUMUN") | P1 | Developer | Completed | 2026-04-21T11:50:00Z |
+| T-LOGO-004 | Premium logo effects (scale, rotate, glow) | P1 | Developer | Completed | 2026-04-21T11:50:00Z |
+| T-PARTICLE-001 | Add particle system (120 dots) to all pages | P1 | Developer | Completed | 2026-04-21T11:50:00Z |
+| T-CONFETTI-001 | Fix success page confetti to run forever | P1 | Developer | Completed | 2026-04-21T11:50:00Z |
+| T-NAVBAR-001 | Update navbar with dual logos | P1 | Developer | Completed | 2026-04-21T11:50:00Z |
+| T-VIDEO-001 | Add YouTube video modal in Past Events | P1 | Developer | Completed | 2026-04-21T11:50:00Z |
+| T-POLISH-001 | Apply seamless design from new files | P2 | Developer | Completed | 2026-04-21T11:50:00Z |
+| T-POLISH-002 | Premium interactive effects on all pages | P2 | Developer | Completed | 2026-04-21T11:50:00Z |
+| T-POLISH-003 | Branding update (LGU MUN → LGUMUN) | P2 | Developer | Completed | 2026-04-21T11:50:00Z |
+| T-STATE-001 | Fix project state management system | P1 | Claude | Completed | 2026-04-21T11:50:00Z |
+| T-STATE-002 | Update all state files to current reality | P1 | Claude | Completed | 2026-04-21T11:50:00Z |
+| T-LEARN-001 | Document mistakes and lessons learned | P1 | Claude | Completed | 2026-04-21T12:00:00Z |
 
 ---
 
