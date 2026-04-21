@@ -180,13 +180,44 @@
 
 | Metric | Value | Trend |
 |--------|-------|-------|
-| Mistakes Logged | 1 | ↓ Decreasing |
-| Lessons Extracted | 5 | ↑ Increasing |
+| Mistakes Logged | 5 | ↑ Increasing (new mistakes documented) |
+| Lessons Extracted | 10 | ↑ Increasing |
 | Anti-patterns Identified | 10 | ✓ Complete |
-| Improvements Applied | 5 | ↑ Increasing |
+| Improvements Applied | 10 | ↑ Increasing |
 | Code Quality | 96.4% | ↑ Improving |
 | Test Pass Rate | 96.4% | ✓ Stable |
 | Security Score | 100% | ✓ Perfect |
+
+---
+
+## LATEST LEARNING - 2026-04-21T12:00:00Z
+
+### New Mistakes Logged (Session)
+1. **MISTAKE-003**: Incorrect logo file references
+   - Used wrong logo file paths
+   - Missing LGUMUN logo in footer
+   - Branding inconsistency
+
+2. **MISTAKE-004**: Confetti stopping after 10 seconds
+   - Success page confetti had artificial stop condition
+   - Removed frame counter for infinite loop
+
+3. **MISTAKE-005**: LGU logo linking to external site
+   - Changed to home page link
+   - Preserved navigation flow
+
+### New Lessons Extracted
+1. **LESSON-007**: Premium interactive effects require consistent implementation
+2. **LESSON-008**: Branding consistency is critical
+3. **LESSON-009**: Celebration effects should run indefinitely
+4. **LESSON-010**: Brand logos should link to home, not external sites
+
+### Improvements Applied This Session
+1. Logo hover effects: scale(1.08) + rotate + glow
+2. Footer logos: continuous glow animation
+3. YouTube video modal: auto-play with smooth animation
+4. Confetti: runs forever on success page
+5. Branding: all "LGU MUN" → "LGUMUN"
 
 ---
 
@@ -198,11 +229,14 @@ Based on current learning:
 3. Add more comprehensive logging
 4. Implement caching for performance
 5. Add monitoring/alerting
+6. Apply premium interactive effects consistently
+7. Standardize branding across all assets
+8. Ensure celebration effects run indefinitely
 
 ---
 
 **Learning Loop Status**: ✅ ACTIVE  
-**Last Update**: 2026-04-20T07:44:03Z  
+**Last Update**: 2026-04-21T12:00:00Z  
 **Next Review**: After next 3 iterations
 ## Learnings Applied - 2026-04-21T07:59:13Z
 **Lessons Loaded**: 6

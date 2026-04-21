@@ -69,3 +69,121 @@ Declarative systems (config files, documentation) are not the same as functional
 
 ### Status
 ✅ Resolved - State files manually updated, issue documented
+
+---
+
+## MISTAKE-003: Incorrect Logo File References
+**Date**: 2026-04-21T11:50:00Z  
+**Files**: `frontend/index.html`, `frontend/committees.html`, `frontend/register.html`, `frontend/success.html`  
+**Context**: Using wrong logo file paths and missing LGUMUN logo in footer
+
+### What Happened
+- Used `lgumun-logo.jpeg` instead of `lgu-mun-society-logo.jpeg` for LGUMUN Society logo
+- Footer had `onerror="this.style.display='none'"` causing LGUMUN logo to not display
+- Brand name still showed "LGU MUN" instead of "LGUMUN"
+
+### Root Cause
+- Initial logo extraction used wrong filename
+- Footer implementation had placeholder logic that hid the logo on error
+- Branding wasn't updated to match official "LGUMUN" format
+
+### Impact
+- LGUMUN Society logo not visible in footer on all pages
+- Inconsistent branding across website
+- Missing premium logo styling on footer elements
+
+### Fix Applied
+1. Updated all logo references to use `lgu-mun-society-logo.jpeg`
+2. Removed `onerror` attributes from footer logos
+3. Updated brand names to "LGUMUN 2026" across all pages
+4. Added premium glow animations to footer logos
+5. Updated navbar logo tooltips to "Home" and "Follow LGUMUN"
+
+### Prevention Strategy
+- **Rule**: Always verify logo file paths match actual files in assets folder
+- **Checklist**: Before deployment, verify all logo references exist
+- **Testing**: Test footer display on all pages to ensure both logos visible
+- **Branding Standard**: Use "LGUMUN" (no space) as official format
+
+### Lesson Learned
+Logo file names matter - the extracted logo from WhatsApp post has a specific filename that must be used consistently. Also, branding consistency is critical - "LGU MUN" vs "LGUMUN" should be standardized.
+
+### Status
+✅ Resolved - All logo references fixed, branding standardized
+
+---
+
+## MISTAKE-004: Confetti Stopping After 10 Seconds
+**Date**: 2026-04-21T11:52:00Z  
+**File**: `frontend/success.html`  
+**Context**: Success page confetti animation stopped after ~10 seconds
+
+### What Happened
+The confetti particle system had a frame counter that stopped after 300 frames:
+```javascript
+if (frame++ > 300) return; // stop after 10s
+```
+
+### Root Cause
+Confetti loop had artificial stop condition for performance reasons, but this created a poor user experience on the success page where celebration should continue.
+
+### Impact
+- Confetti stopped before user could fully celebrate
+- Success page felt incomplete
+- User experience degraded on key conversion page
+
+### Fix Applied
+Removed the frame counter and stop condition:
+```javascript
+// Removed: if (frame++ > 300) return;
+// Confetti now runs forever with requestAnimationFrame loop
+```
+
+### Prevention Strategy
+- **Rule**: Celebration effects should run indefinitely or until user action
+- **Performance**: Use efficient particle rendering to avoid performance issues
+- **User Experience**: Success pages should provide full celebration experience
+
+### Lesson Learned
+Performance optimizations shouldn't compromise user experience on key pages. Confetti on success page should run as long as needed for full celebration effect.
+
+### Status
+✅ Resolved - Confetti now runs forever
+
+---
+
+## MISTAKE-005: LGU Logo Linking to External Site Instead of Home
+**Date**: 2026-04-21T11:53:00Z  
+**Files**: `frontend/index.html`, `frontend/committees.html`, `frontend/register.html`, `frontend/success.html`  
+**Context**: LGU Official logo in navbar linked to admissions.lgu.edu.pk instead of home page
+
+### What Happened
+Navbar LGU logo had external link:
+```html
+<a href="https://admissions.lgu.edu.pk/" target="_blank" ...>
+```
+
+### Root Cause
+Initial implementation linked to external site for "Visit LGU" functionality, but this broke navigation flow and confused users.
+
+### Impact
+- Users lost their place when clicking LGU logo
+- Navigation flow broken
+- Poor user experience on multi-page journey
+
+### Fix Applied
+Changed LGU logo to link to home page:
+```html
+<a href="/" title="Home" ...>
+```
+
+### Prevention Strategy
+- **Rule**: Brand/logo links should return to home, not external sites
+- **External Links**: Use separate "Visit LGU" button or tooltip for external links
+- **Navigation**: Keep users on site for better engagement
+
+### Lesson Learned
+Brand logos should always link to home page. External links should be separate, intentional actions (like the LGUMUN Instagram link).
+
+### Status
+✅ Resolved - LGU logo now links to home page

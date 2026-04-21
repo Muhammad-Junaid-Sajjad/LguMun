@@ -155,3 +155,115 @@ Apply to all system activations:
 2. Verify it's actually working (check outputs)
 3. If not working, fix it or document as "planned"
 4. Never claim a system is "active" without proof
+
+---
+
+## LESSON-007: Premium Interactive Effects Require Consistent Implementation
+**Date**: 2026-04-21T11:50:00Z  
+**Source**: Premium frontend polish implementation
+
+### Context
+Implementing premium interactive effects across all pages required consistent approach for logos, buttons, and cards.
+
+### Key Insight
+- Hover effects should use cubic-bezier(0.16, 1, 0.3, 1) for smooth, premium feel
+- Active states provide tactile feedback for mobile touch
+- Glow effects use drop-shadow filters for performance
+- Consistent transition timing across all elements creates cohesive feel
+
+### Best Practice
+- Use same easing function for all interactive elements
+- Active state: scale(0.98) for click/touch feedback
+- Hover state: scale(1.05-1.08) + enhanced shadow
+- Footer elements: continuous glow animation
+- Navbar elements: rotate on hover for playful feel
+
+### Application
+Apply to all future premium implementations:
+1. Define interactive effect patterns first
+2. Apply consistently across all pages
+3. Test on mobile for touch feedback
+4. Verify performance with drop-shadow filters
+
+---
+
+## LESSON-008: Branding Consistency Is Critical
+**Date**: 2026-04-21T11:53:00Z  
+**Source**: MISTAKE-003
+
+### Context
+Branding inconsistency between "LGU MUN" and "LGUMUN" caused confusion and unprofessional appearance.
+
+### Key Insight
+- Official branding must be used consistently everywhere
+- "LGUMUN" (no space) is the official format
+- Logo file names must match actual files in assets folder
+- Footer must display both logos for complete branding
+
+### Best Practice
+- Standardize branding format first (LGUMUN)
+- Update all references consistently
+- Verify logo files exist before using
+- Test footer display on all pages
+
+### Application
+Apply to all branding work:
+1. Define official branding format
+2. Search and replace across all files
+3. Verify logo file paths
+4. Test visual consistency
+
+---
+
+## LESSON-009: Celebration Effects Should Run Indefinitely
+**Date**: 2026-04-21T11:52:00Z  
+**Source**: MISTAKE-004
+
+### Context
+Confetti animation stopping after 10 seconds on success page degraded user experience.
+
+### Key Insight
+- Success pages should provide full celebration experience
+- Performance optimizations shouldn't compromise user experience on key pages
+- requestAnimationFrame loop is efficient enough for celebration effects
+
+### Best Practice
+- Celebration effects: run indefinitely or until user action
+- Use efficient particle rendering
+- Consider user psychology on success pages
+- Test duration feels right for the occasion
+
+### Application
+Apply to all celebration/feedback effects:
+1. Define expected duration based on context
+2. Use efficient rendering
+3. Test user experience
+4. Consider removing artificial limits on key pages
+
+---
+
+## LESSON-010: Brand Logos Should Link to Home, Not External Sites
+**Date**: 2026-04-21T11:53:00Z  
+**Source**: MISTAKE-005
+
+### Context
+LGU logo in navbar linked to external admissions site, breaking navigation flow.
+
+### Key Insight
+- Brand/logo links should return to home page
+- External links should be separate, intentional actions
+- Navigation flow should be preserved for multi-page journey
+- Tooltips can provide external link context without breaking flow
+
+### Best Practice
+- Logo links: always point to home page
+- External links: use separate buttons or tooltip-triggered actions
+- Preserve user context during navigation
+- Make external links intentional (not accidental clicks)
+
+### Application
+Apply to all branding navigation:
+1. Logo → Home page
+2. External links → Separate, intentional actions
+3. Tooltips → Provide context without navigation
+4. Test navigation flow end-to-end
