@@ -15,7 +15,9 @@ def test_valid_registration(client, test_committee):
     data = response.json()
     assert data["success"] is True
     assert "roll_number" in data["data"]
-    assert data["data"]["roll_number"].startswith("LGU-MUN26-")
+    # Expect roll number to start with LGU-<committee_short_name>-
+    # For test_committee fixture, short_name is "TEST"
+    assert data["data"]["roll_number"].startswith("LGU-TEST-")
 
 def test_duplicate_email(client, test_committee):
     """Test duplicate email returns 400 with DUPLICATE_EMAIL"""

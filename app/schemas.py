@@ -62,13 +62,27 @@ class CommitteeResponse(BaseModel):
     total_seats: int
     filled_seats: int
     language: str
+    contact_info: str | None
     is_full: bool
     capacity_percentage: int
 
     class Config:
         from_attributes = True
 
-class SuccessResponse(BaseModel):
+class TransferRequest(BaseModel):
+    new_committee_id: int
+
+class TransferResponse(BaseModel):
+    roll_number: str
+    full_name: str
+    email: str
+    old_committee_name: str
+    old_committee_short_name: str
+    new_committee_name: str
+    new_committee_short_name: str
+    transferred_at: str
+
+
     success: bool = True
     data: dict
     timestamp: str

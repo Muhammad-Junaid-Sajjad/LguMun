@@ -9,8 +9,8 @@ from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 from app.database import settings, get_db
-from app.schemas import DelegateCreate
-from app.services import get_all_committees, get_committee_by_id, register_delegate, get_delegates_count
+from app.schemas import DelegateCreate, TransferRequest
+from app.services import get_all_committees, get_committee_by_id, register_delegate, get_delegates_count, transfer_delegate
 from app.exceptions import AppException
 from app.constants import RATE_LIMIT
 
@@ -47,15 +47,18 @@ def now_iso():
 def success_envelope(data: dict, status: int = 200):
     return JSONResponse({"success": True, "data": data, "timestamp": now_iso()}, status_code=status)
 
-def error_envelope(code: str, message: str, field=None, status: int = 400):
+def error_envelope(code: str, message: str, field=None, status: int = 400, data: dict = None):
+    error_dict = {"code": code, "message": message, "field": field}
+    if data:
+        error_dict["data"] = data
     return JSONResponse(
-        {"success": False, "error": {"code": code, "message": message, "field": field}, "timestamp": now_iso()},
+        {"success": False, "error": error_dict, "timestamp": now_iso()},
         status_code=status
     )
 
 @app.exception_handler(AppException)
 async def app_exception_handler(request: Request, exc: AppException):
-    return error_envelope(exc.code, exc.message, exc.field, exc.status_code)
+    return error_envelope(exc.code, exc.message, exc.field, exc.status_code, exc.data)
 
 @app.get("/api/v1/health")
 def health():
@@ -84,6 +87,12 @@ def get_committee(committee_id: int, db: Session = Depends(get_db)):
 def delegates_count(db: Session = Depends(get_db)):
     count = get_delegates_count(db)
     return success_envelope(count)
+
+@app.post("/api/v1/delegates/{roll_number}/transfer")
+@limiter.limit(RATE_LIMIT)
+def transfer_delegate_endpoint(request: Request, roll_number: str, body: TransferRequest, db: Session = Depends(get_db)):
+    result = transfer_delegate(db, roll_number, body.new_committee_id)
+    return success_envelope(result)
 
 # Static files — mount LAST so API routes take priority
 app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")

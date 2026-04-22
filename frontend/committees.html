@@ -298,10 +298,6 @@
     <a href="/" title="Home" style="display:flex;align-items:center;">
       <img src="/assets/logo/lgu-logo.jpeg" alt="LGU Official Logo" class="logo-lgu">
     </a>
-    <div class="logo-divider"></div>
-    <a href="https://www.instagram.com/lgumun?igsh=Nmp4dXdkcXZuOTZq" target="_blank" rel="noopener noreferrer" title="Follow LGUMUN" style="display:flex;align-items:center;">
-      <img src="/assets/logo/lgu-mun-society-logo.jpeg" alt="LGUMUN Society Logo" class="logo-mun" onerror="this.style.display='none'">
-    </a>
     <a href="/" style="text-decoration:none;">
       <span class="nav-logo-text" style="margin-left:14px;">LGU <span>MUN</span> 2026</span>
     </a>
@@ -383,11 +379,9 @@
       <div>
         <div class="footer-logos">
           <img src="/assets/logo/lgu-logo.jpeg" alt="LGU" class="footer-logo-img">
-          <div class="footer-logo-sep"></div>
-          <img src="/assets/logo/lgu-mun-society-logo.jpeg" alt="LGUMUN" class="footer-logo-img">
         </div>
         <div class="footer-brand-name">LGUMUN 2026</div>
-        <p class="footer-desc">Lahore Garrison University Inter-University Model United Nations — fostering diplomatic excellence since 2023.</p>
+        <p class="footer-desc">Lahore Garrison University Inter-University Model United Nations — fostering diplomatic excellence since 2025.</p>
       </div>
       <div>
         <div class="footer-heading">Navigation</div>
@@ -410,7 +404,6 @@
       <span>&copy; 2026 LGUMUN Society. All rights reserved.</span>
       <div class="footer-bottom-logos">
         <img src="/assets/logo/lgu-logo.jpeg" alt="LGU">
-        <img src="/assets/logo/lgu-mun-society-logo.jpeg" alt="LGUMUN">
       </div>
     </div>
   </div>
@@ -428,15 +421,16 @@
   revealEls.forEach(el => obs.observe(el));
 
   const fallback = [
-    { code:'UNSC', name:'United Nations Security Council', lang:'English', seats:15, available:3, status:'limited' },
-    { code:'UNGA', name:'United Nations General Assembly', lang:'English', seats:50, available:18, status:'available' },
-    { code:'UNHRC', name:'United Nations Human Rights Council', lang:'English', seats:47, available:12, status:'available' },
-    { code:'ECOSOC', name:'Economic and Social Council', lang:'English', seats:54, available:22, status:'available' },
-    { code:'DISEC', name:'Disarmament and International Security Committee', lang:'English', seats:30, available:8, status:'available' },
-    { code:'WHO', name:'World Health Organization', lang:'English', seats:25, available:0, status:'full' },
-    { code:'UNEP', name:'United Nations Environment Programme', lang:'English', seats:20, available:5, status:'available' },
-    { code:'PNA', name:'Pakistan National Assembly', lang:'Urdu', seats:10, available:4, status:'national' },
-    { code:'ICC', name:'International Criminal Court', lang:'English', seats:4, available:1, status:'limited' },
+    // Hardest/Most Prestigious Committees First
+    { code:'UNSC', name:'United Nations Security Council', lang:'English', seats:50, available:40, status:'available' },
+    { code:'UNGA', name:'United Nations General Assembly', lang:'English', seats:50, available:35, status:'available' },
+    { code:'UNHRC', name:'United Nations Human Rights Council', lang:'English', seats:50, available:38, status:'available' },
+    { code:'DISEC', name:'Disarmament and International Security Committee', lang:'English', seats:50, available:42, status:'available' },
+    { code:'UNODC', name:'UN Office on Drugs and Crime', lang:'English', seats:50, available:35, status:'available' },
+    { code:'PNA', name:'Pakistan National Assembly', lang:'Urdu & English', seats:50, available:46, status:'available' },
+    { code:'UNW', name:'UN Women', lang:'English', seats:50, available:30, status:'available' },
+    { code:'JSP', name:'Joint Session of Parliament', lang:'Urdu & English', seats:50, available:38, status:'available' },
+    { code:'NCC', name:'National Crisis Committee', lang:'English', seats:50, available:36, status:'available' },
   ];
 
   function statusBadge(s) {
@@ -459,6 +453,7 @@
       const isFull = c.status === 'full';
       const tr = document.createElement('tr');
       if (isFull) tr.classList.add('full-row');
+      const contactCell = isFull && c.contact_info ? `<td colspan="6" class="contact-info-cell"><small>${c.contact_info}</small></td>` : '';
       tr.innerHTML = `
         <td class="code-cell">${c.code}</td>
         <td class="name-cell">${c.name}</td>
@@ -469,6 +464,11 @@
         <td>${isFull ? '<span class="reg-btn-disabled">Full</span>' : `<a href="/register.html?committee=${c.code}" class="reg-btn">Register →</a>`}</td>
       `;
       tbody.appendChild(tr);
+      if (contactCell) {
+        const contactTr = document.createElement('tr');
+        contactTr.innerHTML = contactCell;
+        tbody.appendChild(contactTr);
+      }
     });
   }
 

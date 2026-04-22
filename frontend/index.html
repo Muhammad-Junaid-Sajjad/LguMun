@@ -664,6 +664,32 @@
       border-radius: 100px;
       overflow: hidden;
     }
+
+    /* GREEN DOT ANIMATION */
+    .green-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--green-avail);
+      border-radius: 50%;
+      display: inline-block;
+      box-shadow: 0 0 0 0 rgba(61, 186, 126, 0.7);
+      animation: greenPulse 2s infinite;
+    }
+    @keyframes greenPulse {
+      0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(61, 186, 126, 0.7);
+      }
+      70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 10px rgba(61, 186, 126, 0);
+      }
+      100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(61, 186, 126, 0);
+      }
+    }
+
     .progress-fill {
       height: 100%;
       border-radius: 100px;
@@ -1012,65 +1038,45 @@
     .reveal-delay-2 { transition-delay: 0.22s; }
     .reveal-delay-3 { transition-delay: 0.34s; }
 
-    /* ===== VIDEO MODAL ===== */
-    .video-modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.95);
-      z-index: 2000;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(4px);
-      animation: fadeIn 0.3s ease;
+    /* ===== INLINE VIDEO PLAYER ===== */
+    .video-player-section {
+      padding: 4rem 2rem;
+      background: linear-gradient(180deg, var(--navy-deep) 0%, var(--navy) 100%);
+      border-top: 1px solid var(--border-light);
+      border-bottom: 1px solid var(--border-light);
     }
-    .video-modal.active {
-      display: flex;
+    .video-player-container {
+      max-width: 1100px;
+      margin: 0 auto;
     }
-    .video-modal-content {
+    .video-player-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .video-player-header .section-eyebrow {
+      margin-bottom: 1rem;
+    }
+    .video-player-header .section-title {
+      margin-bottom: 1rem;
+    }
+    .video-embed-wrapper {
       position: relative;
-      width: 90%;
-      max-width: 900px;
-      aspect-ratio: 16 / 9;
-      background: var(--navy-deep);
-      border-radius: 16px;
+      width: 100%;
+      padding-bottom: 56.25%;
+      height: 0;
       overflow: hidden;
+      border-radius: 16px;
       box-shadow: 0 20px 60px rgba(201,168,76,0.3);
-      animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: fadeInUp 0.8s ease both;
     }
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(40px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .video-modal iframe {
+    .video-embed-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       border: none;
-    }
-    .video-modal-close {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      width: 40px;
-      height: 40px;
-      background: rgba(201,168,76,0.9);
-      border: none;
-      border-radius: 50%;
-      color: var(--navy);
-      font-size: 24px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      z-index: 2001;
-    }
-    .video-modal-close:hover {
-      background: var(--gold-light);
-      transform: scale(1.1);
-    }
-    .video-modal-close:active {
-      transform: scale(0.95);
+      border-radius: 16px;
     }
 
     /* ===== PREMIUM POLISH ===== */
@@ -1175,10 +1181,6 @@
     <a href="/" title="Home" style="display:flex;align-items:center;">
       <img src="/assets/logo/lgu-logo.jpeg" alt="LGU Official Logo" class="logo-lgu">
     </a>
-    <div class="logo-divider"></div>
-    <a href="https://www.instagram.com/lgumun?igsh=Nmp4dXdkcXZuOTZq" target="_blank" rel="noopener noreferrer" title="Follow LGUMUN" style="display:flex;align-items:center;">
-      <img src="/assets/logo/lgu-mun-society-logo.jpeg" alt="LGUMUN Society Logo" class="logo-mun" onerror="this.style.display='none'">
-    </a>
     <a href="/" style="text-decoration:none;">
       <span class="nav-logo-text" style="margin-left:14px;">LGU <span>MUN</span> 2026</span>
     </a>
@@ -1240,11 +1242,11 @@
 <div class="stats-strip">
   <div class="stats-inner">
     <div class="stat-item">
-      <div class="stat-num">9</div>
+      <div class="stat-num" id="stat-committees">9</div>
       <div class="stat-label">Active Committees</div>
     </div>
     <div class="stat-item">
-      <div class="stat-num">255</div>
+      <div class="stat-num" id="stat-seats">450</div>
       <div class="stat-label">Total Seats</div>
     </div>
     <div class="stat-item">
@@ -1275,11 +1277,6 @@
       <div class="about-logo-card">
         <img src="/assets/logo/lgu-logo.jpeg" alt="Lahore Garrison University" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2280%22 height=%2280%22><rect width=%2280%22 height=%2280%22 fill=%22%230d1628%22 rx=%2210%22/><text x=%2240%22 y=%2248%22 text-anchor=%22middle%22 fill=%22%23c9a84c%22 font-size=%2228%22>🏛️</text></svg>'">
         <div class="lc-label">Lahore Garrison<br>University</div>
-      </div>
-      <div class="about-connector"></div>
-      <div class="about-logo-card">
-        <img src="/assets/logo/lgu-mun-society-logo.jpeg" alt="LGUMUN Society">
-        <div class="lc-label">LGUMUN<br>Society</div>
       </div>
     </div>
   </div>
@@ -1333,18 +1330,32 @@
   </div>
 </section>
 
+<!-- INLINE VIDEO PLAYER - Strategic placement after committees, before legacy -->
+<section class="video-player-section reveal">
+  <div class="video-player-container">
+    <div class="video-player-header">
+      <div class="section-eyebrow">Watch Our Story</div>
+      <h2 class="section-title">Experience <em>LGUMUN</em></h2>
+      <div class="gold-line" style="margin: 1.5rem auto;"></div>
+      <p class="section-desc" style="max-width: 600px; margin: 0 auto;">Watch highlights from our previous conferences and see what makes LGUMUN a premier diplomatic forum.</p>
+    </div>
+    <div class="video-embed-wrapper">
+      <iframe src="https://www.youtube.com/embed/JsKOYbdVUlY" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+</section>
+
 <!-- PAST EVENTS -->
 <section class="section events-section">
   <div class="container">
     <div class="section-eyebrow reveal">Legacy</div>
-    <h2 class="section-title reveal">Three Years of <em>Excellence</em></h2>
+    <h2 class="section-title reveal">One Year of <em>Excellence</em></h2>
     <div class="gold-line reveal"></div>
-    <p class="section-desc reveal">Building a tradition of outstanding diplomatic discourse and leadership development since 2023.</p>
+    <p class="section-desc reveal">Building a tradition of outstanding diplomatic discourse and leadership development since 2025.</p>
     <div class="events-grid">
       <div class="event-card reveal reveal-delay-1">
         <img src="/assets/photos/event1.jpg" alt="LGUMUN 2023" onerror="this.style.display='none'">
         <div class="event-placeholder">🏛️</div>
-        <div class="video-play-btn" onclick="openVideoModal()">▶</div>
         <div class="event-overlay">
           <div class="event-year">MUN I · 2023</div>
           <div class="event-title">The Inaugural Conference</div>
@@ -1375,7 +1386,10 @@
   <div class="container">
     <div class="cta-section reveal">
       <div class="cta-inner">
-        <div class="section-eyebrow" style="margin-bottom:1rem;">Applications Open</div>
+        <div class="section-eyebrow" style="margin-bottom:1.5rem; display: inline-flex; align-items: center; gap: 8px;">
+          <span class="green-dot"></span>
+          Applications Now Open
+        </div>
         <h2 class="section-title" style="margin-bottom:1.25rem;">Ready to Take the <em>Floor?</em></h2>
         <p>Secure your delegation seat at LGUMUN 2026. Limited spots available across 9 committees. Registration closes before event date.</p>
         <a href="/register.html" class="btn-primary" style="font-size:0.9rem; padding:16px 44px;">
@@ -1396,11 +1410,9 @@
       <div>
         <div class="footer-logos">
           <img src="/assets/logo/lgu-logo.jpeg" alt="LGU" class="footer-logo-img">
-          <div class="footer-logo-sep"></div>
-          <img src="/assets/logo/lgu-mun-society-logo.jpeg" alt="LGUMUN" class="footer-logo-img">
         </div>
         <div class="footer-brand-name">LGUMUN 2026</div>
-        <p class="footer-desc">Lahore Garrison University Inter-University Model United Nations — fostering diplomatic excellence since 2023.</p>
+        <p class="footer-desc">Lahore Garrison University Inter-University Model United Nations — fostering diplomatic excellence since 2025.</p>
       </div>
       <div>
         <div class="footer-heading">Navigation</div>
@@ -1423,45 +1435,57 @@
       <span>&copy; 2026 LGUMUN Society. All rights reserved.</span>
       <div class="footer-bottom-logos">
         <img src="/assets/logo/lgu-logo.jpeg" alt="LGU">
-        <img src="/assets/logo/lgu-mun-society-logo.jpeg" alt="LGUMUN">
       </div>
     </div>
   </div>
 </footer>
 
-<!-- VIDEO MODAL -->
-<div class="video-modal" id="video-modal" onclick="closeVideoModal(event)">
-  <div class="video-modal-content" onclick="event.stopPropagation()">
-    <button class="video-modal-close" onclick="closeVideoModal()">&times;</button>
-    <iframe id="video-iframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-  </div>
-</div>
-
 <script>
-  // Video Modal Functions
-  function openVideoModal() {
-    const modal = document.getElementById('video-modal');
-    const iframe = document.getElementById('video-iframe');
-    iframe.src = 'https://www.youtube.com/embed/JsKOYbdVUlY?autoplay=1';
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
+  // Real-time stats update with animation
+  async function updateStats() {
+    try {
+      // Update committees count
+      const committeesResp = await fetch('http://localhost:8000/api/v1/committees');
+      if (committeesResp.ok) {
+        const committeesData = await committeesResp.json();
+        const count = committeesData.data.committees.length;
+        animateCounter('stat-committees', count, 3000);
+      }
+
+      // Update delegates count
+      const delegatesResp = await fetch('http://localhost:8000/api/v1/delegates/count');
+      if (delegatesResp.ok) {
+        const delegatesData = await delegatesResp.json();
+        const count = delegatesData.data.count;
+        animateCounter('stat-registered', count, 3000);
+      }
+    } catch (e) {
+      console.error('Stats update failed:', e);
+    }
   }
 
-  function closeVideoModal(event) {
-    if (event && event.target.id !== 'video-modal') return;
-    const modal = document.getElementById('video-modal');
-    const iframe = document.getElementById('video-iframe');
-    modal.classList.remove('active');
-    iframe.src = '';
-    document.body.style.overflow = 'auto';
+  // Animate number counter
+  function animateCounter(elementId, target, duration = 3000) {
+    const element = document.getElementById(elementId);
+    if (!element) return;
+
+    const start = parseInt(element.textContent) || 0;
+    const range = target - start;
+    const stepTime = Math.abs(Math.floor(duration / range));
+    const timer = setInterval(() => {
+      start += (range > 0 ? 1 : -1);
+      element.textContent = start;
+      if (start === target) clearInterval(timer);
+    }, Math.max(10, stepTime));
+
+    element.textContent = target;
   }
 
-  // Close modal on Escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeVideoModal();
-  });
+  // Initial stats load
+  updateStats();
+  // Refresh every 30 seconds
+  setInterval(updateStats, 30000);
 
-  // Navbar scroll
   const navbar = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
     navbar.classList.toggle('scrolled', window.scrollY > 60);

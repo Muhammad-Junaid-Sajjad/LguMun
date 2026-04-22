@@ -20,6 +20,7 @@ def _committee_to_response(c: Committee) -> dict:
         "total_seats": c.total_seats,
         "filled_seats": c.filled_seats,
         "language": c.language,
+        "contact_info": c.contact_info,
         "is_full": c.filled_seats >= c.total_seats,
         "capacity_percentage": int((c.filled_seats / c.total_seats) * 100) if c.total_seats > 0 else 100,
     }
@@ -38,12 +39,27 @@ def get_committee_by_id(db: Session, committee_id: int) -> dict | None:
 def register_delegate(db: Session, data: DelegateCreate, ip: str) -> dict:
     try:
         # Step 1 — Duplicate email check (case-insensitive already lowercased by schema)
-        if db.query(Delegate).filter(Delegate.email == data.email).first():
-            raise AppException("DUPLICATE_EMAIL", "This email is already registered.", field="email")
+        existing = db.query(Delegate).filter(Delegate.email == data.email).first()
+        if existing:
+            # Return existing delegate details for UI to display
+            existing_data = {
+                "roll_number": existing.roll_number,
+                "full_name": existing.full_name,
+                "committee": existing.committee.short_name if existing.committee else "N/A",
+                "committee_full": existing.committee.full_name if existing.committee else "N/A",
+            }
+            raise AppException("DUPLICATE_EMAIL", "This email is already registered.", field="email", status_code=409, data=existing_data)
 
         # Step 2 — Duplicate student ID check
-        if db.query(Delegate).filter(Delegate.student_id_cnic == data.student_id_cnic).first():
-            raise AppException("DUPLICATE_ID", "This Student ID / CNIC is already registered.", field="student_id_cnic")
+        existing = db.query(Delegate).filter(Delegate.student_id_cnic == data.student_id_cnic).first()
+        if existing:
+            existing_data = {
+                "roll_number": existing.roll_number,
+                "full_name": existing.full_name,
+                "committee": existing.committee.short_name if existing.committee else "N/A",
+                "committee_full": existing.committee.full_name if existing.committee else "N/A",
+            }
+            raise AppException("DUPLICATE_ID", "This Student ID / CNIC is already registered.", field="student_id_cnic", status_code=409, data=existing_data)
 
         # Step 3 — Lock committee row (SELECT FOR UPDATE)
         committee = (
@@ -59,11 +75,15 @@ def register_delegate(db: Session, data: DelegateCreate, ip: str) -> dict:
 
         # Step 5 — Capacity check
         if committee.filled_seats >= committee.total_seats:
-            raise AppException("COMMITTEE_FULL", f"{committee.short_name} is full. No seats available.", field="committee_id")
+            message = f"{committee.short_name} is full. Please contact the LGUMUN society for assistance."
+            contact = committee.contact_info
+            data = {"contact_info": contact} if contact else {}
+            raise AppException("COMMITTEE_FULL", message, field="committee_id", data=data)
 
-        # Step 6 — Generate sequential roll number
-        sequence = db.query(func.count(Delegate.id)).scalar() + 1
-        roll_number = f"{ROLL_NUMBER_PREFIX}-{sequence:0{ROLL_NUMBER_DIGITS}d}"
+        # Step 6 — Generate committee-scoped roll number using last_sequence
+        committee.last_sequence += 1
+        sequence = committee.last_sequence
+        roll_number = f"LGU-{committee.short_name}-{sequence:0{ROLL_NUMBER_DIGITS}d}"
 
         # Step 7 — Insert delegate
         delegate = Delegate(
@@ -96,8 +116,94 @@ def register_delegate(db: Session, data: DelegateCreate, ip: str) -> dict:
     except Exception as e:
         db.rollback()
         logger.error(f"register_delegate failed: {e}", exc_info=True)
+        if "UNIQUE" in str(e).upper() or "duplicate" in str(e).lower():
+            if "email" in str(e).lower():
+                raise AppException("DUPLICATE_EMAIL", "This email is already registered.", field="email")
+            if "student_id_cnic" in str(e).lower() or "student_id" in str(e).lower():
+                raise AppException("DUPLICATE_ID", "This Student ID / CNIC is already registered.", field="student_id_cnic")
         raise AppException("SERVER_ERROR", "Registration failed. Please try again.", status_code=500)
 
 def get_delegates_count(db: Session) -> dict:
     count = db.query(func.count(Delegate.id)).scalar()
     return {"count": count}
+
+def transfer_delegate(db: Session, roll_number: str, new_committee_id: int) -> dict:
+    """Transfer a delegate from their current committee to a new one.
+
+    Locks both committees with SELECT FOR UPDATE to prevent race conditions.
+    Validates the destination committee exists, is active, and has capacity.
+    """
+    try:
+        # Step 1 — Find delegate
+        delegate = db.query(Delegate).filter(Delegate.roll_number == roll_number).first()
+        if not delegate:
+            raise AppException("DELEGATE_NOT_FOUND", "Delegate with that roll number not found.", status_code=404)
+
+        # Prevent transferring to the same committee
+        if delegate.committee_id == new_committee_id:
+            raise AppException(
+                "SAME_COMMITTEE",
+                "Delegate is already in that committee.",
+                field="new_committee_id",
+            )
+
+        # Step 2 — Lock both committee rows in consistent ID order to avoid deadlocks
+        lower_id = min(delegate.committee_id, new_committee_id)
+        higher_id = max(delegate.committee_id, new_committee_id)
+
+        committees = (
+            db.query(Committee)
+            .filter(Committee.id.in_([lower_id, higher_id]))
+            .with_for_update()
+            .all()
+        )
+        committee_map = {c.id: c for c in committees}
+
+        old_committee = committee_map.get(delegate.committee_id)
+        new_committee = committee_map.get(new_committee_id)
+
+        # Step 3 — Validate destination committee
+        if not new_committee or not new_committee.is_active:
+            raise AppException("COMMITTEE_NOT_FOUND", "Destination committee not found.", field="new_committee_id")
+
+        # Step 4 — Capacity check on destination
+        if new_committee.filled_seats >= new_committee.total_seats:
+            message = f"{new_committee.short_name} is full. Please contact the LGUMUN society for assistance."
+            contact = new_committee.contact_info
+            data = {"contact_info": contact} if contact else {}
+            raise AppException("COMMITTEE_FULL", message, field="new_committee_id", data=data)
+
+        # Step 5 — Perform the transfer
+        old_committee_name = old_committee.full_name if old_committee else "Unknown"
+        old_committee_short = old_committee.short_name if old_committee else "???"
+
+        delegate.previous_committee_id = delegate.committee_id
+        delegate.committee_id = new_committee_id
+        delegate.transferred_at = datetime.now(timezone.utc)
+
+        # Adjust seat counts
+        if old_committee and old_committee.filled_seats > 0:
+            old_committee.filled_seats -= 1
+        new_committee.filled_seats += 1
+
+        db.commit()
+
+        return {
+            "roll_number": delegate.roll_number,
+            "full_name": delegate.full_name,
+            "email": delegate.email,
+            "old_committee_name": old_committee_name,
+            "old_committee_short_name": old_committee_short,
+            "new_committee_name": new_committee.full_name,
+            "new_committee_short_name": new_committee.short_name,
+            "transferred_at": delegate.transferred_at.isoformat(),
+        }
+
+    except AppException:
+        db.rollback()
+        raise
+    except Exception as e:
+        db.rollback()
+        logger.error(f"transfer_delegate failed: {e}", exc_info=True)
+        raise AppException("SERVER_ERROR", "Transfer failed. Please try again.", status_code=500)
+

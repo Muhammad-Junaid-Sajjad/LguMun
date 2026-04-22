@@ -188,10 +188,12 @@
     .alert.show { display:flex; }
     .alert-error { background:rgba(224,82,82,0.08); border:1px solid rgba(224,82,82,0.25); }
     .alert-success { background:rgba(61,186,126,0.08); border:1px solid rgba(61,186,126,0.25); }
+    .alert-info { background:rgba(58,111,212,0.08); border:1px solid rgba(58,111,212,0.25); }
     .alert-icon { font-size:1.1rem; flex-shrink:0; margin-top:2px; }
     .alert-title { font-weight:600; font-size:0.875rem; margin-bottom:3px; }
     .alert-error .alert-title { color:var(--red); }
     .alert-success .alert-title { color:var(--green); }
+    .alert-info .alert-title { color:var(--blue); }
     .alert-msg { font-size:0.82rem; color:var(--cream-dim); }
 
     /* LOADING */
@@ -237,10 +239,6 @@
     <div class="nav-logo">
       <a href="/" title="Home" style="display:flex;align-items:center;">
         <img src="/assets/logo/lgu-logo.jpeg" alt="LGU Official Logo" class="logo-lgu">
-      </a>
-      <div class="logo-divider"></div>
-      <a href="https://www.instagram.com/lgumun?igsh=Nmp4dXdkcXZuOTZq" target="_blank" rel="noopener noreferrer" title="Follow LGUMUN" style="display:flex;align-items:center;">
-        <img src="/assets/logo/lgu-mun-society-logo.jpeg" alt="LGUMUN Society Logo" class="logo-mun" onerror="this.style.display='none'">
       </a>
       <a href="/" style="text-decoration:none;">
         <span class="nav-logo-text" style="margin-left:14px;">LGU <span>MUN</span> 2026</span>
@@ -292,6 +290,13 @@
         <div>
           <div class="alert-title">Registration Error</div>
           <div class="alert-msg" id="alert-error-msg"></div>
+        </div>
+      </div>
+      <div class="alert alert-info" id="alert-already-registered">
+        <span class="alert-icon">i</span>
+        <div>
+          <div class="alert-title">Already Registered</div>
+          <div class="alert-msg" id="alert-already-registered-msg"></div>
         </div>
       </div>
       <div class="alert alert-success" id="alert-success">
@@ -394,8 +399,6 @@
     <div class="footer-inner">
       <div class="footer-logos">
         <img src="/assets/logo/lgu-logo.jpeg" alt="LGU" class="footer-logo-img">
-        <div class="footer-logo-sep"></div>
-        <img src="/assets/logo/lgu-mun-society-logo.jpeg" alt="LGUMUN" class="footer-logo-img">
       </div>
       <div class="footer-bottom">&copy; 2026 LGUMUN Society. All rights reserved.</div>
     </div>
@@ -487,14 +490,15 @@
     async function loadCommittees() {
       const sel = document.getElementById('committee_id');
       const fallback = [
-        {id:'unsc',name:'UNSC — United Nations Security Council',available:3},
-        {id:'unga',name:'UNGA — United Nations General Assembly',available:18},
-        {id:'unhrc',name:'UNHRC — Human Rights Council',available:12},
-        {id:'ecosoc',name:'ECOSOC — Economic & Social Council',available:22},
-        {id:'disec',name:'DISEC — Disarmament & International Security',available:8},
-        {id:'unep',name:'UNEP — Environment Programme',available:5},
-        {id:'pna',name:'PNA — Pakistan National Assembly',available:4},
-        {id:'icc',name:'ICC — International Criminal Court',available:1},
+        {id:'unsc',name:'UNSC — United Nations Security Council',available:40},
+        {id:'unga',name:'UNGA — United Nations General Assembly',available:35},
+        {id:'unhrc',name:'UNHRC — Human Rights Council',available:38},
+        {id:'disec',name:'DISEC — Disarmament & International Security',available:42},
+        {id:'unodc',name:'UNODC — UN Office on Drugs and Crime',available:35},
+        {id:'pna',name:'PNA — Pakistan National Assembly',available:46},
+        {id:'unw',name:'UNW — UN Women',available:30},
+        {id:'jsp',name:'JSP — Joint Session of Parliament',available:38},
+        {id:'ncc',name:'NCC — National Crisis Committee',available:36},
       ];
       try {
         const r = await fetch('http://localhost:8000/api/v1/committees');
@@ -554,11 +558,66 @@
           document.getElementById('alert-success').classList.add('show');
           setTimeout(() => { window.location.href = '/success.html'; }, 1500);
         } else {
-          throw new Error(d?.message || d?.detail || 'Registration failed. Please try again.');
+          // Extract structured error from API
+          const errorCode = d?.error?.code || '';
+          const errorMsg = d?.error?.message || d?.message || d?.detail || 'Registration failed. Please try again.';
+
+          // Hide other alerts first
+          document.getElementById('alert-error').classList.remove('show');
+          document.getElementById('alert-success').classList.remove('show');
+          document.getElementById('alert-already-registered').classList.remove('show');
+
+          // Handle DUPLICATE_EMAIL / DUPLICATE_ID with existing data
+          if (errorCode === 'DUPLICATE_EMAIL' || errorCode === 'DUPLICATE_ID') {
+            const existingData = d?.error?.data || {};
+            const roll = existingData.roll_number || 'N/A';
+            const name = existingData.full_name || 'N/A';
+            const committee = existingData.committee || 'N/A';
+            const committeeFull = existingData.committee_full || 'N/A';
+
+            const infoHTML = `
+              <p style="margin-bottom:1rem;">
+                <strong>${name}</strong> is already registered with roll number <strong>${roll}</strong>
+                in committee <strong>${committee}</strong> (${committeeFull}).
+              </p>
+              <p style="margin-bottom:1rem; color:var(--cream-dim);">
+                If this is not you, please contact the LGUMUN society or use a different email/ID.
+              </p>
+              <a href="/success.html" class="btn-submit" style="display:inline-flex; text-decoration:none;">
+                View My Registration
+              </a>
+            `;
+
+            document.getElementById('alert-already-registered-msg').innerHTML = infoHTML;
+            document.getElementById('alert-already-registered').classList.add('show');
+            document.getElementById('loading-overlay').classList.remove('show');
+            btn.disabled = false;
+            window.scrollTo({top:0,behavior:'smooth'});
+            return;
+          }
+
+          // Handle COMMITTEE_FULL with contact info prominently
+          if (errorCode === 'COMMITTEE_FULL') {
+            loadCommittees(); // Reload so the full committee is removed
+            const contact = d?.error?.data?.contact_info;
+            let contactHTML = '';
+            if (contact) {
+              contactHTML = `
+                <p style="margin-top:0.75rem; padding:1rem; background:rgba(201,168,76,0.1); border:1px solid var(--gold); border-radius:8px;">
+                  <strong style="color:var(--gold);">Contact for assistance:</strong><br>
+                  ${contact}
+                </p>
+              `;
+            }
+            throw new Error(errorMsg + contactHTML);
+          }
+
+          // For other errors, just show the message
+          throw new Error(errorMsg);
         }
       } catch(e) {
         document.getElementById('loading-overlay').classList.remove('show');
-        document.getElementById('alert-error-msg').textContent = e.message;
+        document.getElementById('alert-error-msg').innerHTML = e.message;
         document.getElementById('alert-error').classList.add('show');
         btn.disabled = false;
         window.scrollTo({top:0,behavior:'smooth'});

@@ -60,6 +60,7 @@ def test_committee(db_session):
         full_name="Test Committee",
         total_seats=5,
         filled_seats=0,
+        last_sequence=0,
         is_active=True
     )
     db_session.add(committee)
@@ -74,6 +75,7 @@ def full_committee(db_session):
         full_name="Full Committee",
         total_seats=5,
         filled_seats=5,
+        last_sequence=5,
         is_active=True
     )
     db_session.add(committee)

@@ -230,10 +230,6 @@
       <a href="/" title="Home" style="display:flex;align-items:center;">
         <img src="/assets/logo/lgu-logo.jpeg" alt="LGU Official Logo" class="logo-lgu">
       </a>
-      <div class="logo-divider"></div>
-      <a href="https://www.instagram.com/lgumun?igsh=Nmp4dXdkcXZuOTZq" target="_blank" rel="noopener noreferrer" title="Follow LGUMUN" style="display:flex;align-items:center;">
-        <img src="/assets/logo/lgu-mun-society-logo.jpeg" alt="LGUMUN Society Logo" class="logo-mun" onerror="this.style.display='none'">
-      </a>
       <a href="/" style="text-decoration:none;">
         <span class="nav-logo-text" style="margin-left:14px;">LGU <span>MUN</span> 2026</span>
       </a>
@@ -251,11 +247,9 @@
       <!-- SUCCESS STATE -->
       <div class="success-card" id="success-content">
         <div class="success-hero">
-          <!-- Dual logos at top of success card -->
+          <!-- Logo at top of success card -->
           <div class="success-logos">
             <img src="/assets/logo/lgu-logo.jpeg" alt="Lahore Garrison University" class="success-logo-img">
-            <div class="success-logo-sep"></div>
-            <img src="/assets/logo/lgumun-logo.jpeg" alt="LGUMUN Society" class="success-logo-mun" onerror="this.style.display='none'">
           </div>
           <div class="success-icon-wrap">
             <svg fill="none" stroke="#3dba7e" stroke-width="2.5" viewBox="0 0 24 24">
@@ -277,7 +271,7 @@
 
           <div class="roll-card">
             <div class="roll-label">Your Delegate Roll Number</div>
-            <div class="roll-number" id="roll-number">LGU-MUN26-000</div>
+            <div class="roll-number" id="roll-number">LGU-XXXX-000</div>
             <button class="roll-copy-btn" id="copy-btn" onclick="copyRoll()">Copy Roll Number</button>
           </div>
 
@@ -354,8 +348,6 @@
   <footer class="footer">
     <div class="footer-logos">
       <img src="/assets/logo/lgu-logo.jpeg" alt="LGU" class="footer-logo-img">
-      <div class="footer-logo-sep"></div>
-      <img src="/assets/logo/lgu-mun-society-logo.jpeg" alt="LGUMUN" class="footer-logo-img">
     </div>
     <div class="footer-bottom">&copy; 2026 LGUMUN Society. All rights reserved.</div>
   </footer>
@@ -382,7 +374,7 @@
           document.getElementById('error-content').style.display = 'block';
           return;
         }
-        const roll = rollParam || data?.roll_number || 'LGU-MUN26-' + Math.floor(Math.random() * 900 + 100);
+        const roll = rollParam || data?.roll_number || 'LGU-XXXX-' + String(Math.floor(Math.random() * 900 + 100));
         const committee = data?.committee_name || data?.committee_id?.toUpperCase() || '—';
         const name = data?.full_name || '—';
         const email = data?.email || '—';

@@ -261,9 +261,92 @@ LGU logo in navbar linked to external admissions site, breaking navigation flow.
 - Preserve user context during navigation
 - Make external links intentional (not accidental clicks)
 
+---
+
+## LESSON-011: Production Requirements Must Be Identified Early
+**Date**: 2026-04-21T16:42:27Z  
+**Source**: Phase 3.7 initialization - Production-Ready Registration System
+
+### Context
+After completing premium frontend polish, critical production requirements emerged that require significant backend changes:
+- Per-committee roll number generation (not global)
+- Database-level locking for 450+ concurrent registrations
+- Committee transfer logic
+- Unique email constraint
+- Full committee contact info display
+
+### Key Insight
+Production requirements (especially around concurrent load, data integrity, and user experience) should be identified and documented BEFORE implementation begins. Discovering them after frontend is complete means rework and potential delays.
+
+### Best Practice
+- Identify all production requirements upfront (concurrent load, data integrity, error handling)
+- Document edge cases (full committees, duplicate registrations, committee transfers)
+- Plan database schema for production scenarios (sequences, constraints, locking)
+- Test concurrent scenarios early (not after frontend is complete)
+
 ### Application
-Apply to all branding navigation:
-1. Logo → Home page
-2. External links → Separate, intentional actions
-3. Tooltips → Provide context without navigation
-4. Test navigation flow end-to-end
+Apply to all future projects:
+1. During specification phase, explicitly ask about production requirements
+2. Document concurrent load expectations
+3. Plan database schema for scale
+4. Identify all edge cases before implementation
+5. Test concurrent scenarios during backend development, not after
+
+---
+
+## LESSON-012: Database Locking Is Essential for Concurrent Operations
+**Date**: 2026-04-21T16:42:27Z  
+**Source**: Phase 3.7 - Production-Ready Registration System requirements
+
+### Context
+Current registration system has no database-level locking, making it vulnerable to race conditions when 450+ students register simultaneously.
+
+### Key Insight
+- SELECT FOR UPDATE provides row-level locking for concurrent safety
+- Without locking, multiple registrations can claim the same seat
+- Database constraints alone aren't enough for concurrent operations
+- Timestamp-based sequences need locking to prevent duplicates
+
+### Best Practice
+- Use SELECT FOR UPDATE for any operation that reads then writes
+- Lock at the database level, not application level
+- Test concurrent scenarios with actual load (not just unit tests)
+- Document locking strategy in code comments
+
+### Application
+Apply to all concurrent operations:
+1. Identify operations that read then write (registration, transfers, etc.)
+2. Add SELECT FOR UPDATE to read queries
+3. Test with concurrent load (450+ simultaneous)
+4. Document locking strategy
+5. Monitor for deadlocks in production
+
+---
+
+## LESSON-013: Per-Resource Sequences Are Better Than Global Sequences
+**Date**: 2026-04-21T16:42:27Z  
+**Source**: Phase 3.7 - Roll number generation requirements
+
+### Context
+Current system uses global roll number sequence (LGU-MUN26-001, LGU-MUN26-002, etc.), but production requires per-committee sequences (LGU-UNSC-001, LGU-UNHRC-001, etc.).
+
+### Key Insight
+- Per-resource sequences provide better organization and tracking
+- Global sequences don't scale well for multi-tenant or multi-resource systems
+- Per-committee sequences make it easy to see how many delegates per committee
+- Timestamp-based sequences add robustness for concurrent operations
+
+### Best Practice
+- Use database sequences (not application-level counters)
+- Create one sequence per resource (committee, in this case)
+- Include resource identifier in the sequence name
+- Combine with timestamp for additional robustness
+
+### Application
+Apply to all sequence-based identifiers:
+1. Identify resources that need sequences (committees, events, etc.)
+2. Create database sequence per resource
+3. Use resource identifier in sequence name
+4. Test concurrent sequence generation
+5. Document sequence strategy
+
