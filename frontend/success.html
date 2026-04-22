@@ -387,39 +387,104 @@
     }
     loadData();
 
-    // Gentle gold particle confetti
+    // Colorful celebration confetti - runs forever
     (function() {
       const canvas = document.getElementById('confetti-canvas');
       const ctx = canvas.getContext('2d');
       let W = canvas.width = window.innerWidth;
       let H = canvas.height = window.innerHeight;
+
+      // Vibrant celebration colors (RGBA without alpha)
+      const colorPalette = [
+        [201, 168, 76],   // Gold
+        [232, 201, 106],  // Light gold
+        [244, 237, 224],  // Cream
+        [61, 186, 126],   // Green
+        [224, 82, 82],   // Red
+        [58, 111, 212],  // Blue
+        [156, 39, 176],  // Purple
+        [255, 152, 0],   // Orange
+        [255, 87, 34],   // Deep orange
+        [233, 30, 99],   // Pink
+        [103, 58, 183],  // Deep purple
+        [0, 188, 212],   // Cyan
+        [139, 195, 74],  // Light green
+        [255, 235, 59],   // Yellow
+      ];
+
       const particles = [];
-      const colors = ['rgba(201,168,76,', 'rgba(232,201,106,', 'rgba(244,237,224,', 'rgba(61,186,126,'];
-      for (let i = 0; i < 60; i++) {
-        particles.push({
-          x: Math.random() * W, y: Math.random() * H - H,
-          size: Math.random() * 4 + 1,
-          vx: (Math.random()-0.5)*1.2, vy: Math.random()*1.5 + 0.5,
-          alpha: Math.random()*0.5+0.1,
-          color: colors[Math.floor(Math.random()*colors.length)],
-          rotation: Math.random()*360, rotSpeed: (Math.random()-0.5)*3
-        });
-      }
-      function loop() {
-        ctx.clearRect(0,0,W,H);
-        particles.forEach(p => {
-          p.x += p.vx; p.y += p.vy;
-          p.rotation += p.rotSpeed;
-          if (p.y > H) { p.y = -10; p.x = Math.random()*W; }
+      const PARTICLE_COUNT = 80;
+
+      class ConfettiParticle {
+        constructor(initial = false) {
+          this.reset(initial);
+        }
+
+        reset(initial = false) {
+          this.x = Math.random() * W;
+          this.y = initial ? Math.random() * H : -20;
+          this.size = Math.random() * 6 + 2;
+          this.vx = (Math.random() - 0.5) * 1.5;
+          this.vy = Math.random() * 2 + 1;
+          this.alpha = Math.random() * 0.6 + 0.4;
+          const c = colorPalette[Math.floor(Math.random() * colorPalette.length)];
+          this.color = c;
+          this.rotation = Math.random() * 360;
+          this.rotSpeed = (Math.random() - 0.5) * 4;
+          this.shape = Math.random() > 0.5 ? 'rect' : 'circle';
+        }
+
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          this.vy += 0.01; // slight gravity
+          this.rotation += this.rotSpeed;
+
+          // Reset when off screen
+          if (this.y > H + 20 || this.x < -20 || this.x > W + 20) {
+            this.reset();
+          }
+        }
+
+        draw() {
           ctx.save();
-          ctx.translate(p.x, p.y);
-          ctx.rotate(p.rotation * Math.PI/180);
-          ctx.fillStyle = p.color + p.alpha + ')';
-          ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+          ctx.translate(this.x, this.y);
+          ctx.rotate(this.rotation * Math.PI / 180);
+          ctx.globalAlpha = this.alpha;
+          ctx.fillStyle = `rgb(${this.color[0]},${this.color[1]},${this.color[2]})`;
+
+          if (this.shape === 'rect') {
+            ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size * 0.6);
+          } else {
+            ctx.beginPath();
+            ctx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
+            ctx.fill();
+          }
+
           ctx.restore();
+        }
+      }
+
+      // Initialize particles
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        particles.push(new ConfettiParticle(true));
+      }
+
+      function loop() {
+        ctx.clearRect(0, 0, W, H);
+        particles.forEach(p => {
+          p.update();
+          p.draw();
         });
         requestAnimationFrame(loop);
       }
+
+      // Handle resize
+      window.addEventListener('resize', () => {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }, { passive: true });
+
       loop();
     })();
   </script>

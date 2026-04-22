@@ -36,6 +36,7 @@ class Delegate(Base):
     institution = Column(String(200), nullable=False)
     committee_id = Column(Integer, ForeignKey("committees.id"), nullable=False, index=True)
     previous_committee_id = Column(Integer, ForeignKey("committees.id"), nullable=True)  # Track transfers
+    transfer_count = Column(Integer, nullable=False, default=0)  # Number of times transferred (0-2)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     transferred_at = Column(DateTime(timezone=True), nullable=True)
     ip_address = Column(String(45), nullable=True)  # IPv4 or IPv6 as string

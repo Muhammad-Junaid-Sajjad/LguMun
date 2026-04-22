@@ -5,7 +5,7 @@ from sqlalchemy import func
 from app.models import Committee, Delegate
 from app.schemas import DelegateCreate, CommitteeResponse
 from app.exceptions import AppException
-from app.constants import ROLL_NUMBER_PREFIX, ROLL_NUMBER_DIGITS
+from app.constants import ROLL_NUMBER_PREFIX, ROLL_NUMBER_DIGITS, MAX_TRANSFERS
 
 logger = logging.getLogger(__name__)
 
@@ -41,25 +41,76 @@ def register_delegate(db: Session, data: DelegateCreate, ip: str) -> dict:
         # Step 1 — Duplicate email check (case-insensitive already lowercased by schema)
         existing = db.query(Delegate).filter(Delegate.email == data.email).first()
         if existing:
-            # Return existing delegate details for UI to display
+            # Check if this delegate can still transfer
+            can_transfer = existing.transfer_count < MAX_TRANSFERS
+            transfers_left = MAX_TRANSFERS - existing.transfer_count
+
             existing_data = {
                 "roll_number": existing.roll_number,
                 "full_name": existing.full_name,
                 "committee": existing.committee.short_name if existing.committee else "N/A",
                 "committee_full": existing.committee.full_name if existing.committee else "N/A",
+                "transfer_count": existing.transfer_count,
+                "can_transfer": can_transfer,
+                "transfers_left": transfers_left,
+                "is_final": not can_transfer,
+                "final_committee": existing.committee.short_name,
+                "final_roll_number": existing.roll_number
             }
-            raise AppException("DUPLICATE_EMAIL", "This email is already registered.", field="email", status_code=409, data=existing_data)
+
+            if can_transfer:
+                raise AppException(
+                    "CAN_TRANSFER",
+                    f"This email is already registered. You can transfer to another committee ({transfers_left} transfer{'s' if transfers_left != 1 else ''} remaining).",
+                    field="email",
+                    status_code=409,
+                    data=existing_data
+                )
+            else:
+                raise AppException(
+                    "TRANSFER_LIMIT_REACHED",
+                    "This email is already registered. You have reached the maximum transfers limit.",
+                    field="email",
+                    status_code=409,
+                    data=existing_data
+                )
 
         # Step 2 — Duplicate student ID check
         existing = db.query(Delegate).filter(Delegate.student_id_cnic == data.student_id_cnic).first()
         if existing:
+            # Check if this delegate can still transfer
+            can_transfer = existing.transfer_count < MAX_TRANSFERS
+            transfers_left = MAX_TRANSFERS - existing.transfer_count
+
             existing_data = {
                 "roll_number": existing.roll_number,
                 "full_name": existing.full_name,
                 "committee": existing.committee.short_name if existing.committee else "N/A",
                 "committee_full": existing.committee.full_name if existing.committee else "N/A",
+                "transfer_count": existing.transfer_count,
+                "can_transfer": can_transfer,
+                "transfers_left": transfers_left,
+                "is_final": not can_transfer,
+                "final_committee": existing.committee.short_name,
+                "final_roll_number": existing.roll_number
             }
-            raise AppException("DUPLICATE_ID", "This Student ID / CNIC is already registered.", field="student_id_cnic", status_code=409, data=existing_data)
+
+            if can_transfer:
+                raise AppException(
+                    "CAN_TRANSFER",
+                    f"This Student ID is already registered. You can transfer to another committee ({transfers_left} transfer{'s' if transfers_left != 1 else ''} remaining).",
+                    field="student_id_cnic",
+                    status_code=409,
+                    data=existing_data
+                )
+            else:
+                raise AppException(
+                    "TRANSFER_LIMIT_REACHED",
+                    "This Student ID is already registered. You have reached the maximum transfers limit.",
+                    field="student_id_cnic",
+                    status_code=409,
+                    data=existing_data
+                )
 
         # Step 3 — Lock committee row (SELECT FOR UPDATE)
         committee = (
@@ -173,12 +224,34 @@ def transfer_delegate(db: Session, roll_number: str, new_committee_id: int) -> d
             data = {"contact_info": contact} if contact else {}
             raise AppException("COMMITTEE_FULL", message, field="new_committee_id", data=data)
 
-        # Step 5 — Perform the transfer
+        # Step 5 — Check transfer limit
+        if delegate.transfer_count >= MAX_TRANSFERS:
+            raise AppException(
+                "TRANSFER_LIMIT_REACHED",
+                f"You have already used your maximum of {MAX_TRANSFERS} transfers. Your current committee ({delegate.committee.short_name}) and roll number ({delegate.roll_number}) is FINAL.",
+                field="new_committee_id",
+                status_code=409,
+                data={
+                    "committee": delegate.committee.short_name,
+                    "committee_full": delegate.committee.full_name,
+                    "roll_number": delegate.roll_number,
+                    "is_final": True,
+                }
+            )
+
+        # Step 6 — Generate new roll number for the new committee
+        new_committee.last_sequence += 1
+        new_sequence = new_committee.last_sequence
+        new_roll_number = f"LGU-{new_committee.short_name}-{new_sequence:0{ROLL_NUMBER_DIGITS}d}"
+
+        # Step 7 — Perform the transfer
         old_committee_name = old_committee.full_name if old_committee else "Unknown"
         old_committee_short = old_committee.short_name if old_committee else "???"
 
         delegate.previous_committee_id = delegate.committee_id
         delegate.committee_id = new_committee_id
+        delegate.roll_number = new_roll_number  # Update to new roll number
+        delegate.transfer_count += 1
         delegate.transferred_at = datetime.now(timezone.utc)
 
         # Adjust seat counts
@@ -187,6 +260,9 @@ def transfer_delegate(db: Session, roll_number: str, new_committee_id: int) -> d
         new_committee.filled_seats += 1
 
         db.commit()
+
+        # Check if this was the FINAL transfer (2nd)
+        is_final = (delegate.transfer_count >= MAX_TRANSFERS)
 
         return {
             "roll_number": delegate.roll_number,
@@ -197,6 +273,9 @@ def transfer_delegate(db: Session, roll_number: str, new_committee_id: int) -> d
             "new_committee_name": new_committee.full_name,
             "new_committee_short_name": new_committee.short_name,
             "transferred_at": delegate.transferred_at.isoformat(),
+            "transfer_count": delegate.transfer_count,
+            "remaining_transfers": MAX_TRANSFERS - delegate.transfer_count,
+            "is_final": is_final,
         }
 
     except AppException:

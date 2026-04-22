@@ -292,11 +292,18 @@
           <div class="alert-msg" id="alert-error-msg"></div>
         </div>
       </div>
-      <div class="alert alert-info" id="alert-already-registered">
-        <span class="alert-icon">i</span>
+      <div class="alert alert-info" id="alert-can-transfer">
+        <span class="alert-icon">⇄</span>
         <div>
-          <div class="alert-title">Already Registered</div>
-          <div class="alert-msg" id="alert-already-registered-msg"></div>
+          <div class="alert-title">Transfer Committee</div>
+          <div class="alert-msg" id="alert-can-transfer-msg"></div>
+        </div>
+      </div>
+      <div class="alert alert-error" id="alert-transfer-limit">
+        <span class="alert-icon">⛔</span>
+        <div>
+          <div class="alert-title">Transfer Limit Reached</div>
+          <div class="alert-msg" id="alert-transfer-limit-msg"></div>
         </div>
       </div>
       <div class="alert alert-success" id="alert-success">
@@ -565,33 +572,80 @@
           // Hide other alerts first
           document.getElementById('alert-error').classList.remove('show');
           document.getElementById('alert-success').classList.remove('show');
-          document.getElementById('alert-already-registered').classList.remove('show');
+          document.getElementById('alert-can-transfer').classList.remove('show');
+          document.getElementById('alert-transfer-limit').classList.remove('show');
 
-          // Handle DUPLICATE_EMAIL / DUPLICATE_ID with existing data
-          if (errorCode === 'DUPLICATE_EMAIL' || errorCode === 'DUPLICATE_ID') {
-            const existingData = d?.error?.data || {};
-            const roll = existingData.roll_number || 'N/A';
-            const name = existingData.full_name || 'N/A';
-            const committee = existingData.committee || 'N/A';
-            const committeeFull = existingData.committee_full || 'N/A';
+          // Handle CAN_TRANSFER with switch option
+          if (errorCode === 'CAN_TRANSFER') {
+            const data = d?.error?.data || {};
+            const transfersLeft = data.transfers_left;
+            const currentRoll = data.roll_number;
+            const currentCommittee = data.committee;
 
             const infoHTML = `
               <p style="margin-bottom:1rem;">
-                <strong>${name}</strong> is already registered with roll number <strong>${roll}</strong>
-                in committee <strong>${committee}</strong> (${committeeFull}).
+                You are currently registered as <strong>${data.full_name}</strong> in <strong>${currentCommittee}</strong> (Roll: ${currentRoll}).
               </p>
-              <p style="margin-bottom:1rem; color:var(--cream-dim);">
-                If this is not you, please contact the LGUMUN society or use a different email/ID.
+              <p style="margin-bottom:1.5rem; color:var(--cream-dim);">
+                You have <strong>${transfersLeft} transfer${transfersLeft > 1 ? 's' : ''}</strong> remaining.
+                Transferring will cancel your current seat and issue a new roll number.
               </p>
-              <a href="/success.html" class="btn-submit" style="display:inline-flex; text-decoration:none;">
-                View My Registration
-              </a>
+              <div style="display:flex; gap:10px;">
+                <button id="btn-do-transfer" class="btn-submit" style="background:var(--blue); color:white; box-shadow:none;">
+                  Transfer to ${formData.committee_name}
+                </button>
+                <a href="/success.html" class="btn-back" style="text-decoration:none;">Cancel</a>
+              </div>
             `;
 
-            document.getElementById('alert-already-registered-msg').innerHTML = infoHTML;
-            document.getElementById('alert-already-registered').classList.add('show');
-            document.getElementById('loading-overlay').classList.remove('show');
-            btn.disabled = false;
+            document.getElementById('alert-can-transfer-msg').innerHTML = infoHTML;
+            document.getElementById('alert-can-transfer').classList.add('show');
+            window.scrollTo({top:0,behavior:'smooth'});
+
+            // Add listener for the transfer button
+            document.getElementById('btn-do-transfer').onclick = async () => {
+              const loading = document.getElementById('loading-overlay');
+              loading.classList.add('show');
+              loading.querySelector('.loading-text').textContent = "Processing committee transfer...";
+              try {
+                const tr = await fetch(`http://localhost:8000/api/v1/delegates/${currentRoll}/transfer`, {
+                  method: 'POST',
+                  headers: {'Content-Type': 'application/json'},
+                  body: JSON.stringify({ new_committee_id: parseInt(formData.committee_id) })
+                });
+                const td = await tr.json();
+                if (tr.ok) {
+                  sessionStorage.setItem('mun_registration', JSON.stringify({...formData, ...td.data}));
+                  window.location.href = '/success.html?transfer=true';
+                } else {
+                  throw new Error(td?.error?.message || 'Transfer failed');
+                }
+              } catch (err) {
+                loading.classList.remove('show');
+                alert(err.message);
+              }
+            };
+            return;
+          }
+
+          // Handle TRANSFER_LIMIT_REACHED
+          if (errorCode === 'TRANSFER_LIMIT_REACHED') {
+            const data = d?.error?.data || {};
+            const infoHTML = `
+              <p style="margin-bottom:1rem;">
+                Sorry, you have reached the maximum limit of 2 transfers.
+              </p>
+              <p style="margin-bottom:1rem; padding:1rem; background:rgba(224,82,82,0.1); border:1px solid rgba(224,82,82,0.2); border-radius:8px;">
+                <strong>Current Committee:</strong> ${data.committee_full || data.committee}<br>
+                <strong>Final Roll Number:</strong> ${data.roll_number}
+              </p>
+              <p style="color:var(--cream-dim); margin-bottom:1.5rem;">
+                This committee and roll number is FINAL. No more changes allowed.
+              </p>
+              <a href="/success.html" class="btn-submit" style="text-decoration:none;">View My Final Registration</a>
+            `;
+            document.getElementById('alert-transfer-limit-msg').innerHTML = infoHTML;
+            document.getElementById('alert-transfer-limit').classList.add('show');
             window.scrollTo({top:0,behavior:'smooth'});
             return;
           }
