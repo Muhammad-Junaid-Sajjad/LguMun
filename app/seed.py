@@ -11,7 +11,7 @@ COMMITTEES = [
     {"short_name": "UNODC",  "full_name": "United Nations Office on Drugs and Crime",     "language": "English",       "total_seats": 50, "last_sequence": 0},
     {"short_name": "PNA",    "full_name": "Pakistan National Assembly",                   "language": "Urdu & English", "total_seats": 50, "last_sequence": 0},
     # New Committees
-    {"short_name": "UNW",    "full_name": "United Nations Entity for Gender Equality and the Empowerment of Women", "language": "English", "total_seats": 50, "last_sequence": 0},
+    {"short_name": "UNW",    "full_name": "United Nations for Women", "language": "English", "total_seats": 50, "last_sequence": 0},
     {"short_name": "JSP",    "full_name": "Joint Session of Parliament",                  "language": "Urdu & English", "total_seats": 50, "last_sequence": 0},
     {"short_name": "NCC",    "full_name": "National Crisis Committee",                    "language": "English", "total_seats": 50, "last_sequence": 0},
 ]

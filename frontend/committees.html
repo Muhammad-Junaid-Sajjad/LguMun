@@ -428,7 +428,7 @@
     { code:'DISEC', name:'Disarmament and International Security Committee', lang:'English', seats:50, available:42, status:'available' },
     { code:'UNODC', name:'UN Office on Drugs and Crime', lang:'English', seats:50, available:35, status:'available' },
     { code:'PNA', name:'Pakistan National Assembly', lang:'Urdu & English', seats:50, available:46, status:'available' },
-    { code:'UNW', name:'UN Women', lang:'English', seats:50, available:30, status:'available' },
+    { code:'UNW', name:'United Nations for Women', lang:'English', seats:50, available:30, status:'available' },
     { code:'JSP', name:'Joint Session of Parliament', lang:'Urdu & English', seats:50, available:38, status:'available' },
     { code:'NCC', name:'National Crisis Committee', lang:'English', seats:50, available:36, status:'available' },
   ];
@@ -519,10 +519,11 @@
     }
 
     class Particle {
-      constructor() { this.reset(); }
-      reset() {
+      constructor(initial = false) { this.reset(initial); }
+      reset(initial = false) {
         this.x = Math.random() * W;
-        this.y = -20 - Math.random() * 100;
+        // Spread particles across entire screen initially, then fall from top
+        this.y = initial ? Math.random() * H : -20 - Math.random() * 80;
         this.size = Math.random() * 3 + 1.5;
         this.vx = (Math.random() - 0.5) * 1.2;
         this.vy = Math.random() * 1.5 + 0.8;
@@ -560,7 +561,8 @@
 
     function init() {
       resize();
-      particles = Array.from({length: 80}, () => new Particle());
+      // Spread particles across entire screen on first load
+      particles = Array.from({length: 80}, () => new Particle(true));
     }
 
     function loop() {
