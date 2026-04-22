@@ -1295,37 +1295,8 @@
       <a href="/committees.html" class="btn-secondary reveal" style="white-space:nowrap; margin-bottom:0.5rem;">View All 9 →</a>
     </div>
 
-    <div class="committees-grid">
-      <div class="committee-card reveal reveal-delay-1">
-        <div class="card-top">
-          <div class="card-code">UNGA</div>
-          <span class="badge badge-avail">Available</span>
-        </div>
-        <div class="card-name">United Nations General Assembly</div>
-        <div class="card-meta">🇬🇧 English &nbsp;·&nbsp; 30 Seats</div>
-        <div class="card-progress-label"><span>Capacity</span><span>8 / 30</span></div>
-        <div class="progress-bar"><div class="progress-fill gold" style="width:27%"></div></div>
-      </div>
-      <div class="committee-card full reveal reveal-delay-2">
-        <div class="card-top">
-          <div class="card-code">UNSC</div>
-          <span class="badge badge-full">Full</span>
-        </div>
-        <div class="card-name">United Nations Security Council</div>
-        <div class="card-meta">🇬🇧 English &nbsp;·&nbsp; 15 Seats</div>
-        <div class="card-progress-label"><span>Capacity</span><span>15 / 15</span></div>
-        <div class="progress-bar"><div class="progress-fill red" style="width:100%"></div></div>
-      </div>
-      <div class="committee-card reveal reveal-delay-3">
-        <div class="card-top">
-          <div class="card-code">PNA</div>
-          <span class="badge badge-national">National</span>
-        </div>
-        <div class="card-name">Pakistan National Assembly</div>
-        <div class="card-meta">🌐 Urdu & English &nbsp;·&nbsp; 30 Seats</div>
-        <div class="card-progress-label"><span>Capacity</span><span>3 / 30</span></div>
-        <div class="progress-bar"><div class="progress-fill blue" style="width:10%"></div></div>
-      </div>
+    <div class="committees-grid" id="featured-committees">
+      <!-- To be populated by script -->
     </div>
   </div>
 </section>
@@ -1485,6 +1456,45 @@
   updateStats();
   // Refresh every 30 seconds
   setInterval(updateStats, 30000);
+
+  // Fetch committees dynamically from API
+  async function loadFeaturedCommittees() {
+    const grid = document.getElementById('featured-committees');
+    if (!grid) return;
+
+    try {
+      const r = await fetch('http://localhost:8000/api/v1/committees');
+      if (!r.ok) return;
+      const d = await r.json();
+      const committees = d?.data?.committees || [];
+
+      // Show top 3 committees
+      const featured = committees.slice(0, 3);
+
+      grid.innerHTML = featured.map((c, i) => {
+        const isFull = c.is_full;
+        const filled = c.filled_seats || 0;
+        const total = c.total_seats || 50;
+        const pct = Math.round((filled / total) * 100);
+
+        return `
+          <div class="committee-card ${isFull ? 'full' : ''} reveal reveal-delay-${i+1}">
+            <div class="card-top">
+              <div class="card-code">${c.short_name}</div>
+              <span class="badge ${isFull ? 'badge-full' : 'badge-avail'}">${isFull ? 'Full' : 'Available'}</span>
+            </div>
+            <div class="card-name">${c.full_name}</div>
+            <div class="card-meta">${c.language} &nbsp;·&nbsp; ${total} Seats</div>
+            <div class="card-progress-label"><span>Capacity</span><span>${filled} / ${total}</span></div>
+            <div class="progress-bar"><div class="progress-fill ${isFull ? 'red' : 'gold'}" style="width:${pct}%"></div></div>
+          </div>
+        `;
+      }).join('');
+    } catch(e) {
+      console.error('Failed to load committees:', e);
+    }
+  }
+  loadFeaturedCommittees();
 
   const navbar = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
