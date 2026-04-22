@@ -1519,7 +1519,7 @@
   }
   updateStats();
 
-  // Powerful confetti particles - white, fast, pulsating
+  // Powerful confetti particles - white, fast, pulsating, full screen
   (function() {
     const canvas = document.getElementById('particles-canvas');
     const ctx = canvas.getContext('2d');
@@ -1534,7 +1534,7 @@
       constructor() { this.reset(); }
       reset() {
         this.x = Math.random() * W;
-        this.y = Math.random() > 0.5 ? Math.random() * -50 : H + Math.random() * 50;
+        this.y = -20 - Math.random() * 100;
         this.size = Math.random() * 3 + 1.5;
         this.vx = (Math.random() - 0.5) * 1.2;
         this.vy = Math.random() * 1.5 + 0.8;
@@ -1555,7 +1555,6 @@
         const size = this.size * (0.8 + pulse * 0.4);
         ctx.save();
         ctx.globalAlpha = this.alpha * (0.7 + pulse * 0.3);
-        // Glow
         ctx.shadowColor = 'rgba(255,255,255,0.8)';
         ctx.shadowBlur = 15 + pulse * 10;
         ctx.fillStyle = '#ffffff';

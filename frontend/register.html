@@ -123,8 +123,8 @@
     @keyframes slideIn { from { opacity:0; transform:translateX(20px); } to { opacity:1; transform:translateX(0); } }
 
     .form-step-title {
-      font-family:'Cormorant Garamond',serif; font-size:1.75rem; font-weight:400; margin-bottom:2rem;
-      padding-bottom:1.25rem; border-bottom:1px solid var(--border-light);
+      font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:600; margin-bottom:2rem;
+      padding-bottom:1.25rem; border-bottom:2px solid var(--gold); text-align:center;
     }
     .form-step-title em { color:var(--gold); font-style:italic; }
 
@@ -152,18 +152,18 @@
     .form-error.show { display:block; }
     .two-col { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; }
 
-    /* CONFIRMATION */
+    /* CONFIRMATION - Premium visible style */
     .confirm-grid {
       display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border-light);
-      border:1px solid var(--border-light); border-radius:14px; overflow:hidden; margin-bottom:2rem;
+      border:2px solid var(--gold); border-radius:16px; overflow:hidden; margin-bottom:2rem;
     }
-    .confirm-item { background:var(--navy-card); padding:1rem 1.25rem; }
-    .confirm-key { font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-muted); margin-bottom:4px; }
-    .confirm-val { font-size:0.9rem; color:var(--cream); font-weight:500; word-break:break-all; }
+    .confirm-item { background:rgba(201,168,76,0.08); padding:1.5rem 1.5rem; }
+    .confirm-key { font-size:0.72rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold); margin-bottom:8px; font-weight:600; }
+    .confirm-val { font-size:1.15rem; color:#ffffff; font-weight:600; word-break:break-all; line-height:1.4; }
 
     .checkbox-group { display:flex; align-items:flex-start; gap:12px; margin-bottom:1.5rem; }
-    .checkbox-group input[type=checkbox] { width:18px; height:18px; accent-color:var(--gold); cursor:pointer; flex-shrink:0; margin-top:2px; }
-    .checkbox-group label { font-size:0.875rem; color:var(--cream-dim); cursor:pointer; line-height:1.6; }
+    .checkbox-group input[type=checkbox] { width:20px; height:20px; accent-color:var(--gold); cursor:pointer; flex-shrink:0; margin-top:2px; }
+    .checkbox-group label { font-size:1rem; color:#ffffff; cursor:pointer; line-height:1.6; }
 
     .form-actions { display:flex; justify-content:space-between; align-items:center; gap:1rem; margin-top:2.5rem; padding-top:1.5rem; border-top:1px solid var(--border-light); }
     .btn-back {
@@ -632,18 +632,18 @@
           if (errorCode === 'TRANSFER_LIMIT_REACHED') {
             const data = d?.error?.data || {};
             const infoHTML = `
-              <p style="margin-bottom:1rem;">
+              <p style="margin-bottom:1rem; text-align:center;">
                 No more switches allowed. Your delegation is final.
               </p>
-              <div style="margin-bottom:1.5rem; padding:1.5rem; background:rgba(201,168,76,0.1); border:2px solid #c9a84c; border-radius:14px; text-align:center;">
-                <p style="color:#ffffff; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.5rem;">Official Final Seat</p>
-                <p style="color:#c9a84c; font-size:1.4rem; font-weight:700; margin-bottom:1rem;">${data.committee_full || data.committee}</p>
-                <p style="font-family:'DM Mono',monospace; color:#ffffff; font-size:2rem; text-shadow:0 0 15px rgba(201,168,76,0.5);">${data.roll_number}</p>
+              <div style="margin:1.5rem auto; padding:2rem; background:rgba(201,168,76,0.08); border:2px solid #c9a84c; border-radius:16px; text-align:center; max-width:400px;">
+                <p style="color:#c9a84c; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.15em; margin-bottom:1rem;">Official Final Seat</p>
+                <p style="color:#ffffff; font-size:1.5rem; font-weight:700; margin-bottom:1rem;">${data.committee_full || data.committee}</p>
+                <p style="font-family:'DM Mono',monospace; color:#c9a84c; font-size:2.2rem; font-weight:600; text-shadow:0 0 20px rgba(201,168,76,0.6);">${data.roll_number}</p>
               </div>
-              <p style="color:var(--cream-dim); margin-bottom:1.5rem;">
-                Good luck with your preparation. Go for the BD award!
+              <p style="color:#ffffff; text-align:center; margin-bottom:1.5rem; font-size:1rem;">
+                Good luck! Go for the <strong style="color:#c9a84c;">BD Award</strong>!
               </p>
-              <a href="/success.html" class="btn-submit" style="text-decoration:none; width:100%; justify-content:center;">View Final Confirmation</a>
+              <a href="/success.html" class="btn-submit" style="text-decoration:none; width:100%; justify-content:center; display:flex;">View Final Confirmation</a>
             `;
             document.getElementById('alert-transfer-limit-msg').innerHTML = infoHTML;
             document.getElementById('alert-transfer-limit').classList.add('show');
@@ -679,7 +679,7 @@
       }
     });
 
-    // Powerful confetti particles - white, fast, pulsating
+    // Powerful confetti particles - white, fast, pulsating, full screen
     (function() {
       const canvas = document.getElementById('particles-canvas');
       const ctx = canvas.getContext('2d');
@@ -694,7 +694,7 @@
         constructor() { this.reset(); }
         reset() {
           this.x = Math.random() * W;
-          this.y = Math.random() > 0.5 ? Math.random() * -50 : H + Math.random() * 50;
+          this.y = -20 - Math.random() * 100;
           this.size = Math.random() * 3 + 1.5;
           this.vx = (Math.random() - 0.5) * 1.2;
           this.vy = Math.random() * 1.5 + 0.8;
