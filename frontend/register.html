@@ -654,20 +654,52 @@
             return;
           }
 
-          // Handle COMMITTEE_FULL with contact info prominently
+          // Handle COMMITTEE_FULL - Show premium golden centered message
           if (errorCode === 'COMMITTEE_FULL') {
             loadCommittees(); // Reload so the full committee is removed
-            const contact = d?.error?.data?.contact_info;
-            let contactHTML = '';
-            if (contact) {
-              contactHTML = `
-                <p style="margin-top:0.75rem; padding:1rem; background:rgba(201,168,76,0.1); border:1px solid var(--gold); border-radius:8px;">
-                  <strong style="color:var(--gold);">Contact for assistance:</strong><br>
-                  ${contact}
-                </p>
-              `;
-            }
-            throw new Error(errorMsg + contactHTML);
+            const contact = d?.error?.data?.contact_info || 'Please contact LGUMUN Society Core Team';
+            const infoHTML = `
+              <div style="text-align:center; padding:1rem;">
+                <div style="margin:1.5rem auto; padding:2.5rem 2rem; background:linear-gradient(135deg, rgba(201,168,76,0.12), rgba(201,168,76,0.05)); border:3px solid #c9a84c; border-radius:20px; text-align:center; max-width:420px; box-shadow:0 0 40px rgba(201,168,76,0.3);">
+                  <p style="color:#c9a84c; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:1rem; font-weight:600;">Committee Full</p>
+                  <p style="color:#ffffff; font-size:1.4rem; font-weight:700; margin-bottom:1rem;">
+                    This committee is now full.<br>Please choose another one.
+                  </p>
+                  <p style="color:#c9a84c; font-size:1rem; margin-bottom:1rem;">
+                    Contact: <strong>${contact}</strong>
+                  </p>
+                </div>
+                <a href="/committees.html" class="btn-secondary" style="margin-top:1rem; display:inline-block;">View Available Committees</a>
+              </div>
+            `;
+            document.getElementById('alert-error-msg').innerHTML = infoHTML;
+            document.getElementById('alert-error').classList.add('show');
+            window.scrollTo({top:0,behavior:'smooth'});
+            return;
+          }
+
+          // Check if ALL committees are full
+          if (errorCode === 'ALL_COMMITTEES_FULL') {
+            const infoHTML = `
+              <div style="text-align:center; padding:1rem;">
+                <div style="margin:1.5rem auto; padding:2.5rem 2rem; background:linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.08)); border:3px solid #c9a84c; border-radius:20px; text-align:center; max-width:450px; box-shadow:0 0 50px rgba(201,168,76,0.4);">
+                  <p style="color:#c9a84c; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:1rem; font-weight:600;">All Committees Full</p>
+                  <p style="color:#ffffff; font-size:1.6rem; font-weight:700; margin-bottom:1rem; text-shadow:0 0 15px rgba(255,255,255,0.3);">
+                    ALL COMMITTEES ARE NOW FULL!
+                  </p>
+                  <p style="color:#ffffff; font-size:1.1rem; margin-bottom:1.5rem;">
+                    Please contact <strong style="color:#c9a84c;">LGUMUN Society Core Team</strong><br>for further assistance.
+                  </p>
+                  <p style="color:#c9a84c; font-size:0.9rem;">
+                    Email: mun@lgu.edu.pk
+                  </p>
+                </div>
+              </div>
+            `;
+            document.getElementById('alert-error-msg').innerHTML = infoHTML;
+            document.getElementById('alert-error').classList.add('show');
+            window.scrollTo({top:0,behavior:'smooth'});
+            return;
           }
 
           // For other errors, just show the message

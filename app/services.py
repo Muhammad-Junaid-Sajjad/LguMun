@@ -38,6 +38,17 @@ def get_committee_by_id(db: Session, committee_id: int) -> dict | None:
 
 def register_delegate(db: Session, data: DelegateCreate, ip: str) -> dict:
     try:
+        # Step 0 — Check if ALL committees are full
+        all_committees = db.query(Committee).filter(Committee.is_active == True).all()
+        all_full = all(c.filled_seats >= c.total_seats for c in all_committees)
+        if all_full:
+            raise AppException(
+                "ALL_COMMITTEES_FULL",
+                "All committees are now full. Please contact LGUMUN Society Core Team.",
+                field="committee_id",
+                status_code=409
+            )
+
         # Step 1 — Duplicate email check (case-insensitive already lowercased by schema)
         existing = db.query(Delegate).filter(Delegate.email == data.email).first()
         if existing:
