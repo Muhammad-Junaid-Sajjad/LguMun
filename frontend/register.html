@@ -295,14 +295,14 @@
       <div class="alert alert-info" id="alert-can-transfer">
         <span class="alert-icon">⇄</span>
         <div>
-          <div class="alert-title">Transfer Committee</div>
+          <div class="alert-title">Want to Switch?</div>
           <div class="alert-msg" id="alert-can-transfer-msg"></div>
         </div>
       </div>
       <div class="alert alert-error" id="alert-transfer-limit">
         <span class="alert-icon">⛔</span>
         <div>
-          <div class="alert-title">Transfer Limit Reached</div>
+          <div class="alert-title">No Switches Left</div>
           <div class="alert-msg" id="alert-transfer-limit-msg"></div>
         </div>
       </div>
@@ -584,17 +584,17 @@
 
             const infoHTML = `
               <p style="margin-bottom:1rem;">
-                You are currently registered as <strong>${data.full_name}</strong> in <strong>${currentCommittee}</strong> (Roll: ${currentRoll}).
+                You're already registered as <strong>${data.full_name}</strong> in <strong>${currentCommittee}</strong> (Roll: ${currentRoll}).
               </p>
               <p style="margin-bottom:1.5rem; color:var(--cream-dim);">
-                You have <strong>${transfersLeft} transfer${transfersLeft > 1 ? 's' : ''}</strong> remaining.
-                Transferring will cancel your current seat and issue a new roll number.
+                <strong>${transfersLeft} switch${transfersLeft > 1 ? 'es' : ''} remaining.</strong><br>
+                Switch to <strong>${formData.committee_name}</strong>? Your old seat will be freed and you'll get a new roll number.
               </p>
               <div style="display:flex; gap:10px;">
                 <button id="btn-do-transfer" class="btn-submit" style="background:var(--blue); color:white; box-shadow:none;">
-                  Transfer to ${formData.committee_name}
+                  Yes, Switch Committee
                 </button>
-                <a href="/success.html" class="btn-back" style="text-decoration:none;">Cancel</a>
+                <a href="/success.html" class="btn-back" style="text-decoration:none;">No, Keep My Seat</a>
               </div>
             `;
 
@@ -633,16 +633,16 @@
             const data = d?.error?.data || {};
             const infoHTML = `
               <p style="margin-bottom:1rem;">
-                Sorry, you have reached the maximum limit of 2 transfers.
+                You have used all your switches. Your seat is final.
               </p>
               <p style="margin-bottom:1rem; padding:1rem; background:rgba(224,82,82,0.1); border:1px solid rgba(224,82,82,0.2); border-radius:8px;">
-                <strong>Current Committee:</strong> ${data.committee_full || data.committee}<br>
-                <strong>Final Roll Number:</strong> ${data.roll_number}
+                <strong>Committee:</strong> ${data.committee_full || data.committee}<br>
+                <strong>Roll Number:</strong> ${data.roll_number}
               </p>
               <p style="color:var(--cream-dim); margin-bottom:1.5rem;">
-                This committee and roll number is FINAL. No more changes allowed.
+                No more changes allowed. This is your final seat.
               </p>
-              <a href="/success.html" class="btn-submit" style="text-decoration:none;">View My Final Registration</a>
+              <a href="/success.html" class="btn-submit" style="text-decoration:none;">View My Seat</a>
             `;
             document.getElementById('alert-transfer-limit-msg').innerHTML = infoHTML;
             document.getElementById('alert-transfer-limit').classList.add('show');
