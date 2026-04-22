@@ -1,11 +1,11 @@
 <!--
 Sync Impact Report:
-- Version change: [UNVERSIONED] → 1.0.0
-- Modified principles: Initial constitution creation
-- Added sections: Project Identity, Stack & Architecture, Security Principles, Code Quality, Asset Handling, Scope Boundaries
-- Removed sections: None (initial creation)
-- Templates requiring updates: ✅ All templates aligned with flat architecture and security-first approach
-- Follow-up TODOs: None
+- Version change: 1.0.0 → 2.0.0
+- Modified principles: Major overhaul - added per-committee roll numbers, database locking, transfer functionality, error codes, modern frontend, Auto-mode + Learning system
+- Added sections: Database Locking Strategy, Transfer System, Error Codes, Frontend Enhancements, Auto-Learning System
+- Removed sections: Hogwarts-inspired theme (replaced with navy/gold premium theme)
+- Templates requiring updates: ✅ Templates aligned with production-ready features
+- Follow-up TODOs: Update plan.md, tasks.md, create ADRs, create PHRs, create checklists
 -->
 
 # LGU MUN 2026 Constitution
@@ -15,8 +15,8 @@ Sync Impact Report:
 **Name**: LGU MUN 2026 Delegate Registration System  
 **Developer**: Muhammad Junaid Sajjad  
 **Institution**: Lahore Garrison University  
-**Scope**: Phase 0 only — Public delegate registration with auto roll number assignment  
-**Theme**: Hogwarts-inspired design  
+**Scope**: Phase 3.7 - Production-Ready Registration System  
+**Theme**: Navy/Gold Premium Theme  
 **Scale**: 9 committees, no authentication, no admin panel, no payment processing
 
 ## Core Principles
@@ -45,9 +45,9 @@ tests/           → pytest
 **Rationale**: Simplicity over abstraction. With only 7 backend files, navigation is instant and mental overhead is minimal. No time wasted on "where does this go?"
 
 ### III. Zero Build Frontend
-Frontend MUST use vanilla HTML, CSS, and JavaScript only. No React, Vue, npm, webpack, or any build step. Assets live in `frontend/assets/` and are served directly by FastAPI.
+Frontend MUST use vanilla HTML, CSS, and JavaScript only. No React, Vue, npm, webpack, or any build step. Assets live in `frontend/assets/` and are served directly by FastAPI. Tailwind CSS via CDN is permitted for rapid styling.
 
-**Rationale**: Build tools add complexity, deployment friction, and failure points. Vanilla JS is sufficient for a registration form and committee display. Eliminates 10+ minutes of build time and npm dependency vulnerabilities.
+**Rationale**: Build tools add complexity, deployment friction, and failure points. Vanilla JS + Tailwind CDN is sufficient for a registration form and committee display. Eliminates 10+ minutes of build time and npm dependency vulnerabilities.
 
 ### IV. Security-First Input Handling
 - Pydantic MUST validate ALL input server-side — client validation is UX only
@@ -64,12 +64,13 @@ Frontend MUST use vanilla HTML, CSS, and JavaScript only. No React, Vue, npm, we
 Every magic value MUST be defined in `app/constants.py` and imported elsewhere. Never hardcode strings, numbers, formats, or limits in business logic.
 
 **Examples**:
-- Roll number format: `LGU-MUN26-001`
+- Roll number format: `LGU-UNSC-001` (per-committee)
 - Rate limit thresholds
 - Committee names and capacities
+- Transfer limit: MAX_TRANSFERS = 2
 - Error codes and messages
 
-**Rationale**: Changing "LGU-MUN26" to "LGU-MUN27" next year should be a one-line edit, not a grep-and-replace hunt. Constants serve as living documentation of all configurable values.
+**Rationale**: Changing "LGU" prefix or committee codes next year should be a one-line edit, not a grep-and-replace hunt. Constants serve as living documentation of all configurable values.
 
 ### VI. Structured Error Responses
 Every error MUST return JSON in this exact format:
@@ -89,19 +90,70 @@ No stack traces in API responses. Log internally, return clean error codes.
 
 **Rationale**: Frontend needs machine-readable error codes to display localized messages and highlight specific form fields. Stack traces leak implementation details and confuse users.
 
+### VII. Database Locking Strategy
+Every registration and transfer operation MUST use database-level locking with `SELECT FOR UPDATE` to prevent race conditions under concurrent load.
+
+**Implementation**:
+```python
+# Acquire lock on committee row
+committee = db.query(Committee).filter(Committee.id == committee_id).with_for_update().first()
+# Process registration
+# Commit releases lock
+```
+
+**Rationale**: At 450+ concurrent registrations, simple SELECT queries cause race conditions. Database-level locking is the only way to guarantee unique roll numbers and accurate seat counts.
+
+### VIII. Transfer System
+Delegates MUST be able to transfer committees up to MAX_TRANSFERS times (current: 2). Each transfer regenerates the roll number for the new committee.
+
+**Rules**:
+- Cannot transfer to same committee (SAME_COMMITTEE error)
+- Cannot transfer if limit reached (TRANSFER_LIMIT_REACHED error)
+- Cannot transfer to full committee (COMMITTEE_FULL error)
+- Roll number regenerates on each transfer
+
+**Rationale**: Real-world scenarios require flexibility. 2 transfers is enough for most delegate scenarios while preventing abuse.
+
+### IX. Committee Difficulty Ordering
+Committees MUST be ordered by difficulty (hardest first) in the seeding and display:
+1. UNSC (UN Security Council) - Hardest
+2. UNHRC (UN Human Rights Council)
+3. DISEC (UN Disarmament & International Security)
+4. UNW (UN Women)
+5. ECOSOC (Economic & Social Council)
+6. UNEP (UN Environment Programme)
+7. CCN (Climate Change Committee)
+8. JSP (Juridical Standing Committee)
+9. NCC (National Committee)
+
+**Rationale**: Hardest committees require experienced delegates. Ordering helps delegates make informed choices.
+
+### X. Auto-Learning System
+Project MUST include autonomous learning system with:
+- Mistake tracking and root cause analysis
+- Lesson extraction and prevention rules
+- Anti-pattern identification
+- Continuous improvement metrics
+
+**Files**:
+- `project-state-management/learning/self-improvement-loop.md`
+- Auto-mode configuration in `.claude/auto-mode-config.md`
+
+**Rationale**: System should learn from every mistake and continuously improve. No repeat mistakes.
+
 ## Stack & Architecture
 
 ### Technology Choices
 - **Backend**: Python 3.11 + FastAPI
 - **Database**: PostgreSQL via Supabase free tier
-- **Frontend**: HTML + CSS + Vanilla JS
+- **Frontend**: HTML + CSS + Vanilla JS + Tailwind CSS (CDN)
 - **Hosting**: Render.com free tier (deploys from GitHub on every push)
 - **Testing**: pytest
 
 ### Database Schema
 Two tables only:
-1. **Committee**: id, name, description, capacity
-2. **Delegate**: id, roll_number, name, email, phone, committee_id, registered_at
+1. **Committee**: id, name, short_name, description, capacity, difficulty_order
+2. **Delegate**: id, roll_number, full_name, email, phone, institution, student_id_cnic, committee_id, transfer_count, registered_at
 
 ### Deployment Pipeline
 GitHub push → Render.com auto-deploy → Database migrations run → Service restarts → Health check passes
@@ -113,6 +165,7 @@ GitHub push → Render.com auto-deploy → Database migrations run → Service r
 - Navbar: height 48px, `object-fit: contain`
 - Hero section: height 120px, `object-fit: contain`
 - Always maintain aspect ratio
+- Dual logo: LGU Official + LGUMUN Society
 
 **Rationale**: Brand consistency is non-negotiable. CSS filters or distortions would violate university branding guidelines.
 
@@ -129,9 +182,9 @@ The following features MUST NOT be built, even partially:
 - Payment processing
 - File uploads (resumes, photos, etc.)
 - Country/position assignments
-- Delegate editing or cancellation
+- Delegate editing or cancellation (except transfer)
 
-**Rationale**: Phase 0 is registration only. These features would triple development time and introduce security/compliance complexity beyond current requirements.
+**Rationale**: Phase 3.7 is registration only with basic transfer support. These features would triple development time and introduce security/compliance complexity beyond current requirements.
 
 ## Testing Requirements
 
@@ -145,6 +198,38 @@ The following features MUST NOT be built, even partially:
 1. **Unit tests**: `services.py` business logic
 2. **Integration tests**: API endpoints with real database transactions
 3. **Concurrency tests**: Parallel registration attempts with same email
+4. **Edge case tests**: Invalid inputs, full committees, transfer limits
+
+## Frontend Enhancements
+
+### Required UI Features
+- Particle system with 120 floating glowing dots on all pages
+- Smooth animations: fadeInUp, scaleIn, float
+- Real-time stats with 3-second count-up animations
+- Confetti celebration on success page (runs forever)
+- YouTube video modal in Past Events page
+- Mobile-responsive design
+
+### Branding
+- All "LGU MUN" → "LGUMUN" (unified branding)
+- Navy (#1e3a8a) + Gold (#f59e0b) theme
+- Professional button hover effects
+- Logo glow animations
+
+## Error Codes
+
+Must implement these error codes:
+
+| Code | Message | Trigger |
+|------|---------|--------|
+| DUPLICATE_EMAIL | Email already registered | Duplicate registration |
+| COMMITTEE_NOT_FOUND | Committee not found | Invalid committee ID |
+| COMMITTEE_FULL | Committee is full | Capacity reached |
+| SAME_COMMITTEE | Already in this committee | Transfer to same committee |
+| CAN_TRANSFER | Cannot transfer | Transfer not allowed |
+| TRANSFER_LIMIT_REACHED | Transfer limit reached | More than 2 transfers |
+| DELEGATE_NOT_FOUND | Delegate not found | Invalid roll number |
+| INVALID_INPUT | Invalid input | Validation error |
 
 ## Governance
 
@@ -170,4 +255,4 @@ For agent-specific development guidance, refer to `CLAUDE.md` in project root.
 
 ---
 
-**Version**: 1.0.0 | **Ratified**: 2026-04-19 | **Last Amended**: 2026-04-19
+**Version**: 2.0.0 | **Ratified**: 2026-04-22 | **Last Amended**: 2026-04-22
