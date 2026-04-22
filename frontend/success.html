@@ -212,14 +212,60 @@
     }
     .btn-secondary:hover { border-color:rgba(244,237,224,0.4); background:rgba(244,237,224,0.04); }
 
-    /* ERROR */
-    .error-card {
-      background:linear-gradient(145deg, var(--navy-card), rgba(11,18,37,0.9));
-      border:1px solid rgba(224,82,82,0.2); border-radius:26px; padding:3.5rem;
-      text-align:center; position:relative; z-index:2;
+    /* SUCCESS MESSAGE OVERHAUL */
+    .bd-award-card {
+      background: linear-gradient(145deg, #111e38, #0d1628);
+      border: 2px solid #ffffff;
+      border-radius: 20px;
+      padding: 2.5rem;
+      text-align: center;
+      margin-top: 2rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 40px rgba(255,255,255,0.1);
+      animation: riseIn 0.8s ease;
     }
-    .error-heading { font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:400; margin-bottom:0.75rem; }
-    .error-text { color:var(--cream-dim); margin-bottom:2rem; }
+    .bd-award-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #c9a84c;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 0 20px rgba(201,168,76,0.6);
+      animation: goldPulse 2s infinite;
+    }
+    @keyframes goldPulse {
+      0%, 100% { transform: scale(1); text-shadow: 0 0 20px rgba(201,168,76,0.6); }
+      50% { transform: scale(1.03); text-shadow: 0 0 40px rgba(201,168,76,0.9); }
+    }
+    .bd-award-text {
+      font-size: 1.1rem;
+      color: #ffffff;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+    .bd-award-text strong { color: #c9a84c; }
+    .bd-award-footer {
+      font-style: italic;
+      color: rgba(255,255,255,0.7);
+      font-size: 0.9rem;
+    }
+
+    /* Checklist visibility fix */
+    .step-text p { font-size: 0.9rem; color: #ffffff !important; line-height: 1.5; font-weight: 500; }
+    .step-text strong { color: #c9a84c !important; font-size: 1.1rem !important; }
+
+    /* ERROR CARD OVERHAUL - Now "Final Seat" notice */
+    .final-seat-card {
+      background: linear-gradient(145deg, #0d1628, #060b19);
+      border: 1px solid #c9a84c;
+      border-radius: 26px;
+      padding: 4rem 2rem;
+      text-align: center;
+      box-shadow: 0 0 50px rgba(201,168,76,0.15);
+    }
 
     .footer { background:var(--navy-deep); border-top:1px solid var(--border-light); padding:2.5rem; }
     .footer-logos { display:flex; align-items:center; justify-content:center; gap:0; margin-bottom:0.75rem; }
@@ -262,7 +308,6 @@
       <!-- SUCCESS STATE -->
       <div class="success-card" id="success-content">
         <div class="success-hero">
-          <!-- Logo at top of success card -->
           <div class="success-logos">
             <img src="/assets/logo/lgu-logo.jpeg" alt="Lahore Garrison University" class="success-logo-img">
           </div>
@@ -272,45 +317,31 @@
             </svg>
           </div>
           <h1 class="success-heading">Registration <em>Complete!</em></h1>
-          <p class="success-subtext">Your seat has been secured for LGUMUN 2026.</p>
+          <p class="success-subtext">Your delegation seat is officially secured.</p>
         </div>
 
         <div class="success-body">
-          <!-- SAVE ROLL BANNER - More prominent -->
-          <div class="warning-banner" style="background:rgba(61,186,126,0.08); border-color:rgba(61,186,126,0.3); margin-bottom:1.5rem;">
-            <span class="warning-icon">📋</span>
-            <div>
-              <div class="warning-title" style="color:var(--green);">Screenshot This Page Now</div>
-              <div class="warning-text">No email will be sent. Save your roll number for June 15 check-in.</div>
-            </div>
+          <!-- PREMIUM BD AWARD MESSAGE -->
+          <div class="bd-award-card">
+            <h2 class="bd-award-title">The BD Award Awaits!</h2>
+            <p class="bd-award-text">
+              Your seat is secured in <strong><span id="bd-committee">—</span></strong>.<br>
+              Your official Roll Number is <strong><span id="bd-roll">—</span></strong>.
+            </p>
+            <p class="bd-award-text">
+              Make the <strong>Best Delegate (BD)</strong> award yours!<br>
+              Good luck with your preparation for the event.
+            </p>
+            <div class="bd-award-footer">— LGUMUN Society 2026</div>
           </div>
 
-          <div class="roll-card">
-            <div class="roll-label">Your Delegate Roll Number</div>
+          <div class="roll-card" style="margin-top: 3rem;">
+            <div class="roll-label">Your Unique Delegate ID</div>
             <div class="roll-number" id="roll-number">LGU-XXXX-000</div>
             <button class="copy-btn" id="copy-btn" onclick="copyRoll()">
               <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
               Copy Roll Number
             </button>
-          </div>
-
-          <div class="details-grid">
-            <div class="detail-item">
-              <div class="detail-key">Roll Number</div>
-              <div class="detail-val" id="d-roll">—</div>
-            </div>
-            <div class="detail-item">
-              <div class="detail-key">Committee</div>
-              <div class="detail-val" id="d-committee">—</div>
-            </div>
-            <div class="detail-item">
-              <div class="detail-key">Delegate Name</div>
-              <div class="detail-val" id="d-name">—</div>
-            </div>
-            <div class="detail-item">
-              <div class="detail-key">Email</div>
-              <div class="detail-val" id="d-email">—</div>
-            </div>
           </div>
 
           <div class="next-steps">
@@ -321,7 +352,7 @@
                 <div class="step-card">
                   <div class="step-text">
                     <strong>Save Your Roll Number</strong>
-                    <p>Screenshot this page or copy it. You need it for check-in.</p>
+                    <p>Take a screenshot now. This is your ticket to the conference.</p>
                   </div>
                 </div>
               </li>
@@ -329,8 +360,8 @@
                 <span class="step-num">2</span>
                 <div class="step-card">
                   <div class="step-text">
-                    <strong>Research Your Committee</strong>
-                    <p>Know your country's position and prepare your opening speech.</p>
+                    <strong>Research Your Agenda</strong>
+                    <p>Dive deep into your committee's topics. Prepare a winning speech.</p>
                   </div>
                 </div>
               </li>
@@ -338,8 +369,8 @@
                 <span class="step-num">3</span>
                 <div class="step-card">
                   <div class="step-text">
-                    <strong>Come at 9 AM — June 15</strong>
-                    <p>Arrive 30 minutes early. LGU Main Campus, Lahore.</p>
+                    <strong>Join at 9 AM — June 15</strong>
+                    <p>Registration opens early. LGU Main Campus, Lahore.</p>
                   </div>
                 </div>
               </li>
@@ -347,8 +378,8 @@
                 <span class="step-num">4</span>
                 <div class="step-card">
                   <div class="step-text">
-                    <strong>Bring Your ID & Roll Number</strong>
-                    <p>Student ID card and your roll number for verification.</p>
+                    <strong>Verification at Venue</strong>
+                    <p>Bring your Student ID and your unique Roll Number.</p>
                   </div>
                 </div>
               </li>
@@ -356,17 +387,30 @@
           </div>
 
           <div class="action-buttons">
-            <a href="/register.html" class="btn-primary">Register Another Delegate</a>
-            <a href="/" class="btn-secondary">Back to Home</a>
+            <a href="/" class="btn-primary" style="flex:1; justify-content:center;">Go to Home</a>
+            <a href="/register.html" class="btn-secondary" style="flex:1; justify-content:center;">Register Another</a>
           </div>
         </div>
       </div>
 
-      <!-- ERROR STATE -->
-      <div class="error-card" id="error-content" style="display:none">
-        <h2 class="error-heading">Registration Not Found</h2>
-        <p class="error-text">We couldn't find your registration details. Please try registering again.</p>
-        <a href="/register.html" class="btn-primary">Go to Registration</a>
+      <!-- FINAL SEAT STATE (Overhauling Error State) -->
+      <div class="final-seat-card" id="error-content" style="display:none">
+        <div class="success-logos">
+            <img src="/assets/logo/lgu-logo.jpeg" alt="LGUMUN" class="success-logo-img">
+        </div>
+        <h2 class="bd-award-title" style="font-size: 1.8rem;">Your Seat is Secured</h2>
+        <div class="bd-award-card" style="margin-bottom: 2rem;">
+            <p class="bd-award-text">
+                This is a notification from <strong>LGUMUN Society</strong>:<br>
+                Your seat is final and secured in <strong style="color:#c9a84c;"><span id="final-committee">—</span></strong>.
+            </p>
+            <p class="roll-number" id="final-roll" style="font-size: 2.5rem; margin: 1.5rem 0;">LGU-XXXX-000</p>
+            <p class="bd-award-text">
+                Make the <strong>Best Delegate (BD)</strong> award yours!<br>
+                Good luck with your preparation.
+            </p>
+        </div>
+        <a href="/" class="btn-primary">Back to Home</a>
       </div>
 
     </div>
@@ -405,11 +449,15 @@
         const committee = data?.committee_name || data?.committee_id?.toUpperCase() || '—';
         const name = data?.full_name || '—';
         const email = data?.email || '—';
+
+        // Main Success Page
         document.getElementById('roll-number').textContent = roll;
-        document.getElementById('d-roll').textContent = roll;
-        document.getElementById('d-committee').textContent = committee;
-        document.getElementById('d-name').textContent = name;
-        document.getElementById('d-email').textContent = email;
+        document.getElementById('bd-roll').textContent = roll;
+        document.getElementById('bd-committee').textContent = committee;
+
+        // Final Seat Page (Fallback)
+        document.getElementById('final-roll').textContent = roll;
+        document.getElementById('final-committee').textContent = committee;
       } catch(e) { console.error(e); }
     }
     loadData();
