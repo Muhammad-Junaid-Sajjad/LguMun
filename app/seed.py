@@ -1,5 +1,5 @@
 from app.database import SessionLocal
-from app.models import Committee
+from app.models import Committee, SystemSettings
 
 # Committees ordered by difficulty/prestige (hardest first)
 COMMITTEES = [
@@ -16,9 +16,18 @@ COMMITTEES = [
     {"short_name": "NCC",    "full_name": "National Crisis Committee",                    "language": "English", "total_seats": 50, "last_sequence": 0},
 ]
 
+SETTINGS = [
+    {"key": "event_name", "value": "LGUMUN 2026 — Inter-University MUN", "description": "Official title of the event"},
+    {"key": "event_date", "value": "2026-06-15", "description": "Main event date"},
+    {"key": "event_venue", "value": "Lahore Garrison University, Lahore", "description": "Venue address"},
+    {"key": "registration_open", "value": "true", "description": "Whether new registrations are allowed"},
+    {"key": "transfers_open", "value": "true", "description": "Whether committee transfers are allowed"},
+]
+
 def seed():
     db = SessionLocal()
     try:
+        print("Seeding committees...")
         for data in COMMITTEES:
             exists = db.query(Committee).filter_by(short_name=data["short_name"]).first()
             if not exists:
@@ -26,8 +35,18 @@ def seed():
                 print(f"  Inserted: {data['short_name']}")
             else:
                 print(f"  Skipped (exists): {data['short_name']}")
+
+        print("\nSeeding settings...")
+        for data in SETTINGS:
+            exists = db.query(SystemSettings).filter_by(key=data["key"]).first()
+            if not exists:
+                db.add(SystemSettings(**data))
+                print(f"  Inserted: {data['key']}")
+            else:
+                print(f"  Skipped (exists): {data['key']}")
+
         db.commit()
-        print("Seed complete.")
+        print("\nSeed complete.")
     finally:
         db.close()
 

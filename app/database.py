@@ -6,6 +6,7 @@ class Settings(BaseSettings):
     DATABASE_URL: str
     ENVIRONMENT: str = "development"
     ALLOWED_ORIGINS: str = "http://localhost:8000"
+    ADMIN_API_KEY: str = ""  # Should be set in .env for admin authentication
 
     class Config:
         env_file = ".env"

@@ -1,6 +1,6 @@
 from sqlalchemy import (
     Column, Integer, String, Boolean, Text,
-    ForeignKey, DateTime, func, Sequence
+    ForeignKey, DateTime, func, Sequence, Enum
 )
 from sqlalchemy.orm import relationship
 from app.database import Base
@@ -42,4 +42,34 @@ class Delegate(Base):
     ip_address = Column(String(45), nullable=True)  # IPv4 or IPv6 as string
 
     committee = relationship("Committee", back_populates="delegates", foreign_keys=[committee_id])
+
+class AdminQuery(Base):
+    __tablename__ = "admin_queries"
+
+    id = Column(Integer, primary_key=True, index=True)
+    delegate_id = Column(Integer, ForeignKey("delegates.id"), nullable=False, index=True)
+    name = Column(String(200), nullable=False)
+    roll_number = Column(String(20), nullable=False, index=True)
+    committee = Column(String(100), nullable=False)
+    message = Column(Text, nullable=False)
+
+    # Status: pending, replied, resolved
+    status = Column(String(20), nullable=False, default="pending")
+    admin_reply = Column(Text, nullable=True)
+    replied_at = Column(DateTime(timezone=True), nullable=True)
+
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+
+    # Relationship
+    delegate = relationship("Delegate")
+
+class SystemSettings(Base):
+    __tablename__ = "system_settings"
+
+    id = Column(Integer, primary_key=True, index=True)
+    key = Column(String(100), unique=True, nullable=False, index=True)
+    value = Column(Text, nullable=False)
+    description = Column(String(255), nullable=True)
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 

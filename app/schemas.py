@@ -96,3 +96,111 @@ class ErrorResponse(BaseModel):
     success: bool = False
     error: ErrorDetail
     timestamp: str
+
+
+# Admin Portal Schemas
+class AdminQueryBase(BaseModel):
+    name: str
+    roll_number: str
+    committee: str
+    message: str
+
+class AdminQueryCreate(AdminQueryBase):
+    pass
+
+class AdminQueryResponse(AdminQueryBase):
+    id: int
+    delegate_id: int
+    status: str
+    admin_reply: str | None = None
+    replied_at: str | None = None
+    created_at: str
+
+    class Config:
+        from_attributes = True
+
+class QueryReply(BaseModel):
+    reply: str
+
+class QueryStatusUpdate(BaseModel):
+    status: str  # pending, replied, resolved
+
+class SystemSettingBase(BaseModel):
+    key: str
+    value: str
+    description: str | None = None
+
+class SystemSettingCreate(SystemSettingBase):
+    pass
+
+class SystemSettingResponse(SystemSettingBase):
+    id: int
+    updated_at: str
+
+    class Config:
+        from_attributes = True
+
+# Dashboard Stats
+class AdminStats(BaseModel):
+    total_delegates: int
+    total_committees: int
+    active_committees: int
+    full_committees: int
+    total_seats: int
+    filled_seats: int
+    available_seats: int
+    fill_percentage: int
+
+
+# Admin Portal Schemas
+class AdminQueryBase(BaseModel):
+    name: str
+    roll_number: str
+    committee: str
+    message: str
+
+class AdminQueryCreate(AdminQueryBase):
+    pass
+
+class AdminQueryResponse(AdminQueryBase):
+    id: int
+    delegate_id: int
+    status: str
+    admin_reply: str | None = None
+    replied_at: str | None = None
+    created_at: str
+
+    class Config:
+        from_attributes = True
+
+class QueryReply(BaseModel):
+    reply: str
+
+class QueryStatusUpdate(BaseModel):
+    status: str  # pending, replied, resolved
+
+class SystemSettingBase(BaseModel):
+    key: str
+    value: str
+    description: str | None = None
+
+class SystemSettingCreate(SystemSettingBase):
+    pass
+
+class SystemSettingResponse(SystemSettingBase):
+    id: int
+    updated_at: str
+
+    class Config:
+        from_attributes = True
+
+# Dashboard Stats
+class AdminStats(BaseModel):
+    total_delegates: int
+    total_committees: int
+    active_committees: int
+    full_committees: int
+    total_seats: int
+    filled_seats: int
+    available_seats: int
+    fill_percentage: int
