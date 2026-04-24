@@ -37,6 +37,8 @@ def get_committee_by_id(db: Session, committee_id: int) -> dict | None:
     return _committee_to_response(c) if c else None
 
 def register_delegate(db: Session, data: DelegateCreate, ip: str) -> dict:
+    logger.info("Registration attempt for email: %s, institution: %s, IP: %s",
+                data.email, data.institution, ip)
     try:
         # Step 0 — Check if ALL committees are full
         all_committees = db.query(Committee).filter(Committee.is_active == True).all()
@@ -175,9 +177,13 @@ def register_delegate(db: Session, data: DelegateCreate, ip: str) -> dict:
     except AppException:
         db.rollback()
         raise
+    except AppException as e:
+        db.rollback()
+        logger.warning("Registration AppException: %s - %s", e.code, e.message)
+        raise
     except Exception as e:
         db.rollback()
-        logger.error(f"register_delegate failed: {e}", exc_info=True)
+        logger.exception("Registration unexpected error")
         if "UNIQUE" in str(e).upper() or "duplicate" in str(e).lower():
             if "email" in str(e).lower():
                 raise AppException("DUPLICATE_EMAIL", "This email is already registered.", field="email")
@@ -289,12 +295,13 @@ def transfer_delegate(db: Session, roll_number: str, new_committee_id: int) -> d
             "is_final": is_final,
         }
 
-    except AppException:
+    except AppException as e:
         db.rollback()
+        logger.warning("Transfer AppException: %s - %s", e.code, e.message)
         raise
     except Exception as e:
         db.rollback()
-        logger.error(f"transfer_delegate failed: {e}", exc_info=True)
+        logger.exception("Transfer unexpected error")
         raise AppException("SERVER_ERROR", "Transfer failed. Please try again.", status_code=500)
 
 
