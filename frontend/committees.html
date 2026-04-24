@@ -95,6 +95,8 @@
     .nav-links a::after { content:''; position:absolute; bottom:-4px; left:0; right:0; height:1px; background:var(--gold); transform:scaleX(0); transform-origin:left; transition:transform 0.3s; }
     .nav-links a:hover, .nav-links a.active { color:var(--cream); }
     .nav-links a:hover::after, .nav-links a.active::after { transform:scaleX(1); }
+    .nav-links a.admin-link { opacity:0.5; font-size:0.75rem; letter-spacing:0.1em; }
+    .nav-links a.admin-link:hover { opacity:1; color:var(--gold); }
     .nav-cta { background:linear-gradient(135deg,var(--gold-light),var(--gold)); color:var(--navy) !important; padding:9px 22px !important; border-radius:6px; font-weight:700 !important; letter-spacing:0.08em !important; box-shadow:0 4px 20px rgba(201,168,76,0.25); }
     .nav-cta::after { display:none !important; }
     .nav-cta:hover { transform:translateY(-1px); box-shadow:0 8px 30px rgba(201,168,76,0.4) !important; color:var(--navy) !important; }
@@ -309,6 +311,7 @@
     <a href="/">Home</a>
     <a href="/committees.html" class="active">Committees</a>
     <a href="/register.html" class="nav-cta">Register Now</a>
+    <a href="/admin.html" class="admin-link" title="Admin Access">Admin</a>
   </nav>
 </header>
 

@@ -63,6 +63,8 @@
     .nav-links { display:flex; align-items:center; gap:2.5rem; }
     .nav-links a { text-decoration:none; color:var(--cream-dim); font-size:0.8rem; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; transition:color 0.2s; }
     .nav-links a.active, .nav-links a:hover { color:var(--cream); }
+    .nav-links a.admin-link { opacity:0.5; font-size:0.75rem; letter-spacing:0.1em; }
+    .nav-links a.admin-link:hover { opacity:1; color:var(--gold); }
     .nav-cta { background:linear-gradient(135deg,var(--gold-light),var(--gold)); color:var(--navy) !important; padding:9px 22px; border-radius:6px; font-weight:700 !important; }
     .mobile-toggle { display:none; background:none; border:1px solid var(--border); color:var(--cream); padding:8px; border-radius:6px; cursor:pointer; }
 
@@ -195,6 +197,7 @@
     .alert-success .alert-title { color:var(--green); }
     .alert-info .alert-title { color:var(--blue); }
     .alert-msg { font-size:0.82rem; color:var(--cream-dim); }
+    .hidden { display: none !important; }
 
     /* LOADING */
     .loading-overlay { display:none; position:fixed; inset:0; background:rgba(6,11,25,0.9); backdrop-filter:blur(8px); z-index:2000; align-items:center; justify-content:center; flex-direction:column; gap:1.25rem; }
@@ -251,6 +254,7 @@
       <a href="/">Home</a>
       <a href="/committees.html">Committees</a>
       <a href="/register.html" class="nav-cta active">Register</a>
+      <a href="/admin.html" class="admin-link" title="Admin Access">Admin</a>
     </nav>
   </header>
 
@@ -311,6 +315,15 @@
         <div>
           <div class="alert-title">Registration Successful!</div>
           <div class="alert-msg" id="alert-success-msg"></div>
+        </div>
+      </div>
+
+      <!-- REGISTRATION CLOSED MESSAGE -->
+      <div class="alert alert-error hidden" id="registration-closed">
+        <span class="alert-icon">⛔</span>
+        <div>
+          <div class="alert-title">Registration Closed</div>
+          <div class="alert-msg" id="registration-closed-message"></div>
         </div>
       </div>
 
@@ -412,6 +425,69 @@
   </footer>
 
   <script>
+    // Settings Manager for real-time configuration
+    class SettingsManager {
+      constructor() {
+        this.settingsCache = null;
+        this.cacheTimestamp = null;
+        this.CACHE_TTL = 30000;
+      }
+
+      async fetchAllSettings() {
+        const now = Date.now();
+        if (this.cacheTimestamp && (now - this.cacheTimestamp) < this.CACHE_TTL && this.settingsCache) {
+          return this.settingsCache;
+        }
+        try {
+          const response = await fetch('/api/v1/admin/settings');
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const data = await response.json();
+          this.settingsCache = data.settings || [];
+          this.cacheTimestamp = now;
+          return this.settingsCache;
+        } catch (e) {
+          console.warn('Settings fetch failed:', e);
+          return this.settingsCache || [];
+        }
+      }
+
+      async getSetting(key) {
+        const settings = await this.fetchAllSettings();
+        const setting = settings.find(s => s.key === key);
+        if (!setting) return null;
+        try { return JSON.parse(setting.value); } catch { return setting.value; }
+      }
+
+      async isRegistrationOpen() {
+        const val = await this.getSetting('registration_open');
+        return val === true || val === 'true';
+      }
+
+      async getRegistrationDeadline() {
+        const val = await this.getSetting('registration_deadline');
+        if (!val) return null;
+        const d = new Date(val);
+        return isNaN(d.getTime()) ? null : d.getTime();
+      }
+    }
+
+    const settingsManager = new SettingsManager();
+
+    // Check registration status on page load
+    settingsManager.isRegistrationOpen().then(async isOpen => {
+      const deadline = await settingsManager.getRegistrationDeadline();
+      if (isOpen === false) {
+        document.getElementById('registration-closed')?.classList.remove('hidden');
+        document.getElementById('step-1')?.classList.add('hidden');
+        return;
+      }
+      if (deadline && Date.now() > deadline) {
+        document.getElementById('registration-closed')?.classList.remove('hidden');
+        document.getElementById('step-1')?.classList.add('hidden');
+        return;
+      }
+    }).catch(e => console.warn('Registration check skipped:', e));
+
     window.addEventListener('scroll', () => {
       document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
     }, { passive: true });
@@ -544,6 +620,27 @@
     }
 
     document.getElementById('btn-submit').addEventListener('click', async () => {
+      // Check registration status before submission
+      try {
+        const isOpen = await settingsManager.isRegistrationOpen();
+        const deadline = await settingsManager.getRegistrationDeadline();
+
+        if (isOpen === false) {
+          document.getElementById('registration-closed')?.classList.remove('hidden');
+          document.getElementById('registration-closed-message').textContent = 'Registration is currently closed. Please check back later.';
+          return;
+        }
+
+        if (deadline && Date.now() > deadline) {
+          document.getElementById('registration-closed')?.classList.remove('hidden');
+          document.getElementById('registration-closed-message').textContent = 'Registration deadline has passed. Thank you for your interest.';
+          return;
+        }
+      } catch (error) {
+        console.warn('Could not fetch registration settings:', error);
+        // Continue with submission if settings unavailable
+      }
+
       const terms = document.getElementById('terms-checkbox');
       const termsErr = document.getElementById('err-terms');
       if (!terms.checked) { termsErr.classList.add('show'); return; }

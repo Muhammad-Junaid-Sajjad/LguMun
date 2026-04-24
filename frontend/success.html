@@ -273,6 +273,7 @@
     .footer-logo-img:hover { opacity:0.75; }
     .footer-logo-sep { width:1px; height:22px; background:var(--border-light); margin:0 10px; }
     .footer-bottom { text-align:center; font-size:0.78rem; color:var(--text-muted); }
+    .footer-links a.admin-link:hover { opacity:1; color:var(--gold) !important; }
 
     @media(max-width:600px) {
       .details-grid { grid-template-columns:1fr; }
@@ -419,6 +420,9 @@
   <footer class="footer">
     <div class="footer-logos">
       <img src="/assets/logo/lgu-logo.jpeg" alt="LGU" class="footer-logo-img">
+    </div>
+    <div class="footer-links" style="margin-bottom:0.5rem;">
+      <a href="/admin.html" class="admin-link" title="Admin Access" style="color:var(--text-muted);text-decoration:none;font-size:0.75rem;opacity:0.5;">Admin</a>
     </div>
     <div class="footer-bottom">&copy; 2026 LGUMUN Society. All rights reserved.</div>
   </footer>

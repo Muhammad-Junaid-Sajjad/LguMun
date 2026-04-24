@@ -2,6 +2,27 @@ document.addEventListener('DOMContentLoaded', async () => {
   const committeeSelect = document.getElementById('committee_id');
   const submitButton = document.getElementById('submit-btn');
 
+  // Check registration status from admin settings
+  try {
+    const isOpen = await settingsManager.isRegistrationOpen();
+    const deadline = await settingsManager.getRegistrationDeadline();
+
+    // Check if registration is closed
+    if (isOpen === false) {
+      showRegistrationClosed('Registration is currently closed. Please check back later.');
+      return;
+    }
+
+    // Check if deadline has passed
+    if (deadline && Date.now() > deadline) {
+      showRegistrationClosed('Registration deadline has passed. Thank you for your interest.');
+      return;
+    }
+  } catch (error) {
+    console.warn('Could not fetch registration settings, allowing registration:', error);
+    // Fallback: allow registration if settings service is unavailable
+  }
+
   // Populate committee dropdown
   try {
     const data = await apiGet('/committees');
@@ -196,4 +217,17 @@ function showGlobalError(message) {
   const errorText = document.getElementById('error-message');
   errorText.textContent = message;
   errorBanner.classList.remove('hidden');
+}
+
+function showRegistrationClosed(message) {
+  // Hide form and show closed message
+  const form = document.getElementById('registration-form');
+  const closedDiv = document.getElementById('registration-closed');
+
+  if (form) form.classList.add('hidden');
+  if (closedDiv) {
+    const messageEl = document.getElementById('registration-closed-message');
+    if (messageEl) messageEl.textContent = message;
+    closedDiv.classList.remove('hidden');
+  }
 }
