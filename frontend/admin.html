@@ -1847,8 +1847,8 @@ const getApiUrl = () => {
   const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
   const envApiKey = window.localStorage.getItem('lgumun_admin_api_key') || '';
   return isProduction
-    ? (window.lgumunConfig?.apiUrl || 'https://lgumun-backend.vercel.app/api')
-    : (window.lgumunConfig?.apiUrl || 'http://localhost:8000/api');
+    ? (window.lgumunConfig?.apiUrl || 'https://lgumun-backend.vercel.app')
+    : (window.lgumunConfig?.apiUrl || 'http://localhost:8000');
 };
 
 // COMMITTEES - Master reference for colors and codes (loaded dynamically from DB)
