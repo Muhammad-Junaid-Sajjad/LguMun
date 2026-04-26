@@ -21,21 +21,25 @@ class SettingsManager {
     }
 
     try {
-      const response = await fetch('/api/v1/admin/settings');
+      // Use public endpoint for general fetching
+      const response = await fetch('/api/v1/settings');
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
 
+      // Handle nested response structure: { success: true, data: { settings: [...] } }
+      const settingsArray = data.data?.settings || data.settings || [];
+
       // Update cache
       this.settingsCache.clear();
-      data.settings.forEach(setting => {
+      settingsArray.forEach(setting => {
         this.settingsCache.set(setting.key, this.parseSettingValue(setting.value));
       });
       this.cacheTimestamp = now;
 
-      return data.settings.map(setting => ({
+      return settingsArray.map(setting => ({
         key: setting.key,
         value: this.parseSettingValue(setting.value)
       }));
@@ -63,21 +67,25 @@ class SettingsManager {
     }
 
     try {
-      const response = await fetch(`/api/v1/admin/settings`);
+      // Use public endpoint for frontend
+      const response = await fetch(`/api/v1/settings`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
 
+      // Handle nested response structure: { success: true, data: { settings: [...] } }
+      const settingsArray = data.data?.settings || data.settings || [];
+
       // Update cache
       this.settingsCache.clear();
-      data.settings.forEach(setting => {
+      settingsArray.forEach(setting => {
         this.settingsCache.set(setting.key, this.parseSettingValue(setting.value));
       });
       this.cacheTimestamp = now;
 
-      const setting = data.settings.find(s => s.key === key);
+      const setting = settingsArray.find(s => s.key === key);
       return setting ? this.parseSettingValue(setting.value) : null;
     } catch (error) {
       console.error(`Failed to fetch setting ${key}:`, error);
@@ -112,6 +120,7 @@ class SettingsManager {
    */
   async isRegistrationOpen() {
     const value = await this.getSetting('registration_open');
+    if (value === null) return true; // Default to open if settings cannot be fetched (e.g. 401 Unauthorized)
     return value === true || value === 'true';
   }
 
