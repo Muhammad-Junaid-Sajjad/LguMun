@@ -197,6 +197,16 @@
     .alert-success .alert-title { color:var(--green); }
     .alert-info .alert-title { color:var(--blue); }
     .alert-msg { font-size:0.82rem; color:var(--cream-dim); }
+    .alert-transfer-limit {
+      background: linear-gradient(145deg, rgba(201,168,76,0.08), rgba(201,168,76,0.03));
+      border: 2px solid #c9a84c;
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      max-width: 420px;
+      margin: 0 auto 2rem;
+      box-shadow: 0 0 40px rgba(201,168,76,0.3);
+    }
     .hidden { display: none !important; }
 
     /* LOADING */
@@ -241,7 +251,7 @@
   <header class="navbar" id="navbar">
     <div class="nav-logo">
       <a href="/" title="Home" style="display:flex;align-items:center;">
-        <img src="/assets/logo/lgu-logo.jpeg" alt="LGU Official Logo" class="logo-lgu">
+        <img src="/assets/logo/lgumun-society-logo.png" alt="LGU Official Logo" class="logo-lgu">
       </a>
       <a href="/" style="text-decoration:none;">
         <span class="nav-logo-text" style="margin-left:14px;">LGU <span>MUN</span> 2026</span>
@@ -418,7 +428,7 @@
   <footer class="footer">
     <div class="footer-inner">
       <div class="footer-logos">
-        <img src="/assets/logo/lgu-logo.jpeg" alt="LGU" class="footer-logo-img">
+        <img src="/assets/logo/lgumun-society-logo.png" alt="LGU" class="footer-logo-img">
       </div>
       <div class="footer-bottom">&copy; 2026 LGUMUN Society. All rights reserved.</div>
     </div>
@@ -439,10 +449,13 @@
           return this.settingsCache;
         }
         try {
-          const response = await fetch('/api/v1/admin/settings');
+          // Use public endpoint for frontend
+          const response = await fetch('/api/v1/settings');
           if (!response.ok) throw new Error(`HTTP ${response.status}`);
           const data = await response.json();
-          this.settingsCache = data.settings || [];
+          // Handle nested response structure
+          const settingsArray = data.data?.settings || data.settings || [];
+          this.settingsCache = settingsArray;
           this.cacheTimestamp = now;
           return this.settingsCache;
         } catch (e) {
@@ -460,6 +473,7 @@
 
       async isRegistrationOpen() {
         const val = await this.getSetting('registration_open');
+        if (val === null) return true; // Default to open if settings cannot be fetched
         return val === true || val === 'true';
       }
 
@@ -589,10 +603,9 @@
           const d = await r.json();
           if (d?.data?.committees) {
             d.data.committees.filter(c => !c.is_full).forEach(c => {
-              const avail = c.total_seats - c.filled_seats;
               const opt = document.createElement('option');
               opt.value = c.id;
-              opt.textContent = `${c.short_name} — ${c.full_name} (${avail} seats left)`;
+              opt.textContent = `${c.short_name} — ${c.full_name}`;
               sel.appendChild(opt);
             });
             return;
@@ -602,7 +615,7 @@
       fallback.forEach(c => {
         const opt = document.createElement('option');
         opt.value = c.id;
-        opt.textContent = `${c.name} (${c.available} seats left)`;
+        opt.textContent = `${c.name}`;
         sel.appendChild(opt);
       });
     }
@@ -656,7 +669,8 @@
         const d = await r.json();
         document.getElementById('loading-overlay').classList.remove('show');
         if (r.ok && d?.data) {
-          const roll = d.data.roll_number || d.data.rollNumber || d.data.id;
+          const roll = d.data.roll_number || d.data.rollNumber;
+          if (!roll) throw new Error('Invalid response from server: Missing roll number');
           sessionStorage.setItem('mun_registration', JSON.stringify({...formData, roll_number:roll, ...d.data}));
           document.getElementById('alert-success-msg').textContent = `Registration successful! Roll number: ${roll}. Redirecting…`;
           document.getElementById('alert-success').classList.add('show');
@@ -729,20 +743,29 @@
           if (errorCode === 'TRANSFER_LIMIT_REACHED') {
             const data = d?.error?.data || {};
             const committeeName = data.committee_full || data.committee || 'Your Committee';
+            const rollNumber = data.roll_number || 'LGU-XXXX-000';
+
+            // Save to sessionStorage so success page can show details
+            sessionStorage.setItem('mun_registration', JSON.stringify({
+              ...formData,
+              roll_number: rollNumber,
+              committee_name: committeeName
+            }));
+
             const infoHTML = `
-              <div style="text-align:center; padding:1rem;">
+              <div style="text-align:center;">
                 <p style="margin-bottom:1.5rem; font-size:1.2rem; color:#ffffff; font-weight:600;">
                   No more switches allowed.<br>Your delegation is final.
                 </p>
-                <div style="margin:1.5rem auto; padding:2.5rem 2rem; background:linear-gradient(135deg, rgba(201,168,76,0.12), rgba(201,168,76,0.05)); border:3px solid #c9a84c; border-radius:20px; text-align:center; max-width:420px; box-shadow:0 0 40px rgba(201,168,76,0.3);">
+                <div class="alert-transfer-limit">
                   <p style="color:#c9a84c; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:1.5rem; font-weight:600;">Official Final Seat</p>
                   <p style="color:#ffffff; font-size:1.6rem; font-weight:700; margin-bottom:1.5rem; text-shadow:0 0 15px rgba(255,255,255,0.3);">${committeeName}</p>
                   <p style="font-family:'DM Mono',monospace; color:#c9a84c; font-size:2.5rem; font-weight:700; text-shadow:0 0 30px rgba(201,168,76,0.8); margin-bottom:1rem;">${data.roll_number || '---'}</p>
                 </div>
-                <p style="color:#ffffff; margin-top:1.5rem; margin-bottom:1.5rem; font-size:1.1rem; font-weight:500;">
+                <p style="color:#ffffff; margin-bottom:1.5rem; font-size:1.1rem; font-weight:500;">
                   Good luck! Go for the <span style="color:#c9a84c; font-weight:700;">BD Award</span>!
                 </p>
-                <a href="/success.html" class="btn-submit" style="text-decoration:none; width:100%; justify-content:center; display:flex; padding:16px 32px; font-size:1rem;">View Final Confirmation</a>
+                <a href="/success.html" class="btn-submit" style="text-decoration:none; display:inline-flex; padding:16px 32px; font-size:1rem;">View Final Confirmation</a>
               </div>
             `;
             document.getElementById('alert-transfer-limit-msg').innerHTML = infoHTML;
@@ -756,8 +779,8 @@
             loadCommittees(); // Reload so the full committee is removed
             const contact = d?.error?.data?.contact_info || 'Please contact LGUMUN Society Core Team';
             const infoHTML = `
-              <div style="text-align:center; padding:1rem;">
-                <div style="margin:1.5rem auto; padding:2.5rem 2rem; background:linear-gradient(135deg, rgba(201,168,76,0.12), rgba(201,168,76,0.05)); border:3px solid #c9a84c; border-radius:20px; text-align:center; max-width:420px; box-shadow:0 0 40px rgba(201,168,76,0.3);">
+              <div style="text-align:center; padding:1rem; max-width:520px; margin:0 auto;">
+                <div class="alert-transfer-limit">
                   <p style="color:#c9a84c; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:1rem; font-weight:600;">Committee Full</p>
                   <p style="color:#ffffff; font-size:1.4rem; font-weight:700; margin-bottom:1rem;">
                     This committee is now full.<br>Please choose another one.
@@ -864,7 +887,7 @@
 
       function init() {
         resize();
-        particles = Array.from({length: 80}, () => new Particle(true));
+        particles = Array.from({length: 120}, () => new Particle(true));
       }
 
       function loop() {

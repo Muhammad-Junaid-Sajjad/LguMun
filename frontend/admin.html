@@ -198,6 +198,10 @@
       font-size: 1.5rem;
       box-shadow: 0 6px 24px rgba(212,168,67,0.35), 0 0 0 1px rgba(212,168,67,0.25);
       position: relative; z-index: 1;
+      overflow: hidden;
+    }
+    .login-crest-icon img {
+      width: 100%; height: 100%; object-fit: cover;
     }
     .login-system-tag {
       font-family: 'JetBrains Mono', monospace;
@@ -338,6 +342,15 @@
       display: flex; align-items: center; gap: 11px;
     }
     .sidebar-logo-wrap { position: relative; }
+    .sidebar-logo-img {
+      width: 44px; height: 44px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 8px rgba(212,168,67,0.35));
+      transition: transform 0.3s ease;
+    }
+    .sidebar-logo-img:hover {
+      transform: scale(1.08);
+    }
     .sidebar-logo {
       width: 38px; height: 38px;
       background: linear-gradient(135deg, var(--gold-bright), var(--gold-deep));
@@ -1349,6 +1362,216 @@
     }
 
     /* ══════════════════════════════════════
+       ALLOCATION WIZARD STYLES
+    ══════════════════════════════════════ */
+    .alloc-wizard {
+      max-width: 1100px;
+    }
+    .wizard-steps {
+      display: flex; gap: 8px; margin-bottom: 2rem;
+    }
+    .wizard-step {
+      flex: 1; display: flex; align-items: center; gap: 10px;
+      padding: 12px 16px; background: var(--obsidian-card);
+      border: 1px solid var(--obsidian-border); border-radius: var(--radius);
+      cursor: pointer; transition: all 0.25s;
+    }
+    .wizard-step:hover { border-color: var(--obsidian-border-hi); }
+    .wizard-step.active {
+      background: linear-gradient(135deg, var(--gold-glow) 0%, transparent 100%);
+      border-color: rgba(212,168,67,0.4);
+    }
+    .wizard-step.completed { border-color: rgba(0,229,160,0.3); }
+    .wizard-step-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 700;
+      background: var(--obsidian-raised); color: var(--text-muted);
+      flex-shrink: 0;
+    }
+    .wizard-step.active .wizard-step-num {
+      background: var(--gold); color: var(--void);
+    }
+    .wizard-step.completed .wizard-step-num {
+      background: var(--emerald); color: var(--void);
+    }
+    .wizard-step-label { font-size: 0.78rem; font-weight: 600; }
+    .wizard-step-sub { font-size: 0.62rem; color: var(--text-muted); }
+
+    .wizard-content {
+      background: linear-gradient(160deg, var(--obsidian-card2) 0%, var(--obsidian-card) 100%);
+      border: 1px solid var(--obsidian-border); border-radius: var(--radius);
+      padding: 1.8rem;
+    }
+
+    /* Committee Selector */
+    .comm-selector-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;
+    }
+    .comm-select-card {
+      padding: 1.2rem; background: var(--obsidian-raised);
+      border: 2px solid var(--obsidian-border); border-radius: var(--radius);
+      cursor: pointer; transition: all 0.25s;
+    }
+    .comm-select-card:hover { border-color: var(--obsidian-border-hi); transform: translateY(-2px); }
+    .comm-select-card.selected {
+      border-color: var(--gold); background: var(--gold-glow);
+    }
+    .comm-select-head {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 0.5rem;
+    }
+    .comm-select-dot {
+      width: 12px; height: 12px; border-radius: 50%;
+      box-shadow: 0 0 8px currentColor;
+    }
+    .comm-select-code {
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem;
+      color: var(--text-primary); letter-spacing: 0.06em;
+    }
+    .comm-select-name { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
+    .comm-select-meta {
+      display: flex; gap: 12px; font-size: 0.68rem; color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Import Section */
+    .import-tabs {
+      display: flex; gap: 8px; margin-bottom: 1.2rem;
+    }
+    .import-tab {
+      padding: 8px 16px; background: var(--obsidian-raised);
+      border: 1px solid var(--obsidian-border); border-radius: var(--radius-sm);
+      font-size: 0.78rem; cursor: pointer; transition: all 0.2s;
+    }
+    .import-tab:hover { border-color: var(--obsidian-border-hi); }
+    .import-tab.active {
+      background: var(--gold-glow); border-color: rgba(212,168,67,0.4);
+      color: var(--gold-bright);
+    }
+    .import-textarea {
+      width: 100%; min-height: 140px; padding: 12px;
+      background: var(--obsidian-raised); border: 1px solid var(--obsidian-border-mid);
+      border-radius: var(--radius); color: var(--text-primary);
+      font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;
+      resize: vertical; margin-bottom: 1rem;
+    }
+    .import-textarea:focus { outline: none; border-color: var(--gold); }
+
+    /* Tier Pool Display */
+    .tier-pool-section { margin-bottom: 1.5rem; }
+    .tier-pool-title {
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.12em; color: var(--text-muted); margin-bottom: 0.7rem;
+    }
+    .tier-pool-grid {
+      display: flex; flex-wrap: wrap; gap: 6px;
+    }
+    .tier-pool-chip {
+      padding: 4px 10px; border-radius: 5px; font-size: 0.68rem;
+      background: var(--obsidian-raised); border: 1px solid var(--obsidian-border);
+      display: flex; align-items: center; gap: 5px;
+    }
+    .tier-pool-chip.tier-1 { border-color: rgba(255,77,109,0.4); color: #ff4d6d; }
+    .tier-pool-chip.tier-2 { border-color: rgba(255,170,0,0.4); color: #ffaa00; }
+    .tier-pool-chip.tier-3 { border-color: rgba(77,144,255,0.4); color: #4d90ff; }
+    .tier-pool-chip.tier-4 { border-color: rgba(168,85,247,0.4); color: #a855f7; }
+    .tier-pool-chip.tier-5 { border-color: rgba(45,212,191,0.4); color: #2dd4bf; }
+
+    /* Allocation Table */
+    .alloc-table-wrap { overflow-x: auto; margin: 1rem 0; }
+    .alloc-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+    .alloc-table th {
+      padding: 10px 12px; text-align: left; font-size: 0.62rem;
+      font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--text-muted); border-bottom: 1px solid var(--obsidian-border);
+    }
+    .alloc-table td {
+      padding: 10px 12px; border-bottom: 1px solid var(--obsidian-border);
+      vertical-align: middle;
+    }
+    .alloc-table tr:hover td { background: rgba(255,255,255,0.02); }
+    .tier-badge {
+      display: inline-block; padding: 3px 8px; border-radius: 4px;
+      font-size: 0.6rem; font-weight: 700; text-transform: uppercase;
+    }
+    .tier-badge.t1 { background: rgba(255,77,109,0.15); color: #ff4d6d; }
+    .tier-badge.t2 { background: rgba(255,170,0,0.15); color: #ffaa00; }
+    .tier-badge.t3 { background: rgba(77,144,255,0.15); color: #4d90ff; }
+    .tier-badge.t4 { background: rgba(168,85,247,0.15); color: #a855f7; }
+    .tier-badge.t5 { background: rgba(45,212,191,0.15); color: #2dd4bf; }
+    .alloc-name { font-weight: 600; }
+    .alloc-roll { font-family: 'JetBrains Mono', monospace; color: var(--text-muted); }
+    .alloc-country { font-weight: 500; }
+    .alloc-published {
+      width: 60px; height: 24px; border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.62rem; font-weight: 700;
+    }
+    .alloc-published.yes { background: rgba(0,229,160,0.15); color: #00e5a0; }
+    .alloc-published.no { background: rgba(255,255,255,0.05); color: var(--text-muted); }
+    .alloc-action {
+      padding: 4px 10px; border-radius: 4px; border: 1px solid var(--obsidian-border);
+      background: transparent; color: var(--text-secondary); font-size: 0.68rem;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .alloc-action:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* Block List */
+    .block-section { margin-top: 1.5rem; }
+    .block-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 12px; background: var(--obsidian-raised);
+      border: 1px solid rgba(255,77,109,0.2); border-radius: var(--radius-sm);
+      margin-bottom: 8px;
+    }
+    .block-info { display: flex; flex-direction: column; gap: 2px; }
+    .block-delegate { font-weight: 600; font-size: 0.78rem; }
+    .block-country { font-size: 0.68rem; color: var(--text-muted); }
+    .block-reason { font-size: 0.62rem; color: var(--ruby); }
+
+    /* Publish Section */
+    .publish-summary {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem;
+    }
+    .pub-stat {
+      background: var(--obsidian-raised); border: 1px solid var(--obsidian-border);
+      border-radius: var(--radius); padding: 1rem; text-align: center;
+    }
+    .pub-stat-val {
+      font-family: 'Bebas Neue', sans-serif; font-size: 2rem;
+      color: var(--gold-bright); line-height: 1;
+    }
+    .pub-stat-label { font-size: 0.65rem; color: var(--text-muted); margin-top: 4px; }
+
+    /* Personality Manager */
+    .pers-list {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px;
+    }
+    .pers-card {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; background: var(--obsidian-raised);
+      border: 1px solid var(--obsidian-border); border-radius: var(--radius-sm);
+    }
+    .pers-card.inactive { opacity: 0.4; }
+    .pers-toggle {
+      width: 36px; height: 20px; border-radius: 10px; position: relative; cursor: pointer;
+      background: var(--emerald); transition: all 0.25s; flex-shrink: 0;
+    }
+    .pers-toggle.off { background: var(--obsidian-border-mid); }
+    .pers-toggle::after {
+      content: ''; position: absolute; top: 2px; left: 18px;
+      width: 16px; height: 16px; border-radius: 50%; background: white;
+      transition: all 0.25s;
+    }
+    .pers-toggle.off::after { left: 2px; }
+    .pers-name { font-size: 0.78rem; font-weight: 600; }
+    .pers-tier { font-size: 0.62rem; color: var(--text-muted); }
+    .pers-cat {
+      margin-left: auto; font-size: 0.6rem; padding: 2px 6px;
+      border-radius: 3px; background: var(--gold-glow); color: var(--gold);
+    }
+
+    /* ══════════════════════════════════════
        TOAST
     ══════════════════════════════════════ */
     #toast-stack {
@@ -1419,6 +1642,80 @@
     /* Responsive */
     @media(max-width:1200px) { .stats-row { grid-template-columns: repeat(2,1fr); } }
     @media(max-width:900px) { .charts-row { grid-template-columns: 1fr; } .comm-grid { grid-template-columns:repeat(2,1fr); } }
+
+    /* Announcements */
+    .announce-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem; }
+    .announce-header h2 { color:var(--text-primary); font-size:1.4rem; }
+    .announce-list { display:flex; flex-direction:column; gap:1rem; }
+    .announce-item { background:var(--card-bg); border:1px solid var(--border); border-radius:10px; padding:1.25rem; }
+    .announce-item:hover { border-color:var(--gold-dim); }
+    .announce-meta { display:flex; justify-content:space-between; margin-bottom:0.75rem; font-size:0.75rem; color:var(--text-muted); }
+    .announce-text { color:var(--text-primary); line-height:1.6; }
+    .announce-empty { color:var(--text-muted); text-align:center; padding:3rem; font-size:0.9rem; }
+    .announce-create { background:var(--card-bg); border:1px solid var(--border); border-radius:10px; padding:1.5rem; margin-top:1rem; }
+    .announce-create textarea { width:100%; min-height:120px; background:var(--obsidian-base); border:1px solid var(--border); border-radius:8px; padding:1rem; color:var(--text-primary); font-family:inherit; font-size:0.9rem; resize:vertical; }
+    .announce-create textarea:focus { outline:none; border-color:var(--gold); }
+    .announce-actions { display:flex; gap:1rem; margin-top:1rem; justify-content:flex-end; }
+
+    /* NEW ANNOUNCEMENTS UI */
+    .page-header-row { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:2rem; flex-wrap:wrap; gap:1rem; }
+    .page-title-wrap h2 { display:flex; align-items:center; gap:0.75rem; font-size:1.5rem; color:var(--text-primary); margin:0; }
+    .title-icon { font-size:1.25rem; }
+    .page-subtitle { color:var(--text-muted); font-size:0.85rem; margin:0.25rem 0 0 2.5rem; }
+    .pulse-btn { animation:btnPulse 2s ease-in-out infinite; background:linear-gradient(135deg,var(--emerald),#10b981); }
+    .pulse-btn .btn-icon { margin-right:0.5rem; }
+    @keyframes btnPulse { 0%,100%{box-shadow:0 0 0 0 rgba(0,229,160,0.4)} 50%{box-shadow:0 0 0 8px rgba(0,229,160,0)} }
+
+    .empty-state { text-align:center; padding:4rem 2rem; background:var(--card-bg); border:1px dashed var(--border); border-radius:14px; }
+    .empty-icon { font-size:3rem; margin-bottom:1rem; opacity:0.5; }
+    .empty-state p { color:var(--text-primary); font-size:1.1rem; margin:0.5rem 0; }
+    .empty-state span { color:var(--text-muted); font-size:0.85rem; }
+
+    .create-card { background:var(--card-bg); border:1px solid var(--border); border-radius:14px; overflow:hidden; }
+    .create-header { display:flex; justify-content:space-between; align-items:center; padding:1.25rem 1.5rem; background:var(--obsidian-raised); border-bottom:1px solid var(--border); }
+    .create-title { color:var(--text-primary); font-weight:600; font-size:1rem; }
+    .close-btn { background:none; border:none; color:var(--text-muted); font-size:1.5rem; cursor:pointer; padding:0 0.5rem; }
+    .close-btn:hover { color:var(--ruby); }
+    .create-body { padding:1.5rem; }
+    .form-group { margin-bottom:1.25rem; }
+    .form-group label { display:block; color:var(--text-secondary); font-size:0.8rem; font-weight:500; margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:0.05em; }
+    .form-group input[type="text"] { width:100%; padding:0.875rem 1rem; background:var(--obsidian-base); border:1px solid var(--border); border-radius:8px; color:var(--text-primary); font-size:0.95rem; }
+    .form-group input[type="text"]:focus { outline:none; border-color:var(--gold); box-shadow:0 0 0 3px rgba(212,168,67,0.1); }
+    .form-group textarea { width:100%; padding:1rem; background:var(--obsidian-base); border:1px solid var(--border); border-radius:8px; color:var(--text-primary); font-size:0.95rem; resize:vertical; min-height:120px; font-family:inherit; }
+    .form-group textarea:focus { outline:none; border-color:var(--gold); box-shadow:0 0 0 3px rgba(212,168,67,0.1); }
+
+    .priority-options { display:flex; gap:0.75rem; flex-wrap:wrap; }
+    .priority-opt { cursor:pointer; }
+    .priority-opt input { display:none; }
+    .priority-badge { display:inline-block; padding:0.5rem 1rem; border-radius:8px; border:1px solid var(--border); font-size:0.85rem; transition:all 0.2s; }
+    .priority-opt.normal .priority-badge { background:rgba(255,255,255,0.04); color:var(--text-secondary); }
+    .priority-opt.important .priority-badge { background:rgba(255,170,0,0.1); color:var(--amber); border-color:rgba(255,170,0,0.3); }
+    .priority-opt.urgent .priority-badge { background:rgba(255,77,109,0.1); color:var(--ruby); border-color:rgba(255,77,109,0.3); }
+    .priority-opt input:checked + .priority-badge { transform:scale(1.05); }
+    .priority-opt.normal input:checked + .priority-badge { background:rgba(255,255,255,0.1); border-color:var(--gold); color:var(--gold); }
+    .priority-opt.important input:checked + .priority-badge { background:rgba(255,170,0,0.2); border-color:var(--amber); box-shadow:0 0 12px rgba(255,170,0,0.2); }
+    .priority-opt.urgent input:checked + .priority-badge { background:rgba(255,77,109,0.2); border-color:var(--ruby); box-shadow:0 0 12px rgba(255,77,109,0.2); }
+
+    .create-footer { display:flex; justify-content:flex-end; gap:1rem; padding:1.25rem 1.5rem; background:var(--obsidian-mid); border-top:1px solid var(--border); }
+    .btn-cancel { padding:0.75rem 1.5rem; background:transparent; border:1px solid var(--border); border-radius:8px; color:var(--text-muted); cursor:pointer; }
+    .btn-cancel:hover { border-color:var(--text-muted); color:var(--text-primary); }
+
+    /* ANNOUNCEMENT ITEMS */
+    .announce-item { background:var(--card-bg); border:1px solid var(--border); border-radius:12px; overflow:hidden; transition:all 0.2s; }
+    .announce-item:hover { border-color:var(--gold-dim); transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,0.2); }
+    .announce-item.urgent { border-left:3px solid var(--ruby); }
+    .announce-item.important { border-left:3px solid var(--amber); }
+    .announce-item-header { display:flex; justify-content:space-between; align-items:center; padding:1rem 1.25rem; border-bottom:1px solid var(--border-light); }
+    .announce-item-priority { font-size:0.7rem; padding:0.25rem 0.75rem; border-radius:100px; text-transform:uppercase; letter-spacing:0.05em; font-weight:600; }
+    .announce-item-priority.urgent { background:rgba(255,77,109,0.15); color:var(--ruby); }
+    .announce-item-priority.important { background:rgba(255,170,0,0.15); color:var(--amber); }
+    .announce-item-priority.normal { background:rgba(255,255,255,0.08); color:var(--text-muted); }
+    .announce-item-date { font-size:0.75rem; color:var(--text-muted); }
+    .announce-item-title { padding:1rem 1.25rem; font-weight:600; color:var(--text-primary); font-size:1.05rem; }
+    .announce-item-body { padding:0 1.25rem 1.25rem; color:var(--text-secondary); line-height:1.7; }
+    .announce-item-actions { display:flex; gap:0.75rem; padding:0.75rem 1.25rem; background:var(--obsidian-mid); border-top:1px solid var(--border-light); }
+    .announce-action-btn { font-size:0.8rem; color:var(--text-muted); cursor:pointer; }
+    .announce-action-btn:hover { color:var(--gold); }
   </style>
 </head>
 <body>
@@ -1444,7 +1741,34 @@
             <rect x="0.5" y="34.5" width="3" height="3" fill="rgba(212,168,67,0.6)" transform="rotate(45 2 36)"/>
             <rect x="68.5" y="34.5" width="3" height="3" fill="rgba(212,168,67,0.6)" transform="rotate(45 70 36)"/>
           </svg>
-          <div class="login-crest-icon">🏛️</div>
+          <div class="login-crest-icon">
+            <svg viewBox="0 0 50 50" style="width:100%;height:100%;">
+              <defs>
+                <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#f5cf58"/>
+                  <stop offset="50%" style="stop-color:#d4a843"/>
+                  <stop offset="100%" style="stop-color:#7a5a1a"/>
+                </linearGradient>
+                <filter id="glow">
+                  <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+                  <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+              </defs>
+              <!-- Outer ring -->
+              <circle cx="25" cy="25" r="22" fill="none" stroke="url(#logoGrad)" stroke-width="1.5" opacity="0.4">
+                <animate attributeName="stroke-dasharray" values="0,140;140,0" dur="3s" repeatCount="indefinite"/>
+                <animateTransform attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="20s" repeatCount="indefinite"/>
+              </circle>
+              <!-- Inner hexagon -->
+              <polygon points="25,5 42,15 42,35 25,45 8,35 8,15" fill="none" stroke="url(#logoGrad)" stroke-width="1.2" filter="url(#glow)"/>
+              <!-- MUN text -->
+              <text x="25" y="28" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="11" font-weight="bold" fill="url(#logoGrad)">MUN</text>
+              <!-- Gold accent dot -->
+              <circle cx="25" cy="42" r="2" fill="#f5cf58">
+                <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/>
+              </circle>
+            </svg>
+          </div>
         </div>
         <div class="login-system-tag">LGUMUN // ADMIN SYS</div>
       </div>
@@ -1484,8 +1808,23 @@
     <div class="sidebar-header">
       <div class="sidebar-brand">
         <div class="sidebar-logo-wrap">
-          <div class="sidebar-logo">🏛️</div>
-          <div class="sidebar-logo-pulse"></div>
+          <svg viewBox="0 0 50 50" style="width:36px;height:36px;flex-shrink:0;">
+            <defs>
+              <linearGradient id="slogoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#f5cf58"/>
+                <stop offset="100%" style="stop-color:#b8892e"/>
+              </linearGradient>
+              <filter id="slogoGlow">
+                <feGaussianBlur stdDeviation="1" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <!-- Shield shape -->
+            <polygon points="25,4 43,12 43,32 25,46 7,32 7,12" fill="rgba(212,168,67,0.08)" stroke="url(#slogoGrad)" stroke-width="1.5" filter="url(#slogoGlow)"/>
+            <!-- Inner M -->
+            <text x="25" y="32" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="18" font-weight="bold" fill="url(#slogoGrad)">M</text>
+            <text x="25" y="32" text-anchor="middle" font-family="'Outfit',sans-serif" font-size="6" font-weight="600" fill="#f5cf58" dy="8">UN26</text>
+          </svg>
         </div>
         <div>
           <div class="sidebar-brand-name">LGU<span class="accent">MUN</span></div>
@@ -1529,6 +1868,14 @@
           <div class="nav-icon-wrap">💬</div>
           Queries
           <span class="nav-badge" id="query-badge-count" style="display:none;">0</span>
+        </div>
+        <div class="nav-item" onclick="switchPage('allocations', this)">
+          <div class="nav-icon-wrap">🌍</div>
+          Country Allocations
+        </div>
+        <div class="nav-item" onclick="switchPage('announcements', this)">
+          <div class="nav-icon-wrap">📢</div>
+          Announcements
         </div>
       </div>
       <div class="nav-group">
@@ -1831,6 +2178,264 @@
         <div class="agenda-grid" id="agenda-grid"></div>
       </div>
 
+      <!-- ════════════ ANNOUNCEMENTS PAGE ════════════ -->
+      <div class="page-section" id="page-announcements">
+        <div class="page-header-row">
+          <div class="page-title-wrap">
+            <h2><span class="title-icon">📢</span> Announcements</h2>
+            <p class="page-subtitle">Broadcast messages to all delegates</p>
+          </div>
+          <button class="save-btn pulse-btn" onclick="showCreateAnnouncement()">
+            <span class="btn-icon">+</span> New Announcement
+          </button>
+        </div>
+
+        <div class="announce-list" id="announce-list">
+          <div class="empty-state">
+            <div class="empty-icon">📣</div>
+            <p>No announcements yet</p>
+            <span>Create your first announcement to broadcast to delegates</span>
+          </div>
+        </div>
+
+        <div class="announce-create" id="announce-create" style="display:none;">
+          <div class="create-card">
+            <div class="create-header">
+              <span class="create-title">Create New Announcement</span>
+              <button class="close-btn" onclick="hideCreateAnnouncement()">×</button>
+            </div>
+            <div class="create-body">
+              <div class="form-group">
+                <label>Title</label>
+                <input type="text" id="announce-title" placeholder="Announcement headline...">
+              </div>
+              <div class="form-group">
+                <label>Message</label>
+                <textarea id="announce-text" placeholder="Type your announcement message here..." rows="5"></textarea>
+              </div>
+              <div class="form-group">
+                <label>Priority</label>
+                <div class="priority-options">
+                  <label class="priority-opt normal">
+                    <input type="radio" name="priority" value="normal" checked>
+                    <span class="priority-badge">Normal</span>
+                  </label>
+                  <label class="priority-opt important">
+                    <input type="radio" name="priority" value="important">
+                    <span class="priority-badge">Important</span>
+                  </label>
+                  <label class="priority-opt urgent">
+                    <input type="radio" name="priority" value="urgent">
+                    <span class="priority-badge">Urgent</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="create-footer">
+              <button class="btn-cancel" onclick="hideCreateAnnouncement()">Cancel</button>
+              <button class="save-btn" onclick="saveAnnouncement()">📢 Publish</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════════════ ALLOCATIONS PAGE ════════════ -->
+      <div class="page-section" id="page-allocations">
+        <div class="alloc-wizard">
+          <div class="wizard-steps">
+            <div class="wizard-step active" onclick="gotoStep(1)" id="step-tab-1">
+              <div class="wizard-step-num">1</div>
+              <div>
+                <div class="wizard-step-label">Committee</div>
+                <div class="wizard-step-sub">Select target</div>
+              </div>
+            </div>
+            <div class="wizard-step" onclick="gotoStep(2)" id="step-tab-2">
+              <div class="wizard-step-num">2</div>
+              <div>
+                <div class="wizard-step-label">Import Pool</div>
+                <div class="wizard-step-sub">Countries/Personalities</div>
+              </div>
+            </div>
+            <div class="wizard-step" onclick="gotoStep(3)" id="step-tab-3">
+              <div class="wizard-step-num">3</div>
+              <div>
+                <div class="wizard-step-label">Auto-Assign</div>
+                <div class="wizard-step-sub">Tiered engine</div>
+              </div>
+            </div>
+            <div class="wizard-step" onclick="gotoStep(4)" id="step-tab-4">
+              <div class="wizard-step-num">4</div>
+              <div>
+                <div class="wizard-step-label">Review</div>
+                <div class="wizard-step-sub">Publish results</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="wizard-content">
+            <!-- STEP 1: SELECT COMMITTEE -->
+            <div id="step-1" class="wizard-step-pane">
+              <div class="section-head">
+                <div class="section-title-line"><span class="section-title">Step 1: Select Committee for Allocation</span></div>
+              </div>
+              <div class="comm-selector-grid" id="alloc-comm-grid">
+                <!-- Committees loaded via JS -->
+              </div>
+            </div>
+
+            <!-- STEP 2: IMPORT POOL -->
+            <div id="step-2" class="wizard-step-pane" style="display:none;">
+              <div class="section-head">
+                <div class="section-title-line">
+                  <span class="section-title">Step 2: Setup Allocation Pool for <span id="active-comm-name" class="text-gold">...</span></span>
+                </div>
+              </div>
+
+              <div class="import-tabs">
+                <button class="import-tab active" id="tab-global" onclick="switchImportSource('global')">🌍 Global Country Pool</button>
+                <button class="import-tab" id="tab-personality" onclick="switchImportSource('personality')">👤 PNA Personalities</button>
+                <button class="import-tab" id="tab-manual" onclick="switchImportSource('manual')">⌨ Manual Input</button>
+              </div>
+
+              <div id="source-global">
+                <p style="font-size:0.75rem;color:var(--text-muted);margin-bottom:1rem;">Select regions to pull countries from (Auto-classified by tier based on agenda)</p>
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.8rem;margin-bottom:1.5rem;" id="region-selector">
+                  <!-- Regions loaded via JS -->
+                </div>
+                <button class="login-btn" style="width:auto;min-width:200px;" onclick="importFromGlobal()">Import Selected Regions</button>
+              </div>
+
+              <div id="source-personality" style="display:none;">
+                <p style="font-size:0.75rem;color:var(--text-muted);margin-bottom:1rem;">Activate/Deactivate personalities for PNA Committee</p>
+                <div class="pers-list" id="pers-list">
+                  <!-- Personalities loaded via JS -->
+                </div>
+              </div>
+
+              <div id="source-manual" style="display:none;">
+                <p style="font-size:0.75rem;color:var(--text-muted);margin-bottom:0.5rem;">Enter countries/personalities one per line or as JSON array</p>
+                <textarea class="import-textarea" id="manual-input" placeholder="Example:&#10;USA&#10;China&#10;Russia&#10;UK&#10;France"></textarea>
+                <button class="login-btn" style="width:auto;min-width:200px;" onclick="importManual()">Import Manual List</button>
+              </div>
+
+              <div class="divider" style="margin:2rem 0;"></div>
+
+              <div class="tier-pool-section">
+                <div class="tier-pool-title">Current Allocation Pool</div>
+                <div class="tier-pool-grid" id="current-pool-display">
+                  <!-- Chips loaded via JS -->
+                </div>
+              </div>
+
+              <div style="display:flex;justify-content:space-between;margin-top:2rem;">
+                <button class="alloc-action" onclick="gotoStep(1)">← Back</button>
+                <button class="save-btn" style="width:auto;padding:10px 30px;" onclick="gotoStep(3)">Continue to Auto-Assign →</button>
+              </div>
+            </div>
+
+            <!-- STEP 3: AUTO-ASSIGN -->
+            <div id="step-3" class="wizard-step-pane" style="display:none;">
+              <div class="section-head">
+                <div class="section-title-line">
+                  <span class="section-title">Step 3: Auto-Allocation Engine</span>
+                </div>
+              </div>
+
+              <div class="controls-grid" style="grid-template-columns:1fr 1fr;margin-bottom:2rem;">
+                <div class="control-card">
+                  <h3><div class="h3-icon">⚙</div>Engine Configuration</h3>
+                  <div class="toggle-row">
+                    <div><div class="toggle-label">Prioritize P5/Veto</div><div class="toggle-sub">Ensure Tier 1 is filled first</div></div>
+                    <label class="toggle"><input type="checkbox" id="cfg-p5" checked><span class="toggle-slider"></span></label>
+                  </div>
+                  <div class="toggle-row">
+                    <div><div class="toggle-label">Dual-Delegate Mode</div><div class="toggle-sub">Assign 2 delegates to same country</div></div>
+                    <label class="toggle"><input type="checkbox" id="cfg-dual"><span class="toggle-slider"></span></label>
+                  </div>
+                  <div class="toggle-row">
+                    <div><div class="toggle-label">Clear Existing</div><div class="toggle-sub">Remove current allocations before run</div></div>
+                    <label class="toggle"><input type="checkbox" id="cfg-clear" checked><span class="toggle-slider"></span></label>
+                  </div>
+                  <button class="login-btn" style="background:linear-gradient(135deg, var(--sapphire) 0%, #3b82f6 100%);" id="run-engine-btn" onclick="runAllocationEngine()">🚀 Run Smart Allocation Engine</button>
+                </div>
+
+                <div class="control-card">
+                  <h3><div class="h3-icon">🚫</div>Delegate Block List</h3>
+                  <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Prevent specific delegates from getting certain countries (Conflict of Interest)</p>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1rem;">
+                    <select class="filter-select" id="block-delegate-sel" style="width:100%"><option value="">Select Delegate</option></select>
+                    <input type="text" class="filter-select" id="block-value" placeholder="Country to block" style="background:var(--obsidian-raised);border:1px solid var(--obsidian-border);">
+                  </div>
+                  <input type="text" class="filter-select" id="block-reason" placeholder="Reason for block" style="width:100%;margin-bottom:1rem;background:var(--obsidian-raised);border:1px solid var(--obsidian-border);">
+                  <button class="alloc-action" style="width:100%" onclick="addBlockRule()">Add Block Rule</button>
+
+                  <div class="block-section" id="block-list-display">
+                    <!-- Blocks loaded via JS -->
+                  </div>
+                </div>
+              </div>
+
+              <div style="display:flex;justify-content:space-between;margin-top:2rem;">
+                <button class="alloc-action" onclick="gotoStep(2)">← Back</button>
+                <button class="save-btn" id="step3-next" style="width:auto;padding:10px 30px;display:none;" onclick="gotoStep(4)">Review Allocations →</button>
+              </div>
+            </div>
+
+            <!-- STEP 4: REVIEW & PUBLISH -->
+            <div id="step-4" class="wizard-step-pane" style="display:none;">
+              <div class="section-head">
+                <div class="section-title-line">
+                  <span class="section-title">Step 4: Review and Publish</span>
+                </div>
+              </div>
+
+              <div class="publish-summary">
+                <div class="pub-stat">
+                  <div class="pub-stat-val" id="stat-total-delegates">0</div>
+                  <div class="pub-stat-label">Delegates</div>
+                </div>
+                <div class="pub-stat">
+                  <div class="pub-stat-val" id="stat-assigned">0</div>
+                  <div class="pub-stat-label">Assigned</div>
+                </div>
+                <div class="pub-stat">
+                  <div class="pub-stat-val" id="stat-unassigned" style="color:var(--ruby)">0</div>
+                  <div class="pub-stat-label">Unassigned</div>
+                </div>
+                <div class="pub-stat">
+                  <div class="pub-stat-val" id="stat-published">0</div>
+                  <div class="pub-stat-label">Published</div>
+                </div>
+              </div>
+
+              <div class="alloc-table-wrap">
+                <table class="alloc-table">
+                  <thead>
+                    <tr>
+                      <th>Delegate</th>
+                      <th>Roll Number</th>
+                      <th>Country/Personality</th>
+                      <th>Tier</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="alloc-review-tbody">
+                    <!-- Rows loaded via JS -->
+                  </tbody>
+                </table>
+              </div>
+
+              <div style="display:flex;justify-content:space-between;margin-top:2rem;">
+                <button class="alloc-action" onclick="gotoStep(3)">← Back</button>
+                <button class="save-btn" style="width:auto;padding:12px 40px;background:linear-gradient(135deg, var(--emerald) 0%, #10b981 100%);" onclick="publishAllocations()">📢 Publish All to Delegates</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div><!-- /content-wrap -->
   </main>
 </div><!-- /app -->
@@ -1846,9 +2451,13 @@
 const getApiUrl = () => {
   const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
   const envApiKey = window.localStorage.getItem('lgumun_admin_api_key') || '';
-  return isProduction
+  const url = isProduction
     ? (window.lgumunConfig?.apiUrl || 'https://lgumun-backend.vercel.app')
     : (window.lgumunConfig?.apiUrl || 'http://localhost:8000');
+  console.log('Environment:', isProduction ? 'production' : 'development');
+  console.log('Hostname:', window.location.hostname);
+  console.log('Using API URL:', url);
+  return url;
 };
 
 // COMMITTEES - Master reference for colors and codes (loaded dynamically from DB)
@@ -1917,19 +2526,6 @@ const validateApiKey = async (apiKey) => {
   }
 };
 
-const COMMITTEES = [
-  { code:'UNSC',  name:'UN Security Council',                   color:'#4d90ff' },
-  { code:'UNGA',  name:'UN General Assembly',                   color:'#d4a843' },
-  { code:'UNHRC', name:'UN Human Rights Council',               color:'#00e5a0' },
-  { code:'WHO',   name:'World Health Organization',             color:'#a855f7' },
-  { code:'DISEC', name:'Disarmament & International Security',  color:'#22d3ee' },
-  { code:'PNA',   name:'Pakistan National Assembly',            color:'#ff4d6d' },
-  { code:'ICJ',   name:'International Court of Justice',        color:'#ffaa00' },
-  { code:'UNW',   name:'UN Women',                              color:'#f472b6' },
-  { code:'JSP',   name:'Joint Session of Parliament',           color:'#fb923c' },
-  { code:'NCC',   name:'National Crisis Committee',             color:'#2dd4bf' },
-];
-
 let allDelegates = [];
 let committeeData = [];
 let filteredDelegates = [];
@@ -1958,7 +2554,10 @@ setInterval(updateClock, 1000);
 // ═══════════════════════════════════════════
 async function doLogin() {
   const apiKey = document.getElementById('login-pass').value.trim();
+  console.log('Admin login attempt with key length:', apiKey.length);
+
   if (!apiKey) {
+    console.warn('Login failed: API key is empty');
     const err = document.getElementById('login-err');
     err.textContent = '⚠ Access code required';
     err.classList.add('show');
@@ -1969,11 +2568,16 @@ async function doLogin() {
   // Validate API key by fetching stats
   try {
     const apiUrl = getApiUrl();
+    console.log('Attempting login via:', `${apiUrl}/api/v1/admin/stats`);
+
     const response = await fetch(`${apiUrl}/api/v1/admin/stats`, {
       headers: { [ADMIN_API_KEY_HEADER]: apiKey }
     });
 
+    console.log('Login response status:', response.status);
+
     if (response.ok) {
+      console.log('Login successful, showing app');
       // Save API key and show app
       saveApiKey(apiKey);
       const ls = document.getElementById('login-screen');
@@ -1983,6 +2587,7 @@ async function doLogin() {
       document.getElementById('app').classList.add('show');
       loadAllData();
     } else {
+      console.warn('Login failed: Invalid status', response.status);
       const err = document.getElementById('login-err');
       err.textContent = '⚠ Invalid access code — access denied';
       err.classList.add('show');
@@ -1990,8 +2595,9 @@ async function doLogin() {
       setTimeout(() => err.classList.remove('show'), 4000);
     }
   } catch (e) {
+    console.error('Login error (network or other):', e);
     const err = document.getElementById('login-err');
-    err.textContent = '⚠ Cannot connect to server';
+    err.textContent = '⚠ Cannot connect to server: ' + e.message;
     err.classList.add('show');
     document.getElementById('login-pass').value = '';
     setTimeout(() => err.classList.remove('show'), 4000);
@@ -2021,7 +2627,15 @@ const PAGE_TITLES = {
   queries:    ['Queries & Complaints', 'Delegate Support'],
   controls:   ['Event Settings', 'Admin Controls'],
   agenda:     ['Agenda & Chairs', 'Committee Management'],
+  allocations:['Country Allocations', 'Smart Allocation Wizard'],
 };
+
+// Allocation Wizard State
+let activeAllocationCommId = null;
+let activeAllocationCommShort = "";
+let currentWizardStep = 1;
+let globalRegions = ["South Asia", "Middle East", "Europe", "North America", "East Asia", "Africa", "South America"];
+let selectedRegions = [];
 
 function switchPage(id, el) {
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -2034,6 +2648,372 @@ function switchPage(id, el) {
   if (id === 'print') renderPrintSection();
   if (id === 'agenda') renderAgendaSection();
   if (id === 'queries') renderQueriesSection();
+  if (id === 'allocations') {
+    renderAllocationCommGrid();
+    renderRegionSelector();
+  }
+  if (id === 'announcements') {
+    loadAnnouncements();
+  }
+}
+
+// ═══════════════════════════════════════════
+// ALLOCATION WIZARD JS
+// ═══════════════════════════════════════════
+
+function gotoStep(step) {
+  if (step > 1 && !activeAllocationCommId) {
+    showToast('error', 'Please select a committee first');
+    return;
+  }
+
+  currentWizardStep = step;
+
+  // Update Tabs
+  document.querySelectorAll('.wizard-step').forEach((tab, i) => {
+    tab.classList.remove('active');
+    if (i + 1 === step) tab.classList.add('active');
+    if (i + 1 < step) tab.classList.add('completed');
+    else tab.classList.remove('completed');
+  });
+
+  // Update Panes
+  document.querySelectorAll('.wizard-step-pane').forEach((pane, i) => {
+    pane.style.display = (i + 1 === step) ? 'block' : 'none';
+  });
+
+  // Load step data
+  if (step === 2) loadAllocationPool();
+  if (step === 3) {
+    loadBlockList();
+    loadDelegateDropdown();
+  }
+  if (step === 4) loadAllocationsReview();
+}
+
+function renderAllocationCommGrid() {
+  const grid = document.getElementById('alloc-comm-grid');
+  if (!grid) return;
+
+  grid.innerHTML = committeeData.map(c => {
+    const comm = COMMITTEES.find(ref => ref.code === c.short_name) || {};
+    const color = comm.color || '#d4a843';
+    const isSelected = activeAllocationCommId === c.id;
+
+    return `<div class="comm-select-card ${isSelected ? 'selected' : ''}" onclick="selectAllocationComm(${c.id}, '${c.short_name}')" style="--comm-color:${color}">
+      <div class="comm-select-head">
+        <div class="comm-select-dot" style="color:${color}"></div>
+        <div class="comm-select-code">${c.short_name}</div>
+      </div>
+      <div class="comm-select-name">${c.full_name}</div>
+      <div class="comm-select-meta">
+        <span>👤 ${c.filled_seats} Delegates</span>
+        <span>🪑 ${c.total_seats} Total</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function selectAllocationComm(id, short) {
+  activeAllocationCommId = id;
+  activeAllocationCommShort = short;
+  document.getElementById('active-comm-name').textContent = short;
+  renderAllocationCommGrid();
+
+  // Auto switch import tabs based on committee
+  if (short === 'PNA') {
+    switchImportSource('personality');
+  } else {
+    switchImportSource('global');
+  }
+
+  setTimeout(() => gotoStep(2), 300);
+}
+
+function renderRegionSelector() {
+  const container = document.getElementById('region-selector');
+  if (!container) return;
+
+  container.innerHTML = globalRegions.map(region => `
+    <label class="toggle-row" style="background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;border:1px solid var(--obsidian-border);">
+      <div style="font-size:0.75rem;">${region}</div>
+      <label class="toggle"><input type="checkbox" onchange="toggleRegion('${region}', this.checked)"><span class="toggle-slider"></span></label>
+    </label>
+  `).join('');
+}
+
+function toggleRegion(region, checked) {
+  if (checked) {
+    if (!selectedRegions.includes(region)) selectedRegions.push(region);
+  } else {
+    selectedRegions = selectedRegions.filter(r => r !== region);
+  }
+}
+
+function switchImportSource(source) {
+  document.querySelectorAll('.import-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + source).classList.add('active');
+
+  document.getElementById('source-global').style.display = source === 'global' ? 'block' : 'none';
+  document.getElementById('source-personality').style.display = source === 'personality' ? 'block' : 'none';
+  document.getElementById('source-manual').style.display = source === 'manual' ? 'block' : 'none';
+
+  if (source === 'personality') loadPersonalities();
+}
+
+async function loadAllocationPool() {
+  try {
+    const r = await adminFetch(`/api/v1/admin/committees/${activeAllocationCommId}/pool`);
+    if (r.ok) {
+      const d = await r.json();
+      const pool = d.data.pool || [];
+      renderPoolDisplay(pool);
+    }
+  } catch(e) { console.error(e); }
+}
+
+function renderPoolDisplay(pool) {
+  const container = document.getElementById('current-pool-display');
+  if (!container) return;
+
+  if (pool.length === 0) {
+    container.innerHTML = '<div style="color:var(--text-muted);font-size:0.7rem;">Pool is empty. Add countries or personalities.</div>';
+    return;
+  }
+
+  container.innerHTML = pool.map(item => `
+    <div class="tier-pool-chip tier-${item.tier}">
+      <span>${item.value}</span>
+      <span style="opacity:0.6;font-size:0.55rem;">T${item.tier}</span>
+    </div>
+  `).join('');
+}
+
+async function importFromGlobal() {
+  if (selectedRegions.length === 0) {
+    showToast('error', 'Select at least one region');
+    return;
+  }
+
+  try {
+    showToast('info', 'Importing countries from global pool...');
+    const r = await adminFetch(`/api/v1/admin/committees/${activeAllocationCommId}/pool/import`, {
+      method: 'POST',
+      body: JSON.stringify({ source: 'global_pool', regions: selectedRegions })
+    });
+
+    if (r.ok) {
+      showToast('success', 'Imported countries successfully');
+      loadAllocationPool();
+    }
+  } catch(e) { showToast('error', 'Import failed'); }
+}
+
+async function importManual() {
+  const text = document.getElementById('manual-input').value.trim();
+  if (!text) return;
+
+  let list = [];
+  try {
+    if (text.startsWith('[')) list = JSON.parse(text);
+    else list = text.split('\n').map(s => s.trim()).filter(s => s);
+  } catch(e) { showToast('error', 'Invalid JSON format'); return; }
+
+  try {
+    const r = await adminFetch(`/api/v1/admin/committees/${activeAllocationCommId}/pool/import`, {
+      method: 'POST',
+      body: JSON.stringify({ source: 'admin_input', values: list })
+    });
+
+    if (r.ok) {
+      showToast('success', `Imported ${list.length} items`);
+      loadAllocationPool();
+      document.getElementById('manual-input').value = '';
+    }
+  } catch(e) { showToast('error', 'Import failed'); }
+}
+
+async function loadPersonalities() {
+  try {
+    const r = await adminFetch(`/api/v1/admin/personalities`);
+    if (r.ok) {
+      const d = await r.json();
+      const list = d.data.personalities || [];
+      const container = document.getElementById('pers-list');
+
+      container.innerHTML = list.map(p => `
+        <div class="pers-card ${!p.is_active ? 'inactive' : ''}">
+          <div class="pers-toggle ${p.is_active ? '' : 'off'}" onclick="togglePersonality(${p.id})"></div>
+          <div>
+            <div class="pers-name">${p.value}</div>
+            <div class="pers-tier">Tier ${p.tier} • ${p.category || 'PNA'}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+  } catch(e) { console.error(e); }
+}
+
+async function togglePersonality(id) {
+  try {
+    const r = await adminFetch(`/api/v1/admin/personalities/${id}/toggle`, { method: 'PUT' });
+    if (r.ok) loadPersonalities();
+  } catch(e) { showToast('error', 'Failed to toggle personality'); }
+}
+
+async function runAllocationEngine() {
+  const btn = document.getElementById('run-engine-btn');
+  const originalText = btn.innerHTML;
+  btn.innerHTML = '⚙ Processing Smart Allocation...';
+  btn.disabled = true;
+
+  const payload = {
+    clear_existing: document.getElementById('cfg-clear').checked,
+    is_dual_pair: document.getElementById('cfg-dual').checked,
+    prioritize_p5: document.getElementById('cfg-p5').checked
+  };
+
+  try {
+    const r = await adminFetch(`/api/v1/admin/committees/${activeAllocationCommId}/auto-assign`, {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    });
+
+    const d = await r.json();
+    if (r.ok) {
+      showToast('success', `Allocation complete! ${d.data.assigned_count} delegates assigned.`);
+      document.getElementById('step3-next').style.display = 'block';
+    } else {
+      showToast('error', d.detail || 'Allocation failed');
+    }
+  } catch(e) {
+    showToast('error', 'Engine execution failed');
+  } finally {
+    btn.innerHTML = originalText;
+    btn.disabled = false;
+  }
+}
+
+async function loadAllocationsReview() {
+  try {
+    const r = await adminFetch(`/api/v1/admin/committees/${activeAllocationCommId}/allocations`);
+    if (r.ok) {
+      const d = await r.json();
+      const allocations = d.data.allocations || [];
+
+      // Update Stats
+      document.getElementById('stat-total-delegates').textContent = allocations.length;
+      document.getElementById('stat-assigned').textContent = allocations.filter(a => a.assigned_value).length;
+      document.getElementById('stat-unassigned').textContent = allocations.filter(a => !a.assigned_value).length;
+      document.getElementById('stat-published').textContent = allocations.filter(a => a.is_published).length;
+
+      const tbody = document.getElementById('alloc-review-tbody');
+      if (allocations.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:3rem;color:var(--text-muted);">No delegates in this committee yet.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = allocations.map(a => `
+        <tr>
+          <td class="alloc-name">${a.delegate_name}</td>
+          <td class="alloc-roll">${a.roll_number}</td>
+          <td class="alloc-country">${a.assigned_value || '<span style="color:var(--ruby);opacity:0.5;">Not Assigned</span>'}</td>
+          <td>${a.tier ? `<span class="tier-badge t${a.tier}">Tier ${a.tier}</span>` : '—'}</td>
+          <td><div class="alloc-published ${a.is_published ? 'yes' : 'no'}">${a.is_published ? 'LIVE' : 'DRAFT'}</div></td>
+          <td><button class="alloc-action" onclick="showToast('info', 'Manual override coming soon')">Edit</button></td>
+        </tr>
+      `).join('');
+    }
+  } catch(e) { console.error(e); }
+}
+
+async function loadBlockList() {
+  try {
+    const r = await adminFetch(`/api/v1/admin/committees/${activeAllocationCommId}/blocked`);
+    if (r.ok) {
+      const d = await r.json();
+      const blocks = d.data.blocked || [];
+      const container = document.getElementById('block-list-display');
+
+      if (blocks.length === 0) {
+        container.innerHTML = '<p style="font-size:0.62rem;color:var(--text-muted);text-align:center;padding:1rem;">No block rules defined.</p>';
+        return;
+      }
+
+      container.innerHTML = blocks.map(b => `
+        <div class="block-item">
+          <div class="block-info">
+            <div class="block-delegate">${b.delegate_name}</div>
+            <div class="block-country">Blocked: <b>${b.blocked_value}</b></div>
+            <div class="block-reason">Reason: ${b.reason}</div>
+          </div>
+          <button class="logout-btn" onclick="removeBlockRule(${b.id})" title="Remove Rule">✕</button>
+        </div>
+      `).join('');
+    }
+  } catch(e) { console.error(e); }
+}
+
+function loadDelegateDropdown() {
+  const sel = document.getElementById('block-delegate-sel');
+  if (!sel) return;
+
+  const committeeDelegates = allDelegates.filter(d => d.committee_short === activeAllocationCommShort);
+  sel.innerHTML = '<option value="">Select Delegate</option>' + committeeDelegates.map(d => `
+    <option value="${d.id}">${d.full_name} (${d.roll_number})</option>
+  `).join('');
+}
+
+async function addBlockRule() {
+  const delegateId = document.getElementById('block-delegate-sel').value;
+  const value = document.getElementById('block-value').value.trim();
+  const reason = document.getElementById('block-reason').value.trim();
+
+  if (!delegateId || !value) {
+    showToast('error', 'Select delegate and value');
+    return;
+  }
+
+  try {
+    const r = await adminFetch(`/api/v1/admin/committees/${activeAllocationCommId}/blocked`, {
+      method: 'POST',
+      body: JSON.stringify({ delegate_id: delegateId, blocked_value: value, reason })
+    });
+
+    if (r.ok) {
+      showToast('success', 'Block rule added');
+      loadBlockList();
+      document.getElementById('block-value').value = '';
+      document.getElementById('block-reason').value = '';
+    }
+  } catch(e) { showToast('error', 'Failed to add block rule'); }
+}
+
+async function removeBlockRule(id) {
+  try {
+    const r = await adminFetch(`/api/v1/admin/blocked/${id}`, { method: 'DELETE' });
+    if (r.ok) {
+      showToast('success', 'Rule removed');
+      loadBlockList();
+    }
+  } catch(e) { showToast('error', 'Failed to remove rule'); }
+}
+
+async function publishAllocations() {
+  if (!confirm('Are you sure you want to publish these allocations? Delegates will be able to see their assigned countries/personalities on their dashboards.')) return;
+
+  try {
+    showToast('info', 'Publishing allocations...');
+    const r = await adminFetch(`/api/v1/admin/committees/${activeAllocationCommId}/auto-assign`, {
+      method: 'POST',
+      body: JSON.stringify({ publish: true })
+    });
+
+    if (r.ok) {
+      showToast('success', 'All allocations are now LIVE!');
+      loadAllocationsReview();
+    }
+  } catch(e) { showToast('error', 'Publishing failed'); }
 }
 
 // ═══════════════════════════════════════════
@@ -2071,15 +3051,21 @@ async function loadSettings() {
 
       // Apply settings to form fields
       settings.forEach(setting => {
-        const el = document.getElementById(`ctrl-${setting.key}`);
+        // Map setting keys to actual field IDs
+        const fieldMap = {
+          'event_title': 'ctrl-title',
+          'event_date': 'ctrl-date',
+          'event_time': 'ctrl-time',
+          'event_venue': 'ctrl-venue',
+          'event_email': 'ctrl-email',
+          'reg_deadline': 'ctrl-reg-deadline',
+          'transfer_deadline': 'ctrl-transfer-deadline',
+          'max_seats': 'ctrl-max-seats'
+        };
+        const fieldId = fieldMap[setting.key];
+        const el = document.getElementById(fieldId);
         if (el) {
-          if (setting.key === 'reg_deadline' || setting.key === 'transfer_deadline') {
-            el.value = setting.value;
-          } else if (setting.key === 'max_seats') {
-            el.value = setting.value || '50';
-          } else if (['event_title', 'event_date', 'event_time', 'event_venue', 'event_email'].includes(setting.key)) {
-            el.value = setting.value;
-          }
+          el.value = setting.value || '';
         }
       });
     }
@@ -2889,6 +3875,232 @@ function showToast(type, msg) {
 // ═══════════════════════════════════════════
 // BOOT
 // ═══════════════════════════════════════════
+// Announcement Functions
+async function loadAnnouncements() {
+  try {
+    const r = await fetch('/api/v1/admin/announcements');
+    if (!r.ok) throw new Error('Failed to load');
+    const d = await r.json();
+    const announcements = d?.data?.announcements || [];
+    const container = document.getElementById('announce-list');
+
+    if (announcements.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon">📣</div>
+          <p>No announcements yet</p>
+          <span>Create your first announcement to broadcast to delegates</span>
+        </div>`;
+      return;
+    }
+
+    container.innerHTML = announcements.map(a => {
+      const priority = a.priority || 'normal';
+      const date = a.created_at ? new Date(a.created_at).toLocaleString('en-US', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' }) : 'Just now';
+      const title = a.title || 'Announcement';
+      return `
+        <div class="announce-item ${priority}">
+          <div class="announce-item-header">
+            <span class="announce-item-priority ${priority}">${priority}</span>
+            <span class="announce-item-date">${date}</span>
+          </div>
+          <div class="announce-item-title">${title}</div>
+          <div class="announce-item-body">${a.message || a.content || ''}</div>
+          <div class="announce-item-actions">
+            <span class="announce-action-btn" onclick="dismissAnnouncement(${a.id})">Dismiss</span>
+            <span class="announce-action-btn" onclick="deleteAnnouncement(${a.id})">Delete</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+  } catch(e) {
+    console.error('Failed to load announcements:', e);
+    document.getElementById('announce-list').innerHTML =
+      '<div class="empty-state"><p>Failed to load</p><span>Please try again</span></div>';
+  }
+}
+
+function showCreateAnnouncement() {
+  document.getElementById('announce-create').style.display = 'block';
+  document.getElementById('announce-title').value = '';
+  document.getElementById('announce-text').value = '';
+  document.getElementById('announce-title').focus();
+}
+
+function hideCreateAnnouncement() {
+  document.getElementById('announce-create').style.display = 'none';
+  document.getElementById('announce-title').value = '';
+  document.getElementById('announce-text').value = '';
+}
+
+async function saveAnnouncement() {
+  const title = document.getElementById('announce-title').value.trim();
+  const message = document.getElementById('announce-text').value.trim();
+  const priorityEl = document.querySelector('input[name="priority"]:checked');
+  const priority = priorityEl ? priorityEl.value : 'normal';
+
+  if (!title && !message) {
+    showToast('error', 'Please enter a title or message');
+    return;
+  }
+
+  try {
+    const r = await fetch('/api/v1/admin/announcements', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Admin-API-Key': getApiKey()
+      },
+      body: JSON.stringify({
+        title: title || 'Announcement',
+        message: message,
+        priority: priority,
+        target: 'all'
+      })
+    });
+
+    if (r.ok) {
+      showToast('success', 'Announcement published');
+      hideCreateAnnouncement();
+      loadAnnouncements();
+    } else {
+      const error = await r.json();
+      showToast('error', error.detail || 'Failed to publish');
+    }
+  } catch(e) {
+    showToast('error', 'Network error');
+  }
+}
+
+async function dismissAnnouncement(id) {
+  if (!confirm('Dismiss this announcement?')) return;
+  try {
+    const r = await fetch(`/api/v1/admin/announcements/${id}/dismiss`, {
+      method: 'PUT',
+      headers: { 'X-Admin-API-Key': getApiKey() }
+    });
+    if (r.ok) {
+      showToast('success', 'Announcement dismissed');
+      loadAnnouncements();
+    }
+  } catch(e) {
+    showToast('error', 'Failed to dismiss');
+  }
+}
+
+async function deleteAnnouncement(id) {
+  if (!confirm('Delete permanently?')) return;
+  try {
+    const r = await fetch(`/api/v1/admin/announcements/${id}`, {
+      method: 'DELETE',
+      headers: { 'X-Admin-API-Key': getApiKey() }
+    });
+    if (r.ok) {
+      showToast('success', 'Deleted');
+      loadAnnouncements();
+    }
+  } catch(e) {
+    showToast('error', 'Failed to delete');
+  }
+}
+
+// Announcement Functions
+async function loadAnnouncements() {
+  try {
+    const r = await fetch('/api/v1/admin/announcements');
+    if (!r.ok) throw new Error('Failed to load');
+    const d = await r.json();
+    const announcements = d?.data?.announcements || [];
+    const container = document.getElementById('announce-list');
+
+    if (announcements.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon">📣</div>
+          <p>No announcements yet</p>
+          <span>Create your first announcement to broadcast to delegates</span>
+        </div>`;
+      return;
+    }
+
+    container.innerHTML = announcements.map(a => {
+      const priority = a.priority || 'normal';
+      const date = a.created_at ? new Date(a.created_at).toLocaleString('en-US', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' }) : 'Just now';
+      const title = a.title || 'Announcement';
+      return `
+        <div class="announce-item ${priority}">
+          <div class="announce-item-header">
+            <span class="announce-item-priority ${priority}">${priority}</span>
+            <span class="announce-item-date">${date}</span>
+          </div>
+          <div class="announce-item-title">${title}</div>
+          <div class="announce-item-body">${a.message || a.content || ''}</div>
+          <div class="announce-item-actions">
+            <span class="announce-action-btn" onclick="dismissAnnouncement(${a.id})">Dismiss</span>
+            <span class="announce-action-btn" onclick="deleteAnnouncement(${a.id})">Delete</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+  } catch(e) {
+    console.error('Failed to load announcements:', e);
+    document.getElementById('announce-list').innerHTML =
+      '<div class="empty-state"><p>Failed to load</p><span>Please try again</span></div>';
+  }
+}
+
+function showCreateAnnouncement() {
+  document.getElementById('announce-create').style.display = 'block';
+  document.getElementById('announce-title').value = '';
+  document.getElementById('announce-text').value = '';
+  document.getElementById('announce-title').focus();
+}
+
+function hideCreateAnnouncement() {
+  document.getElementById('announce-create').style.display = 'none';
+  document.getElementById('announce-title').value = '';
+  document.getElementById('announce-text').value = '';
+}
+
+async function saveAnnouncement() {
+  const title = document.getElementById('announce-title').value.trim();
+  const message = document.getElementById('announce-text').value.trim();
+  const priorityEl = document.querySelector('input[name="priority"]:checked');
+  const priority = priorityEl ? priorityEl.value : 'normal';
+
+  if (!title && !message) {
+    showToast('error', 'Please enter a title or message');
+    return;
+  }
+
+  try {
+    const r = await fetch('/api/v1/admin/announcements', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Admin-API-Key': getApiKey()
+      },
+      body: JSON.stringify({
+        title: title || 'Announcement',
+        message: message,
+        priority: priority,
+        target: 'all'
+      })
+    });
+
+    if (r.ok) {
+      showToast('success', 'Announcement published');
+      hideCreateAnnouncement();
+      loadAnnouncements();
+    } else {
+      const error = await r.json();
+      showToast('error', error.detail || 'Failed to publish');
+    }
+  } catch(e) {
+    showToast('error', 'Network error');
+  }
+}
+
 setInterval(loadAllData, 60000);
 </script>
 </body>

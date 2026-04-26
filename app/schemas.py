@@ -57,6 +57,8 @@ class CommitteeResponse(BaseModel):
     short_name: str
     full_name: str
     chair_name: str
+    acd_name: str
+    contact_email: str | None
     agenda_1: str
     agenda_2: str | None
     total_seats: int
@@ -82,11 +84,6 @@ class TransferResponse(BaseModel):
     new_committee_short_name: str
     transferred_at: str
 
-
-    success: bool = True
-    data: dict
-    timestamp: str
-
 class ErrorDetail(BaseModel):
     code: str
     message: str
@@ -97,6 +94,47 @@ class ErrorResponse(BaseModel):
     error: ErrorDetail
     timestamp: str
 
+# GAP-001: Delegate Query System
+class DelegateQueryCreate(BaseModel):
+    roll_number: str
+    name: str
+    email: EmailStr
+    category: str
+    message: str
+
+class DelegateQueryResponse(BaseModel):
+    id: int
+    tracking_id: str
+    roll_number: str
+    name: str
+    status: str
+    admin_reply: str | None = None
+    replied_at: datetime | None = None
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+# GAP-003: Announcements
+class AnnouncementCreate(BaseModel):
+    title: str
+    message: str
+    priority: str = "normal"
+    target: str = "all"
+    target_committee_id: int | None = None
+    day: int | None = None
+
+class AnnouncementResponse(BaseModel):
+    id: int
+    title: str
+    message: str
+    priority: str
+    target: str
+    created_at: datetime
+    is_active: bool
+
+    class Config:
+        from_attributes = True
 
 # Admin Portal Schemas
 class AdminQueryBase(BaseModel):
@@ -140,7 +178,6 @@ class SystemSettingResponse(SystemSettingBase):
     class Config:
         from_attributes = True
 
-# Dashboard Stats
 class AdminStats(BaseModel):
     total_delegates: int
     total_committees: int
@@ -150,57 +187,4 @@ class AdminStats(BaseModel):
     filled_seats: int
     available_seats: int
     fill_percentage: int
-
-
-# Admin Portal Schemas
-class AdminQueryBase(BaseModel):
-    name: str
-    roll_number: str
-    committee: str
-    message: str
-
-class AdminQueryCreate(AdminQueryBase):
-    pass
-
-class AdminQueryResponse(AdminQueryBase):
-    id: int
-    delegate_id: int
-    status: str
-    admin_reply: str | None = None
-    replied_at: str | None = None
-    created_at: str
-
-    class Config:
-        from_attributes = True
-
-class QueryReply(BaseModel):
-    reply: str
-
-class QueryStatusUpdate(BaseModel):
-    status: str  # pending, replied, resolved
-
-class SystemSettingBase(BaseModel):
-    key: str
-    value: str
-    description: str | None = None
-
-class SystemSettingCreate(SystemSettingBase):
-    pass
-
-class SystemSettingResponse(SystemSettingBase):
-    id: int
-    updated_at: str
-
-    class Config:
-        from_attributes = True
-
-# Dashboard Stats
-class AdminStats(BaseModel):
-    total_delegates: int
-    total_committees: int
-    active_committees: int
-    full_committees: int
-    total_seats: int
-    filled_seats: int
-    available_seats: int
-    fill_percentage: int
+    pending_queries: int = 0

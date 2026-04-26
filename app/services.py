@@ -6,6 +6,7 @@ from app.models import Committee, Delegate, AdminQuery, SystemSettings
 from app.schemas import DelegateCreate, CommitteeResponse, AdminQueryCreate, AdminQueryResponse, QueryReply, QueryStatusUpdate, SystemSettingCreate, SystemSettingResponse, AdminStats
 from app.exceptions import AppException
 from app.constants import ROLL_NUMBER_PREFIX, ROLL_NUMBER_DIGITS, MAX_TRANSFERS, ADMIN_API_KEY_HEADER
+from app.email_service import send_registration_confirmation
 
 logger = logging.getLogger(__name__)
 
@@ -605,4 +606,898 @@ def export_delegates_csv(db: Session, committee_id: int = None) -> str:
         )
 
     return "\n".join(csv_lines)
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# GAP-001: DELEGATE QUERY SYSTEM (Public-facing)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def create_delegate_query(db: Session, data: dict) -> dict:
+    """Create a new delegate query with human-readable tracking ID."""
+    from app.models import DelegateQuery
+
+    # Generate tracking ID: QRY-2026-0047
+    year = datetime.now().year
+    last_query = db.query(DelegateQuery).filter(
+        DelegateQuery.tracking_id.like(f"QRY-{year}-%")
+    ).order_by(DelegateQuery.id.desc()).first()
+
+    if last_query:
+        try:
+            last_num = int(last_query.tracking_id.split("-")[-1])
+            next_num = last_num + 1
+        except:
+            next_num = 1
+    else:
+        next_num = 1
+
+    tracking_id = f"QRY-{year}-{next_num:04d}"
+
+    # Check if delegate exists in database
+    delegate = db.query(Delegate).filter(Delegate.roll_number == data["roll_number"]).first()
+    delegate_id = delegate.id if delegate else None
+
+    query = DelegateQuery(
+        tracking_id=tracking_id,
+        delegate_id=delegate_id,
+        roll_number=data["roll_number"],
+        name=data["name"],
+        email=data["email"],
+        category=data["category"],
+        message=data["message"],
+        status="submitted",
+    )
+    db.add(query)
+    db.commit()
+    db.refresh(query)
+
+    return {
+        "id": query.id,
+        "tracking_id": query.tracking_id,
+        "roll_number": query.roll_number,
+        "name": query.name,
+        "status": query.status,
+        "created_at": query.created_at.isoformat() if query.created_at else None,
+    }
+
+
+def get_delegate_query_by_tracking(db: Session, tracking_id: str) -> dict | None:
+    """Get query status by tracking ID (for delegate checking)."""
+    from app.models import DelegateQuery
+
+    query = db.query(DelegateQuery).filter(DelegateQuery.tracking_id == tracking_id).first()
+    if not query:
+        return None
+
+    return {
+        "id": query.id,
+        "tracking_id": query.tracking_id,
+        "category": query.category,
+        "message": query.message,
+        "status": query.status,
+        "admin_reply": query.admin_reply,
+        "replied_at": query.replied_at.isoformat() if query.replied_at else None,
+        "created_at": query.created_at.isoformat() if query.created_at else None,
+    }
+
+
+def get_all_delegate_queries_admin(db: Session, status: str = "all", page: int = 1, per_page: int = 20) -> dict:
+    """Get all delegate queries for admin panel."""
+    from app.models import DelegateQuery
+
+    query = db.query(DelegateQuery)
+
+    if status and status != "all":
+        query = query.filter(DelegateQuery.status == status)
+
+    total = query.count()
+    queries = query.order_by(DelegateQuery.created_at.desc()).offset((page - 1) * per_page).limit(per_page).all()
+
+    return {
+        "queries": [
+            {
+                "id": q.id,
+                "tracking_id": q.tracking_id,
+                "delegate_id": q.delegate_id,
+                "roll_number": q.roll_number,
+                "name": q.name,
+                "email": q.email,
+                "category": q.category,
+                "message": q.message,
+                "status": q.status,
+                "admin_reply": q.admin_reply,
+                "replied_at": q.replied_at.isoformat() if q.replied_at else None,
+                "created_at": q.created_at.isoformat() if q.created_at else None,
+            }
+            for q in queries
+        ],
+        "total": total,
+        "page": page,
+        "per_page": per_page,
+        "total_pages": (total + per_page - 1) // per_page if total > 0 else 1,
+    }
+
+
+def reply_delegate_query(db: Session, query_id: int, reply: str) -> dict | None:
+    """Reply to a delegate query."""
+    from app.models import DelegateQuery
+
+    query = db.query(DelegateQuery).filter(DelegateQuery.id == query_id).first()
+    if not query:
+        return None
+
+    query.admin_reply = reply
+    query.replied_at = datetime.now(timezone.utc)
+    query.status = "replied"
+
+    db.commit()
+    db.refresh(query)
+
+    return {
+        "id": query.id,
+        "tracking_id": query.tracking_id,
+        "status": query.status,
+        "admin_reply": query.admin_reply,
+        "replied_at": query.replied_at.isoformat() if query.replied_at else None,
+    }
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# GAP-003: ANNOUNCEMENTS SYSTEM
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def create_announcement(db: Session, data: dict, created_by: str) -> dict:
+    """Create a new announcement."""
+    from app.models import Announcement
+
+    announcement = Announcement(
+        title=data["title"],
+        message=data["message"],
+        priority=data.get("priority", "normal"),
+        target=data.get("target", "all"),
+        target_committee_id=data.get("target_committee_id"),
+        day=data.get("day"),
+        created_by=created_by,
+        is_active=True,
+    )
+    db.add(announcement)
+    db.commit()
+    db.refresh(announcement)
+
+    return {
+        "id": announcement.id,
+        "title": announcement.title,
+        "message": announcement.message,
+        "priority": announcement.priority,
+        "target": announcement.target,
+        "created_at": announcement.created_at.isoformat() if announcement.created_at else None,
+    }
+
+
+def get_active_announcements(db: Session) -> list[dict]:
+    """Get all active announcements (for polling)."""
+    from app.models import Announcement
+
+    announcements = db.query(Announcement).filter(
+        Announcement.is_active == True
+    ).order_by(Announcement.created_at.desc()).all()
+
+    return [
+        {
+            "id": a.id,
+            "title": a.title,
+            "message": a.message,
+            "priority": a.priority,
+            "target": a.target,
+            "created_at": a.created_at.isoformat() if a.created_at else None,
+        }
+        for a in announcements
+    ]
+
+
+def get_all_announcements_admin(db: Session) -> list[dict]:
+    """Get all announcements (active and archived) for admin."""
+    from app.models import Announcement
+
+    announcements = db.query(Announcement).order_by(Announcement.created_at.desc()).all()
+
+    return [
+        {
+            "id": a.id,
+            "title": a.title,
+            "message": a.message,
+            "priority": a.priority,
+            "target": a.target,
+            "day": a.day,
+            "is_active": a.is_active,
+            "dismissed_at": a.dismissed_at.isoformat() if a.dismissed_at else None,
+            "created_by": a.created_by,
+            "created_at": a.created_at.isoformat() if a.created_at else None,
+        }
+        for a in announcements
+    ]
+
+
+def dismiss_announcement(db: Session, announcement_id: int) -> dict | None:
+    """Dismiss an announcement."""
+    from app.models import Announcement
+
+    announcement = db.query(Announcement).filter(Announcement.id == announcement_id).first()
+    if not announcement:
+        return None
+
+    announcement.is_active = False
+    announcement.dismissed_at = datetime.now(timezone.utc)
+
+    db.commit()
+    db.refresh(announcement)
+
+    return {
+        "id": announcement.id,
+        "is_active": announcement.is_active,
+        "dismissed_at": announcement.dismissed_at.isoformat() if announcement.dismissed_at else None,
+    }
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# GAP-004: COUNTRY ALLOCATION ENGINE - COMPREHENSIVE
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# P5 / Veto Powers (Tier 1 - Always first)
+P5_COUNTRIES = {"USA", "United States", "US", "China", "Russia", "Russian Federation", "UK", "United Kingdom", "France"}
+
+# Regional Powers & Major Players (2026 Context)
+REGIONAL_POWERS = {
+    "Middle East": {"Iran", "Israel", "Saudi Arabia", "UAE", "Qatar", "Turkey", "Egypt", "Jordan", "Lebanon", "Syria", "Iraq"},
+    "South Asia": {"Pakistan", "India", "Afghanistan", "Bangladesh", "Sri Lanka", "Nepal", "Maldives"},
+    "East Asia": {"Japan", "South Korea", "North Korea", "Taiwan", "Australia", "Indonesia", "Philippines", "Vietnam"},
+    "Europe": {"Germany", "Italy", "Spain", "Poland", "Netherlands", "Belgium", "Ukraine"},
+    "Africa": {"South Africa", "Nigeria", "Egypt", "Kenya", "Ethiopia", "Algeria", "Morocco"},
+    "Americas": {"Brazil", "Mexico", "Canada", "Argentina", "Venezuela", "Cuba"}
+}
+
+# Countries with Active Conflicts / Hot/Cold War Relations
+HOT_COLD_WAR_COUNTRIES = {
+    "Israel-Hamas-Gaza": {"Israel", "Palestine", "Hamas", "Lebanon", "Iran", "Egypt", "Jordan", "Syria"},
+    "Russia-Ukraine": {"Russia", "Ukraine", "Poland", "Germany", "USA", "UK", "France", "Belarus"},
+    "Iran-Israel": {"Iran", "Israel", "USA", "Saudi Arabia", "UAE"},
+    "India-Pakistan": {"India", "Pakistan", "China", "USA", "Afghanistan"},
+    "US-China": {"USA", "China", "Taiwan", "Japan", "South Korea", "Australia", "Philippines"},
+    "South China Sea": {"China", "Philippines", "Vietnam", "Japan", "USA", "Taiwan"}
+}
+
+# PNA Personalities (Alive 2026 - Pakistan Only)
+PNA_PERSONALITIES = {
+    "federal": [
+        # Federal Leadership
+        "Sheikh Hasina Wajid",  # PM (if applicable - Wazirobably different in 2026)
+        "Asif Ali Zardari",  # President
+        "Muhammad Shehbaz Sharif",  # PM
+        "Maryam Nawaz",  # CM Punjab
+        # Federal Ministers
+        "Ishaq Dar",  # Finance Minister
+        "Khawaja Muhammad Asif",  # Defence Minister
+        "Bilawal Bhutto Zardari",  # Foreign Minister
+        "Dr. Shamshad Akhtar",  # Interior Minister
+        # Military Leadership (2026)
+        "General Sahir Mesham",  # COAS ( Army Chief)
+        "Lt General",  # DG ISI (placeholder)
+        # Service Chiefs
+        "Air Chief Marshal",  # Pakistan Air Force
+        "Admiral",  # Pakistan Navy
+    ],
+    "mnas": [
+        "Raja Riaz", "Murtaza Bhutto", "Shahid Khaqan Abbasi", "Hamza Shahbaz",
+        "Shabana Kausar", "Fazal Khan", "Ali Amin Gandapur", "Omar Ayub",
+        "Azam Khan Swati", "Mustafa Kamal", "Asad Qaiser", "Sheikh Rasheed"
+    ],
+    "mps": [
+        "Sardar Bano", "Bilquees", "Mian Jamshed", "Imran Qureshi",
+        "Sajid Mehdi", "Akbar", "Qamar-uz-Zaman"
+    ],
+    "provincial_leaders": [
+        # Punjab
+        "Maryam Nawaz", "Raja Bisma", "Marriyum Aurangzeb", "Azma Bukhari",
+        # Sindh
+        "Murad Ali Shah", "Saeed Ghani", "Syed Ali Zafar", "Karim Aayoob",
+        # KPK
+        "Ali Amin Khan Gandapur", "Mushtaq Ghani", "Kamran Bangash",
+        # Balochistan
+        "Sarbaz Khan", "Mir Zauru", "Jam Kamal",
+        # Governors
+        "Punjab Governor", "Sindh Governor", "KP Governor", "Balochistan Governor",
+        "GB Governor", "AJK President"
+    ],
+    "political_leaders": [
+        # PMLN
+        "Nawaz Sharif", "Shehbaz Sharif", "Maryam Nawaz", "Ishaq Dar", "Ahsan Iqbal",
+        "Rana Sanaullah", "Khawaja Asif", "Shahid Khaqan Abbasi",
+        # PPP
+        "Asif Ali Zardari", "Bilawal Bhutto Zardari", "Faryal Talpur", "Benazir Bhutto",
+        "Raja Pervez Ashraf", "Saleem Mandviwalla",
+        # PTI
+        "Imran Khan", "Fawad Chaudhary", "Shah Mahmood Qureshi", "Asad Umar",
+        "Hina Rabbani", "Zulfi Bukhari", "Shahid Kapoor",
+        # Jamaat-e-Islami
+        "Siraj-ul-Haq", "Mithapal",
+        # Others
+        "Gohar Ibrahim", "Mansoor Ali", "Sahibzada Hamid"
+    ],
+    "regional_leaders": [
+        # Sindh
+        "Bilawal Bhutto Zardari", "Qaim Ali Shah", "Syed Mustafa Kamal",
+        "Saeed Ghani", "Karim Aayoob",
+        # Balochistan
+        "Jam Kamal Khan", "Sarbaz Khan", "Mir Abdul Qadir",
+        # KP/FATA
+        "Mafti Shahab", "Arif Yousufzai", "Ajab Khan",
+        # GB/AJK
+        "Mehmood Khan", "Sardar Bahadur", "Khan Hussain"
+    ],
+    "judiciary": [
+        "Chief Justice Qazi Faez Isa", "Justice Yahya Afridi", "Justice Athar Minallah",
+        "Justice Malik Dilawar", "Justice Shahid Waheed", "Justice Aalia Neelum",
+        "Attorney General", "President Supreme Court Bar"
+    ],
+    "defense": [
+        "General Sahir Mesham", "DG ISI", "Major General", "Air Chief Marshal",
+        "Admiral Pakistan Navy", "Defence Secretary", "Chairman Joint Chiefs"
+    ]
+}
+
+
+def _classify_country(value: str, agenda: str = "") -> tuple[int, str]:
+    """Classify a country into tier and category based on agenda and global context.
+
+    Returns: (tier 1-7, category string)
+    """
+    value_lower = value.lower().strip()
+    agenda_lower = agenda.lower()
+
+    # Tier 1: P5 / Veto Powers (MUST be first)
+    if value_lower in {c.lower() for c in P5_COUNTRIES}:
+        return (1, "P5")
+
+    # Check agenda context for direct involvement
+    if agenda_lower:
+        # Extract key countries from agenda
+        agenda_keywords = {
+            "iran": {"iran", "tehran", "persian"},
+            "israel": {"israel", "tel aviv", "jerusalem", "zionist"},
+            "palestine": {"palestine", "gaza", "hamas", "west bank", "palestinian"},
+            "ukraine": {"ukraine", "kiev", "russia", "crimea", "donbas"},
+            "russia": {"russia", "moscow", "soviet", "putin"},
+            "india": {"india", "delhi", "mumbai", "kashmir"},
+            "pakistan": {"pakistan", "islamabad", "pakistani", "punjab", "sindh"},
+            "china": {"china", "beijing", "taiwan", "hong kong", "xinjiang"},
+            "korea": {"korea", "pyongyang", "seoul", "nuclear"},
+            "afghanistan": {"afghanistan", "kabul", "taliban", "kabul"},
+            "syria": {"syria", "damascus", "assad", "aleppo"},
+            "iraq": {"iraq", "baghdad", "basra", "mosul"},
+            "yemen": {"yemen", "sanaa", "houthis"},
+            "turkey": {"turkey", "ankara", "istanbul", "erdogan"},
+            "germany": {"germany", "berlin", "europe"},
+            "france": {"france", "paris", "europe"},
+            "uk": {"uk", "britain", "london", "england", "united kingdom"},
+            "usa": {"usa", "america", "washington", "america"}
+        }
+
+        for key, keywords in agenda_keywords.items():
+            if any(kw in agenda_lower for kw in keywords):
+                if value_lower == key or any(kw in value_lower for kw in keywords):
+                    return (2, "Directly Involved")
+
+    # Tier 3: Regional Powers (check all regions)
+    for region, countries in REGIONAL_POWERS.items():
+        if value_lower in {c.lower() for c in countries}:
+            return (3, f"Regional-{region}")
+
+    # Tier 4: Hot/Cold War Countries
+    for conflict, countries in HOT_COLD_WAR_COUNTRIES.items():
+        if value_lower in {c.lower() for c in countries}:
+            return (4, f"Conflict-{conflict}")
+
+    # Tier 5: Neutral / Global Powers (Major economies, peaceful nations)
+    NEUTRAL_POWERS = {
+        "switzerland", "sweden", "norway", "finland", "denmark", "austria", "ireland",
+        "portugal", "greece", "belgium", "netherlands", "luxembourg", "iceland",
+        "canada", "australia", "new zealand", "singapore", "malaysia", "thailand",
+        "vietnam", "argentina", "chile", "colombia", "peru", "uruguay", "south africa",
+        "kenya", "morocco", "egypt", "tunisia", "algeria", "uae", "qatar", "kuwait",
+        "oman", "bahrain", "jordan", "lebanon", "azerbaijan", "georgia", "armenia"
+    }
+    if value_lower in NEUTRAL_POWERS:
+        return (5, "Neutral/Global")
+
+    # Tier 6: Victim / Oppressor nations (based on agenda context)
+    # These are typically identified from specific conflicts in agenda
+    if agenda_lower:
+        if any(term in agenda_lower for term in ["victim", "oppressed", "war crime", "genocide"]):
+            # Victim countries in common conflicts
+            if "gaza" in agenda_lower or "palestine" in agenda_lower:
+                if value_lower in {"palestine", "gaza", "palestinian"}:
+                    return (6, "Victim")
+            if "ukraine" in agenda_lower:
+                if value_lower == "ukraine":
+                    return (6, "Victim")
+
+    # Tier 7: Other / Remaining countries
+    return (7, "Other")
+
+
+def _classify_personality(value: str) -> tuple[int, str]:
+    """Classify a personality for PNA committee.
+
+    Returns: (tier, category)
+    """
+    value_lower = value.lower()
+
+    # Tier 1: Supreme Leadership
+    if any(x in value_lower for x in ["army chief", "coas", "general", "chief of army"]):
+        return (1, "Military")
+    if any(x in value_lower for x in ["president", "prime minister", "pm", "chairman"]):
+        return (1, "Federal-Top")
+    if any(x in value_lower for x in ["chief justice", "judge", "supreme"]):
+        return (1, "Judiciary")
+
+    # Tier 2: Federal Ministers & Service Chiefs
+    if any(x in value_lower for x in ["minister", "secretary", "advisor"]):
+        return (2, "Federal")
+    if any(x in value_lower for x in ["air chief", "admiral", "director", "chief"]):
+        return (2, "Service-Chiefs")
+
+    # Tier 3: MNAs/MPAs
+    if any(x in value_lower for x in ["mna", "mpa", "member of parliament", "senator"]):
+        return (3, "Legislative")
+
+    # Tier 4: Provincial Leadership
+    if any(x in value_lower for x in ["chief minister", "cm", "governor", "provincial"]):
+        return (4, "Provincial")
+    if any(x in value_lower for x in ["balochistan", "sindh", "punjab", "kpk", "khan", "pakistan"]):
+        if any(x in value_lower for x in ["leader", "politician", "chief"]):
+            return (4, "Regional-Political")
+
+    # Tier 5: Other Political Leaders
+    if any(x in value_lower for x in ["zardari", "bhutto", "nawaz", "sharif", "khan", "imran", "jaat"]):
+        return (5, "Political-Party")
+    if any(x in value_lower for x in ["pmln", "ppp", "pti", "ji", " Jamaat"]):
+        return (5, "Political-Party")
+
+    # Tier 6: Legal/Advocacy
+    if any(x in value_lower for x in ["barrister", "lawyer", "advocate", "attorney", "ag"]):
+        return (6, "Legal")
+
+    # Tier 7: General / Other
+    return (7, "Other")
+
+
+def set_committee_country_list(db: Session, committee_id: int, values: list[str], alloc_type: str = "country", agenda: str = "") -> dict:
+    """Step 1: Load country/personality list for a committee with auto-classification."""
+    from app.models import CommitteeAllocationPool, Committee
+
+    if not agenda:
+        committee = db.query(Committee).filter(Committee.id == committee_id).first()
+        if committee:
+            agenda = f"{committee.agenda_1 or ''} {committee.agenda_2 or ''}"
+
+    db.query(CommitteeAllocationPool).filter(CommitteeAllocationPool.committee_id == committee_id).delete()
+
+    parsed_values = []
+    if isinstance(values, str):
+        items = re.split(r'[,;\n]+', values)
+        parsed_values = [v.strip() for v in items if v.strip()]
+    elif isinstance(values, list):
+        parsed_values = values
+    else:
+        parsed_values = [str(values)]
+
+    tier_counts = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0}
+    categories = set()
+
+    for val in parsed_values:
+        if not val.strip(): continue
+        if alloc_type == "personality":
+            tier, category = _classify_personality(val)
+        else:
+            tier, category = _classify_country(val, agenda)
+
+        item = CommitteeAllocationPool(
+            committee_id=committee_id,
+            allocation_type=alloc_type,
+            value=val.strip(),
+            tier=tier,
+            category=category,
+            source="admin_input"
+        )
+        db.add(item)
+        tier_counts[tier] += 1
+        categories.add(category)
+
+    db.commit()
+    return {
+        "count": len(parsed_values),
+        "type": alloc_type,
+        "classification": {
+            "tier_1_p5": tier_counts[1],
+            "tier_2_direct": tier_counts[2],
+            "tier_3_regional": tier_counts[3],
+            "tier_4_conflict": tier_counts[4],
+            "tier_5_neutral": tier_counts[5],
+            "tier_6_victim": tier_counts[6],
+            "tier_7_other": tier_counts[7],
+        },
+        "categories": list(categories)
+    }
+
+
+def auto_assign_countries(db: Session, committee_id: int, strategy: str = "smart") -> dict:
+    """Step 2: Assign countries to delegates based on strategy and constraints.
+
+    Rules:
+    - Tier 1 (P5) mandatory and assigned first.
+    - Tier 2-6 assigned in order.
+    - Tier 7 (Global Pool) fills remaining slots.
+    - Check blocked_assignments for conflicts.
+    - Handle dual-delegate support.
+    """
+    import random
+    from app.models import (
+        Delegate, CommitteeAllocationPool, CountryAllocation,
+        BlockedAssignment, GlobalCountryPool
+    )
+
+    # 1. Get all delegates in this committee (order by registration)
+    delegates = db.query(Delegate).filter(
+        Delegate.committee_id == committee_id
+    ).order_by(Delegate.created_at).all()
+
+    if not delegates:
+        raise AppException("NO_DELEGATES", "No delegates found in this committee to assign.")
+
+    # 2. Get available items from Committee Allocation Pool (Active only)
+    # This includes admin-inputted countries and pre-seeded personalities
+    pool_items = db.query(CommitteeAllocationPool).filter(
+        CommitteeAllocationPool.committee_id == committee_id,
+        CommitteeAllocationPool.is_active == True
+    ).order_by(CommitteeAllocationPool.tier).all()
+
+    # 3. If pool is insufficient, fill from Global Country Pool (Tier 7)
+    if len(pool_items) < len(delegates):
+        needed = len(delegates) - len(pool_items)
+        # Get random countries from global pool that aren't already in the committee pool
+        existing_values = {p.value.lower() for p in pool_items}
+        global_fallback = db.query(GlobalCountryPool).filter(
+            GlobalCountryPool.is_active == True
+        ).all()
+
+        # Filter out existing and shuffle
+        available_fallback = [g for g in global_fallback if g.name.lower() not in existing_values]
+        random.shuffle(available_fallback)
+
+        for i in range(min(needed, len(available_fallback))):
+            fallback_item = CommitteeAllocationPool(
+                committee_id=committee_id,
+                value=available_fallback[i].name,
+                allocation_type="country",
+                tier=7,
+                category="Global Fallback",
+                source="global_pool"
+            )
+            pool_items.append(fallback_item)
+
+    if len(pool_items) < len(delegates):
+        raise AppException(
+            "INSUFFICIENT_POOL",
+            f"Need {len(delegates)} items but only {len(pool_items)} available including fallback."
+        )
+
+    # 4. Clear ALL existing allocations for this committee to prevent unique violation
+    db.query(CountryAllocation).filter(
+        CountryAllocation.committee_id == committee_id
+    ).delete()
+
+    # 5. Get Blocked Assignments for this committee
+    blocked = db.query(BlockedAssignment).filter(
+        BlockedAssignment.committee_id == committee_id
+    ).all()
+    blocked_map = {} # delegate_id -> set of blocked values
+    for b in blocked:
+        if b.delegate_id not in blocked_map:
+            blocked_map[b.delegate_id] = set()
+        blocked_map[b.delegate_id].add(b.blocked_value.lower())
+
+    # 6. Allocation Algorithm
+    # We use a greedy approach respecting tiers
+    # For dual-delegate support, we keep track of how many times a value is used
+    assignments = []
+    used_indices = set()
+
+    # Sort pool items: Tier 1 first, then 2, etc.
+    pool_items.sort(key=lambda x: x.tier)
+
+    for delegate in delegates:
+        assigned = False
+        delegate_blocks = blocked_map.get(delegate.id, set())
+
+        # Try to find best fit from pool
+        for idx, item in enumerate(pool_items):
+            if idx in used_indices: continue
+
+            # Check block list
+            if item.value.lower() in delegate_blocks:
+                continue
+
+            # Found a match
+            alloc = CountryAllocation(
+                delegate_id=delegate.id,
+                committee_id=committee_id,
+                allocation_type=item.allocation_type,
+                tier=item.tier,
+                category=item.category,
+                assigned_value=item.value,
+                is_dual_pair=False, # We'll handle dual later if requested
+                is_locked=False,
+                is_published=False
+            )
+            db.add(alloc)
+            assignments.append(alloc)
+            used_indices.add(idx)
+            assigned = True
+            break
+
+        if not assigned:
+            # This should rarely happen if pool is large enough
+            # but we fallback to first available unassigned if blocked everywhere
+            for idx, item in enumerate(pool_items):
+                if idx not in used_indices:
+                    alloc = CountryAllocation(
+                        delegate_id=delegate.id,
+                        committee_id=committee_id,
+                        allocation_type=item.allocation_type,
+                        tier=item.tier,
+                        category=item.category,
+                        assigned_value=item.value,
+                        is_published=False
+                    )
+                    db.add(alloc)
+                    assignments.append(alloc)
+                    used_indices.add(idx)
+                    break
+
+    db.commit()
+    return {
+        "assigned_count": len(assignments),
+        "tier_summary": {
+            "p5": sum(1 for a in assignments if a.tier == 1),
+            "priority": sum(1 for a in assignments if 1 < a.tier <= 3),
+            "fallback": sum(1 for a in assignments if a.tier == 7)
+        }
+    }
+
+
+def add_blocked_assignment(db: Session, committee_id: int, delegate_id: int, value: str, reason: str = None) -> dict:
+    """Add a conflict-of-interest block for a delegate."""
+    from app.models import BlockedAssignment
+
+    # Check if exists
+    existing = db.query(BlockedAssignment).filter(
+        BlockedAssignment.committee_id == committee_id,
+        BlockedAssignment.delegate_id == delegate_id,
+        BlockedAssignment.blocked_value == value
+    ).first()
+
+    if existing:
+        return {"status": "already_exists", "id": existing.id}
+
+    block = BlockedAssignment(
+        committee_id=committee_id,
+        delegate_id=delegate_id,
+        blocked_value=value,
+        reason=reason
+    )
+    db.add(block)
+    db.commit()
+    return {"status": "created", "id": block.id}
+
+
+def toggle_pool_item_status(db: Session, item_id: int, is_active: bool) -> dict:
+    """Activate/Deactivate a personality or country in the pool."""
+    from app.models import CommitteeAllocationPool
+
+    item = db.query(CommitteeAllocationPool).filter(CommitteeAllocationPool.id == item_id).first()
+    if not item:
+        raise AppException("ITEM_NOT_FOUND", "Pool item not found")
+
+    item.is_active = is_active
+    db.commit()
+    return {"id": item.id, "is_active": item.is_active}
+
+
+def get_global_countries(db: Session, region: str = None) -> list[dict]:
+    """Get list of countries from global pool for admin selection."""
+    from app.models import GlobalCountryPool
+
+    query = db.query(GlobalCountryPool).filter(GlobalCountryPool.is_active == True)
+    if region:
+        query = query.filter(GlobalCountryPool.region == region)
+
+    countries = query.order_by(GlobalCountryPool.name).all()
+    return [{"name": c.name, "region": c.region, "subregion": c.subregion} for c in countries]
+
+
+def import_to_committee_pool(db: Session, committee_id: int, values: list[str], tier: int = 5) -> dict:
+    """Import values from global pool to committee-specific pool."""
+    from app.models import CommitteeAllocationPool
+
+    count = 0
+    for val in values:
+        # Check if already in pool
+        existing = db.query(CommitteeAllocationPool).filter(
+            CommitteeAllocationPool.committee_id == committee_id,
+            CommitteeAllocationPool.value == val
+        ).first()
+
+        if not existing:
+            # Auto-classify based on name
+            tier_val, category = _classify_country(val)
+            item = CommitteeAllocationPool(
+                committee_id=committee_id,
+                value=val,
+                allocation_type="country",
+                tier=tier_val or tier,
+                category=category,
+                source="global_pool"
+            )
+            db.add(item)
+            count += 1
+
+    db.commit()
+    return {"imported_count": count}
+
+
+def get_committee_allocations(db: Session, committee_id: int, include_unpublished: bool = True) -> list[dict]:
+    """Step 3: Review current draft allocations.
+
+    Args:
+        db: Database session
+        committee_id: ID of the committee
+        include_unpublished: If True, include unpublished allocations too
+
+    Returns:
+        List of allocation records with tier and category info
+    """
+    from app.models import CountryAllocation, Delegate
+
+    query = db.query(CountryAllocation).join(Delegate).filter(
+        CountryAllocation.committee_id == committee_id
+    )
+
+    if not include_unpublished:
+        query = query.filter(CountryAllocation.is_published == True)
+
+    allocs = query.order_by(CountryAllocation.tier, "assigned_value").all()
+
+    # Group by tier for better visualization
+    result = []
+    for a in allocs:
+        tier_labels = {
+            1: "P5/Veto",
+            2: "Directly Involved",
+            3: "Regional Power",
+            4: "Conflict Party",
+            5: "Neutral/Global",
+            6: "Victim/Oppressor",
+            7: "Other"
+        }
+        result.append({
+            "id": a.id,
+            "delegate_name": a.delegate.full_name,
+            "roll_number": a.delegate.roll_number,
+            "assigned_value": a.assigned_value,
+            "tier": a.tier,
+            "tier_label": tier_labels.get(a.tier, "Unknown"),
+            "category": a.category,
+            "is_locked": a.is_locked,
+            "is_published": a.is_published
+        })
+
+    return result
+
+
+def update_allocation(db: Session, allocation_id: int, new_value: str = None, is_locked: bool = None) -> dict:
+    """Admin can update a single allocation (swap, lock/unlock)."""
+    from app.models import CountryAllocation
+
+    alloc = db.query(CountryAllocation).filter(CountryAllocation.id == allocation_id).first()
+    if not alloc:
+        raise AppException("ALLOCATION_NOT_FOUND", "Allocation not found")
+
+    if new_value:
+        alloc.assigned_value = new_value
+    if is_locked is not None:
+        alloc.is_locked = is_locked
+
+    db.commit()
+
+    return {
+        "id": alloc.id,
+        "assigned_value": alloc.assigned_value,
+        "is_locked": alloc.is_locked
+    }
+
+
+def publish_committee_allocations(db: Session, committee_id: int) -> dict:
+    """Step 4: Finalize and publish allocations, trigger emails."""
+    from app.models import CountryAllocation, Delegate
+
+    allocs = db.query(CountryAllocation).filter(
+        CountryAllocation.committee_id == committee_id,
+        CountryAllocation.is_published == False
+    ).all()
+
+    count = 0
+    published_values = []
+
+    for a in allocs:
+        a.is_published = True
+        a.published_at = datetime.now(timezone.utc)
+        count += 1
+        published_values.append({
+            "delegate": a.delegate.full_name,
+            "roll_number": a.delegate.roll_number,
+            "assigned": a.assigned_value,
+            "tier": a.tier
+        })
+
+        # Trigger email notification (if configured)
+        # send_country_assignment(a.delegate.email, a.delegate.full_name, a.assigned_value)
+
+    db.commit()
+
+    return {
+        "published_count": count,
+        "allocations": published_values
+    }
+
+
+def get_allocation_preview(db: Session, committee_id: int) -> dict:
+    """Get a preview of the allocation breakdown by tier before assignment."""
+    from app.models import CountryList, Delegate
+
+    # Count delegates
+    delegate_count = db.query(Delegate).filter(Delegate.committee_id == committee_id).count()
+
+    # Count available countries by tier
+    items = db.query(CountryList).filter(CountryList.committee_id == committee_id).all()
+
+    tier_counts = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0}
+    tier_labels = {
+        1: "P5/Veto Powers",
+        2: "Directly Involved",
+        3: "Regional Powers",
+        4: "Hot/Cold War Parties",
+        5: "Neutral/Global Powers",
+        6: "Victim/Oppressor Nations",
+        7: "Other"
+    }
+
+    for item in items:
+        tier_counts[item.tier] += 1
+
+    return {
+        "committee_id": committee_id,
+        "delegate_count": delegate_count,
+        "country_count": len(items),
+        "sufficient": len(items) >= delegate_count,
+        "shortage": max(0, delegate_count - len(items)),
+        "tier_breakdown": [
+            {
+                "tier": tier,
+                "label": tier_labels[tier],
+                "count": tier_counts[tier],
+                "countries": [item.value for item in items if item.tier == tier]
+            }
+            for tier in range(1, 8) if tier_counts[tier] > 0
+        ]
+    }
 

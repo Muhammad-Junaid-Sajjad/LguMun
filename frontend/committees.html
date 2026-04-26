@@ -298,7 +298,7 @@
 <header class="navbar" id="navbar">
   <div class="nav-logo">
     <a href="/" title="Home" style="display:flex;align-items:center;">
-      <img src="/assets/logo/lgu-logo.jpeg" alt="LGU Official Logo" class="logo-lgu">
+      <img src="/assets/logo/lgumun-society-logo.png" alt="LGU Official Logo" class="logo-lgu">
     </a>
     <a href="/" style="text-decoration:none;">
       <span class="nav-logo-text" style="margin-left:14px;">LGU <span>MUN</span> 2026</span>
@@ -381,7 +381,7 @@
     <div class="footer-grid">
       <div>
         <div class="footer-logos">
-          <img src="/assets/logo/lgu-logo.jpeg" alt="LGU" class="footer-logo-img">
+          <img src="/assets/logo/lgumun-society-logo.png" alt="LGU" class="footer-logo-img">
         </div>
         <div class="footer-brand-name">LGUMUN 2026</div>
         <p class="footer-desc">Lahore Garrison University Inter-University Model United Nations — fostering diplomatic excellence since 2025.</p>
@@ -406,7 +406,7 @@
     <div class="footer-bottom">
       <span>&copy; 2026 LGUMUN Society. All rights reserved.</span>
       <div class="footer-bottom-logos">
-        <img src="/assets/logo/lgu-logo.jpeg" alt="LGU">
+        <img src="/assets/logo/lgumun-society-logo.png" alt="LGU">
       </div>
     </div>
   </div>
@@ -484,11 +484,17 @@
       if (r.ok) {
         const d = await r.json();
         if (d?.data?.committees) {
-          committees = d.data.committees.map(c => ({
-            code: c.short_name, name: c.full_name, lang: c.language,
-            seats: c.total_seats, available: c.total_seats - c.filled_seats,
-            status: c.is_full ? 'full' : (c.available < 5 ? 'limited' : 'available')
-          }));
+          committees = d.data.committees.map(c => {
+            const avail = c.total_seats - c.filled_seats;
+            return {
+              code: c.short_name,
+              name: c.full_name,
+              lang: c.language,
+              seats: c.total_seats,
+              available: avail,
+              status: c.is_full ? 'full' : (avail < 5 ? 'limited' : 'available')
+            };
+          });
           renderTable(committees);
         }
       }

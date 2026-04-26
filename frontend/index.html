@@ -1497,12 +1497,12 @@
     if (!grid) return;
 
     try {
-      const r = await fetch('http://localhost:8000/api/v1/committees');
-      if (!r.ok) return;
+      const r = await fetch('/api/v1/committees?t=' + Date.now(), { cache: 'no-store' });
+      if (!r.ok) throw new Error('API failed');
       const d = await r.json();
-      const committees = d?.data?.committees || [];
+      const committees = d?.data?.committees || d?.committees || [];
 
-      // Show top 3 committees
+      // Show top 3 committees - add visible class immediately
       const featured = committees.slice(0, 3);
 
       grid.innerHTML = featured.map((c, i) => {
@@ -1512,7 +1512,7 @@
         const pct = Math.round((filled / total) * 100);
 
         return `
-          <div class="committee-card ${isFull ? 'full' : ''} reveal reveal-delay-${i+1}">
+          <div class="committee-card ${isFull ? 'full' : ''} visible reveal reveal-delay-${i+1}">
             <div class="card-top">
               <div class="card-code">${c.short_name}</div>
               <span class="badge ${isFull ? 'badge-full' : 'badge-avail'}">${isFull ? 'Full' : 'Available'}</span>
